@@ -1,0 +1,8 @@
+# Make the repository public
+repository:
+  visibility: public
+
+# Configure GitHub Pages to use the `main` branch
+github_pages:
+  source:
+    branch: main
