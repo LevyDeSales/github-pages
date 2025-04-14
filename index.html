@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Files List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Uploaded HTML Files</h1>
+        </header>
+        <main>
+            <section id="file-list">
+                <h2>List of HTML Files</h2>
+                <ul id="html-files">
+                    <!-- List of HTML files will be dynamically populated here -->
+                </ul>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024 HTML Files Repository</p>
+        </footer>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const fileList = document.getElementById('html-files');
+
+            // Function to fetch and list HTML files
+            function fetchHTMLFiles() {
+                // Simulate fetching HTML files from the server
+                const htmlFiles = [
+                    'DER_1.0_Documentacao.html',
+                    'example1.html',
+                    'example2.html'
+                ];
+
+                // Clear the current list
+                fileList.innerHTML = '';
+
+                // Populate the list with HTML files
+                htmlFiles.forEach(file => {
+                    const listItem = document.createElement('li');
+                    const link = document.createElement('a');
+                    link.href = file;
+                    link.textContent = file;
+                    listItem.appendChild(link);
+                    fileList.appendChild(listItem);
+                });
+            }
+
+            // Fetch and list HTML files on page load
+            fetchHTMLFiles();
+        });
+    </script>
+</body>
+</html>

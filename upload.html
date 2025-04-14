@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload HTML Files</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Upload HTML Files</h1>
+        </header>
+        <main>
+            <section id="upload-form">
+                <h2>Select HTML Files to Upload</h2>
+                <form id="file-upload-form" enctype="multipart/form-data">
+                    <input type="file" id="file-input" name="htmlFiles" accept=".html" multiple>
+                    <button type="submit">Upload</button>
+                </form>
+            </section>
+        </main>
+        <footer>
+            <p>&copy; 2024 HTML Files Repository</p>
+        </footer>
+    </div>
+    <script src="upload.js"></script>
+</body>
+</html>
