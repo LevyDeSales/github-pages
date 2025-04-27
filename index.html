@@ -31,9 +31,9 @@
             function fetchHTMLFiles() {
                 // Simulate fetching HTML files from the server
                 const htmlFiles = [
-                    'DER_1.0_Documentacao.html',
-                    'example1.html',
-                    'example2.html'
+                    'upload de htmls/DER_1.0_Documentacao.html',
+                    'upload de htmls/example1.html',
+                    'upload de htmls/example2.html'
                 ];
 
                 // Clear the current list
@@ -44,7 +44,7 @@
                     const listItem = document.createElement('li');
                     const link = document.createElement('a');
                     link.href = file;
-                    link.textContent = file;
+                    link.textContent = file.split('/').pop();
                     listItem.appendChild(link);
                     fileList.appendChild(listItem);
                 });

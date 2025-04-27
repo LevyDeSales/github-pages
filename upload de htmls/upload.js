@@ -31,7 +31,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const file = files[i];
             const listItem = document.createElement('li');
             const link = document.createElement('a');
-            link.href = URL.createObjectURL(file);
+            link.href = `upload de htmls/${file.name}`;
             link.textContent = file.name;
             listItem.appendChild(link);
             fileList.appendChild(listItem);
