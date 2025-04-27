@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Conteúdo Detalhado - Impressão Otimizada</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --primary: #4361ee;
+    --primary-light: #edf2ff;
+    --secondary: #3a0ca3;
+    --accent: #4cc9f0;
+    --bg: #fafafa;
+    --text: #333333;
+    --text-light: #666666;
+    --border: #e0e0e0;
+    --card-bg: #ffffff;
+    --header-bg: linear-gradient(135deg, var(--primary), var(--secondary));
+    --spacing-xs: 0.25rem;
+    --spacing-sm: 0.5rem;
+    --spacing-md: 0.75rem;
+    --spacing-lg: 1rem;
+    --font-xs: 0.75rem;
+    --font-sm: 0.85rem;
+    --font-md: 0.95rem;
+    --font-lg: 1.1rem;
+    --font-xl: 1.5rem;
+  }
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.4;
+    font-size: var(--font-sm);
+  }
+  [data-theme="dark"] {
+    --primary: #4cc9f0;
+    --primary-light: #222639;
+    --bg: #121212;
+    --text: #e0e0e0;
+    --text-light: #aaaaaa;
+    --border: #333333;
+    --card-bg: #1e1e1e;
+    --header-bg: linear-gradient(135deg, #2b2d42, #1a1a2e);
+  }
+  .container {
+    max-width: 1000px;
+    margin: 1rem auto;
+    padding: 0 var(--spacing-md);
+  }
+  header {
+    text-align: center;
+    margin-bottom: var(--spacing-lg);
+  }
+  h1 {
+    font-size: var(--font-xl);
+    font-weight: 600;
+    color: var(--primary);
+    margin-bottom: var(--spacing-xs);
+  }
+  .subtitle {
+    font-size: var(--font-md);
+    color: var(--text-light);
+    margin-bottom: var(--spacing-md);
+  }
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+    justify-content: center;
+  }
+  .btn {
+    background-color: var(--primary-light);
+    color: var(--primary);
+    border: none;
+    padding: var(--spacing-xs) var(--spacing-md);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: var(--font-xs);
+    transition: all 0.2s;
+  }
+  .btn:hover {
+    background-color: var(--primary);
+    color: white;
+  }
+  .card {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+    overflow: hidden;
+    margin-bottom: var(--spacing-lg);
+  }
+  .card-header {
+    padding: var(--spacing-sm) var(--spacing-lg);
+    background: var(--header-bg);
+    color: white;
+  }
+  .card-header h2 {
+    font-size: var(--font-md);
+    font-weight: 500;
+  }
+  .card-content {
+    padding: var(--spacing-sm);
+  }
+  .table-container {
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--font-xs);
+  }
+  th {
+    background-color: var(--primary-light);
+    color: var(--primary);
+    font-weight: 500;
+    text-align: left;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    position: sticky;
+    top: 0;
+  }
+  td {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    border-top: 1px solid var(--border);
+    vertical-align: top;
+  }
+  tr:nth-child(even) {
+    background-color: rgba(0,0,0,0.01);
+  }
+  tr:hover {
+    background-color: var(--primary-light);
+  }
+  td:first-child, th:first-child {
+    background-color: var(--primary-light);
+    text-align: center;
+    font-weight: 500;
+    width: 40px;
+  }
+  tr.main-item {
+    border-top: 2px solid var(--primary);
+  }
+  tr.sub-item td:first-child {
+    padding-left: var(--spacing-lg);
+    font-size: calc(var(--font-xs) - 0.05rem);
+  }
+  .content-bilingual {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-xs);
+  }
+  .lang-en, .lang-pt {
+    display: flex;
+    align-items: baseline;
+    line-height: 1.3;
+  }
+  .lang-en::before {
+    content: "🇺🇸";
+    font-size: 0.8em;
+    margin-right: 3px;
+  }
+  .lang-pt::before {
+    content: "🇧🇷";
+    font-size: 0.8em;
+    margin-right: 3px;
+  }
+  footer {
+    text-align: center;
+    margin-top: var(--spacing-lg);
+    padding-top: var(--spacing-sm);
+    border-top: 1px solid var(--border);
+    font-size: var(--font-xs);
+    color: var(--text-light);
+  }
+  .action-buttons {
+    position: fixed;
+    bottom: 15px;
+    right: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: 999;
+  }
+  .print-btn, .preview-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    border: none;
+  }
+  .preview-btn {
+    background-color: var(--secondary);
+  }
+  .print-btn:hover, .preview-btn:hover {
+    transform: scale(1.05);
+  }
+  @media (max-width: 768px) {
+    .container {
+      padding: 0 var(--spacing-xs);
+    }
+    .content-bilingual {
+      flex-direction: column;
+      gap: 2px;
+    }
+    .controls {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  }
+  /* Estilos para impressão */
+  @media print {
+    * {
+      -webkit-print-color-adjust: exact !important;
+      print-color-adjust: exact !important;
+    }
+    html, body {
+      width: 210mm;
+      height: 297mm;
+      margin: 0;
+      padding: 0;
+      background: none;
+      font-size: 9pt;
+      line-height: 1.2;
+    }
+    .container {
+      max-width: 100%;
+      margin: 0;
+      padding: 10mm;
+    }
+    header {
+      margin-bottom: 5mm;
+    }
+    h1 {
+      font-size: 14pt;
+      margin-bottom: 2mm;
+    }
+    .subtitle {
+      font-size: 10pt;
+      margin-bottom: 5mm;
+    }
+    .card {
+      box-shadow: none;
+      border: 0.5pt solid #ddd;
+      margin-bottom: 5mm;
+      break-inside: avoid;
+    }
+    .card-header {
+      padding: 2mm 5mm;
+    }
+    .card-header h2 {
+      font-size: 11pt;
+    }
+    .card-content {
+      padding: 0;
+    }
+    table {
+      font-size: 7pt;
+      table-layout: fixed;
+      width: 100%;
+    }
+    th {
+      padding: 1mm 2mm;
+      background-color: #eee !important;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    td {
+      padding: 1mm 2mm;
+      border-top: 0.5pt solid #ddd;
+      word-wrap: break-word;
+    }
+    th:first-child, td:first-child {
+      width: 7%;
+    }
+    th:nth-child(2), td:nth-child(2) {
+      width: 50%;
+    }
+    th:nth-child(3), td:nth-child(3) {
+      width: 43%;
+    }
+    .controls, .action-buttons, .toggle-switch, .preview-modal {
+      display: none !important;
+    }
+    .content-bilingual {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 2mm;
+    }
+    .lang-en, .lang-pt {
+      display: inline-flex;
+      font-size: 7pt;
+      line-height: 1.2;
+      margin-right: 3mm;
+    }
+    .lang-en::before, .lang-pt::before {
+      font-size: 0.8em;
+      margin-right: 1mm;
+    }
+    tr {
+      page-break-inside: avoid;
+    }
+    footer {
+      margin-top: 3mm;
+      padding-top: 2mm;
+      font-size: 6pt;
+      border-top: 0.5pt solid #ddd;
+    }
+    @page {
+      size: A4;
+      margin: 10mm;
+    }
+  }
+  /* Modal prévia */
+  .preview-modal {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0,0,0,0.8);
+    z-index: 1000;
+    overflow: auto;
+  }
+  .preview-content {
+    background-color: white;
+    width: 210mm;
+    margin: 20px auto;
+    box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    padding: 10mm;
+    position: relative;
+  }
+  .preview-close {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    border: none;
+    width: 30px; height: 30px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2em;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .print-options {
+    background-color: var(--primary-light);
+    padding: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+    border-radius: 4px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-sm);
+    align-items: center;
+    justify-content: center;
+  }
+</style>
+</head>
+<body>
+<div class="container">
+<header>
+<h1>Conteúdo Detalhado - Impressão Otimizada</h1>
+<p class="subtitle">Conteúdo de segmentos variados</p>
+</header>
+<div class="print-options">
+<label for="print-columns" class="toggle-label">Colunas: </label>
+<select id="print-columns" class="btn">
+<option value="2">2 Colunas</option>
+<option value="3" selected>3 Colunas</option>
+</select>
+<label for="print-size" class="toggle-label">Tamanho: </label>
+<select id="print-size" class="btn">
+<option value="normal">Normal</option>
+<option value="compact">Compacto</option>
+<option value="ultra">Ultra Compacto</option>
+</select>
+<button class="btn" id="toggle-theme">Modo Escuro</button>
+<button class="btn" id="toggle-lang">Apenas Português</button>
+<button class="btn" id="show-main">Apenas Itens Principais</button>
+</div>
+<div class="card">
+<div class="card-header">
+<h2>Conteúdo Médico</h2>
+</div>
+<div class="card-content">
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Características</th>
+<th>Descrição</th>
+</tr>
+</thead>
+<tbody>
+<!-- Documento com todos os registros incluídos abaixo -->
+<tr class="main-item">
+<td>12</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">Sept. Tank: septic shock (phenylephrine and norepinephrine increase SVR and venous return to treat distributive/hypovolemic shock)</span>
+<span class="lang-pt">Tanque séptico: choque séptico (fenilefrina e norepinefrina aumentam a Resistência Vascular Sistêmica (SVR) e o retorno venoso para tratar o choque distributivo/hipovolêmico)</span>
+</div>
+</td>
+<td>/</td>
+</tr>
+<tr class="main-item">
+<td>13</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">Norepinephrine increases PULSE PRESSURE / Norepinefrina aumenta a PRESSÃO DE PULSO difference between systolic and diastolic (beta1 increase in contractility)</span>
+<span class="lang-pt">/</span>
+</div>
+</td>
+<td>/</td>
+</tr>
+<tr class="main-item">
+<td>14</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">“ROL” call sheet held by beta2 tuba player: beta 2 agonists used for bronchodilation have / "ROL" planilha de chamadas mantida pelo jogador de tuba beta2: beta 2 agonistas usados para broncodilatação têm</span>
+<span class="lang-pt">rol suffix (albuterol, formoterol, salmeterol) / sufixo rol (albuterol, formoterol, salmeterol)</span>
+</div>
+</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">EPIC kiss between alpha and beta camps: EPInephrine (beta>alpha agonist) it’s</span>
+<span class="lang-pt">beijo ÉPICO entre os campos alfa e beta: EPInefrina (agonista beta>alfa) é</span>
+</div>
+</td>
+</tr>
+<tr class="main-item">
+<td>15</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">at high doses epinephrine’s ALPHA AGONIST effects predominate, Vasoconstriction, increased SVR</span>
+<span class="lang-pt">em doses elevadas, os efeitos ALFA-AGONIST da epinefrina predominam, vasoconstrição, aumento da resistência vascular sistêmica</span>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="main-item">
+<td>16</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">Low side of EPIC raft: at LOW doses, epinephrine’s BETA Agonist effects predominate</span>
+<span class="lang-pt">Lado baixo da embarcação EPIC: em doses BAIXAS, os efeitos agonistas BETA da epinefrina predominam</span>
+</div>
+</td>
+<td>/</td>
+</tr>
+<tr class="main-item">
+<td>17</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">Beta2 tuba girls EPIC inhaler: epinephrine caused bronchodilation (beta2 effects)</span>
+<span class="lang-pt">Tuba Beta2 EPIC inalador: epinefrina causou broncodilatação (efeitos beta2)</span>
+</div>
+</td>
+<td>/</td>
+</tr>
+<tr class="main-item">
+<td>18</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">EPIC DIAmond falling off LOW side of raft: at LOW doses, epinephrine decreases DIAstolic pressure (beta-2 vasodilation and decreased SVR)</span>
+<span class="lang-pt">EPIC DIamond saindo do lado BAIXO da jangada: em doses BAIXAS, a epinefrina diminui a pressão DIAstólica (vasodilatação beta-2 e redução da resistência vascular sistêmica)</span>
+</div>
+</td>
+<td>/</td>
+</tr>
+<tr class="main-item">
+<td>19</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">EPIC elevated heart watch and Buff contracted bicep</span>
+<span class="lang-pt">EPIC relógio de pulso com ritmo elevado e bíceps contraído</span>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="main-item">
+<td>20</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">High side of EPIC raft / Lado alto da embarcação EPIC:</span>
+<span class="lang-pt">em doses elevadas, os efeitos ALFA-AGONIST da epinefrina predominam, vasoconstrição, aumento da resistência vascular sistêmica</span>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="main-item">
+<td>21</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">MAP in front of EPIC kiss: Epinephrine increases systolic pressure and decreases diastolic pressure causing an INCREASE IN PULSE PRESSURE, but get an increase in MAP (alpha 1 increase in SVR)</span>
+<span class="lang-pt">MAP na frente do beijo EPIC: Epinefrina aumenta a pressão sistólica e diminui a diastólica, causando um AUMENTO NA PRESSÃO DE PULSO, mas provoca um aumento no MAP (aumento do alpha 1 na RVS)</span>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="main-item">
+<td>24</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">Beta1 Bugle: dobutamine is primarily a beta 1 agonist “do beta 1 = do but amine”</span>
+<span class="lang-pt">Beta1 Bugle: dobutamina é principalmente um agonista **beta 1** “faça beta 1 = faça but amina”</span>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="main-item">
+<td>25</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">“just do bugling” winding up heart flashlight</span>
+<span class="lang-pt">'só fazer bugling’ enchendo o coração lanterna</span>
+</div>
+<br />
+<div class="content-bilingual">
+<span class="lang-en">(dobutamine) increases heart rate, contractility and cardiac output (beta1 effects) to treat refractory heart failure</span>
+<span class="lang-pt">(dobutamina) aumenta frequência cardíaca, contratilidade e débito cardíaco (efeitos beta1) para tratar insuficiência cardíaca refratária</span>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="main-item">
+<td>26</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">“Just DO Bugling” friend’s Beta2 tuba: dobutamine has some beta2 activity (primarily a BETA 1 AGONIST)</span>
+<span class="lang-pt">“Apenas Faça Bugling” tuba Beta2 do amigo: dobutamina tem alguma atividade beta2 (principalmente um AGONISTA BETA 1)</span>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="main-item">
+<td>27</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">Map being held by dobutamine character: Dobutamine increases PULSE PRESSURE / Dobutamina aumenta a PRESSÃO DE PULSO, diferença entre pressão sistólica e diastólica (aumento do inotropismo pelo beta1), aumenta a pressão sistólica (aumento do débito de ejeção pelo beta1), diminui a pressão diastólica (vasodilatação arteriolar pelo beta2)</span>
+<span class="lang-pt"></span>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="main-item">
+<td>28</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">Batteries fallen out of heart flashlight</span>
+<span class="lang-pt">Baterias caíram do lanterna cardíaca</span>
+</div>
+<br />
+<div class="content-bilingual">
+<span class="lang-en">dobutamine can be used in cardiogenic shock</span>
+<span class="lang-pt">dobutamina pode ser utilizada no choque cardiogênico</span>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="main-item">
+<td>29</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">Dead heart batteries: cardiogenic shock</span>
+<span class="lang-pt">Choque cardiogênico (dobutamina aumenta contratilidade e débito cardíaco para tratar o choque cardiogênico)</span>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="main-item">
+<td>30</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">Dobutamine will also be used to induce a heart stress test in people who are unable to physically</span>
+<span class="lang-pt">Dobutamina também será usada para induzir um teste de estresse cardíaco em pessoas que são incapazes de realizar o esforço físico</span>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="main-item">
+<td>31</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">"iso** -pro-** tunnel" between beta1 and beta2 camps: Isoproterenol (beta1 =** beta2 agonist)</span>
+<span class="lang-pt">"iso** -pro-** túnel" entre acampamentos beta1 e beta2: Isoproterenol (beta1 =** beta2 agonista)</span>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="main-item">
+<td>32</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">Tunnel camper’s elevated hea  rt watch and contracted bicep: Isoproterenol increases heart rate and contractility (beta-1 effects)</span>
+<span class="lang-pt">Túnel do campista com frequência cardíaca elevada e bíceps contraído: Isoproterenol aumenta a frequência cardíaca e a contratilidade (efeitos beta-1)</span>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="main-item">
+<td>33</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">Tunnel campers dilated sleeves: isoproterenol causes vasodilation</span>
+<span class="lang-pt">Tunnel campers dilatados mangas: isoproterenol causa vasodilatação (efeitos beta2)</span>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="main-item">
+<td>34</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">Tunnel Campers Dangling DIAmond earrings</span>
+<span class="lang-pt">Tunnel Campers Pendentes de diamantes</span>
+</div>
+<br />
+<div class="content-bilingual">
+<span class="lang-en">isoproterenol decreases DIAstolic pressure (beta 2 activation and decrease SVR)</span>
+<span class="lang-pt">isoproterenol diminui a pressão DIAstólica (ativação beta 2 e diminuição da resistência vascular sistêmica)</span>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="main-item">
+<td>35</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">Tunnel with decreasing lines / Túnel com linhas decrescentes: Isoproterenol decreases MAP (beta2 decrease in  SVR) / Isoproterenol diminui a PAS (queda na resistência vascular sistêmica - SVR) , decreases DIAstolic pressure (beta2 arteriolar dilation) / diminui a pressão diastólica (dilatação arteriolar beta2), since it has  potent beta1 activity it will increase PULSE PRESSURE / pois possui atividade potente beta1, aumentará a PRESSÃO DE PULSO , difference between  systolic and diastolic</span>
+<span class="lang-pt"></span>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="main-item">
+<td>36</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">Sleeping beta2 camp counselor: beta2 agonists relax uterine smooth muscle tone</span>
+<span class="lang-pt">Conselheiro do acampamento beta2 sonolento: agonistas beta2 relaxam o músculo liso uterino</span>
+</div>
+</td>
+<td></td>
+</tr>
+<tr class="main-item">
+<td>38</td>
+<td>
+<div class="content-bilingual">
+<span class="lang-en">“I DREAM of band camp”: ritoDRINE p</span>
+<span class="lang-pt">“EU SONHO que acampamento de banda”: ritoDRINE p</span>
+</div>
+</td>
+<td></td>
+</tr>
+<!-- Fim do conteúdo da tabela -->
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<footer>
+<p>© 2024 Documento Gerado Automaticamente por IA</p>
+</footer>
+</div>
+<!-- Prévia de impressão -->
+<div class="preview-modal" id="preview-modal">
+<div class="preview-content">
+<button class="preview-close" id="preview-close">×</button>
+<div id="preview-container"></div>
+</div>
+</div>
+<!-- Botões ações -->
+<div class="action-buttons">
+<button class="preview-btn" id="preview-btn" title="Visualizar impressão">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+<path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z"/>
+<path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z"/>
+</svg>
+</button>
+<button class="print-btn" id="print-btn" title="Imprimir">
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+<path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1z"/>
+<path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2H5zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4V3zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2H5zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1z"/>
+</svg>
+</button>
+</div>
+<script>
+  // Tema
+  document.getElementById('toggle-theme').addEventListener('click', () => {
+    const theme = document.body.dataset.theme === 'dark' ? '' : 'dark';
+    document.body.dataset.theme = theme;
+    document.getElementById('toggle-theme').textContent = theme === 'dark' ? 'Modo Claro' : 'Modo Escuro';
+  });
+  // Idiomas
+  document.getElementById('toggle-lang').addEventListener('click', () => {
+    document.querySelectorAll('.lang-en').forEach(e => e.style.display = e.style.display === 'none' ? 'flex' : 'none');
+    document.querySelectorAll('.lang-pt').forEach(e => e.style.display = e.style.display === 'none' ? 'flex' : 'none');
+  });
+  // Apenas principais
+  document.getElementById('show-main').addEventListener('click', () => {
+    document.querySelectorAll('.sub-item').forEach(e => { e.style.display = e.style.display === 'none' ? '' : 'none'; });
+  });
+  // Prévia
+  document.getElementById('preview-btn').addEventListener('click', () => {
+    const modal = document.getElementById('preview-modal');
+    const container = document.getElementById('preview-container');
+    container.innerHTML = '';
+    const clone = document.querySelector('.container').cloneNode(true);
+    clone.querySelector('.print-options').remove();
+    container.appendChild(clone);
+    modal.style.display = 'block';
+  });
+  document.getElementById('preview-close').addEventListener('click', () => {
+    document.getElementById('preview-modal').style.display = 'none';
+  });
+  // Imprimir
+  document.getElementById('print-btn').addEventListener('click', () => window.print());
+</script>
+</body>
+</html>
