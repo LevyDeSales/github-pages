@@ -1,57 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HTML Files List</title>
+    <title>Repositório de Arquivos HTML</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>Uploaded HTML Files</h1>
+            <h1>Repositório de Arquivos HTML</h1>
+            <p>Este é um simples repositório para hospedar arquivos HTML no GitHub Pages</p>
         </header>
         <main>
+            <section id="instructions">
+                <h2>Como adicionar novos arquivos</h2>
+                <p>Para adicionar novos arquivos HTML a este repositório:</p>
+                <ol>
+                    <li>Faça um clone do repositório</li>
+                    <li>Adicione seus arquivos HTML na pasta raiz ou em subpastas</li>
+                    <li>Faça commit e push das alterações</li>
+                    <li>O GitHub Actions atualizará automaticamente esta página</li>
+                </ol>
+                <p>O GitHub Pages é apenas para hospedagem estática, então não é possível fazer upload de arquivos diretamente pelo navegador.</p>
+            </section>
+            
             <section id="file-list">
-                <h2>List of HTML Files</h2>
+                <h2>Arquivos HTML Disponíveis</h2>
                 <ul id="html-files">
-                    <!-- List of HTML files will be dynamically populated here -->
+                    <!-- Lista de arquivos HTML será preenchida aqui -->
                 </ul>
             </section>
         </main>
         <footer>
-            <p>&copy; 2024 HTML Files Repository</p>
+            <p>&copy; 2024 Repositório de Arquivos HTML</p>
         </footer>
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const fileList = document.getElementById('html-files');
 
-            // Function to fetch and list HTML files
-            function fetchHTMLFiles() {
-                // Simulate fetching HTML files from the server
-                const htmlFiles = [
-                    'upload de htmls/DER_1.0_Documentacao.html',
-                    'upload de htmls/example1.html',
-                    'upload de htmls/example2.html'
-                ];
+            // Lista de arquivos HTML existentes no repositório
+            const htmlFiles = [
+                {path: 'DER_1.0_Documentacao.html', name: 'DER 1.0 Documentação'},
+                {path: 'upload de htmls/upload.html', name: 'Página de Upload (demonstração)'}
+            ];
 
-                // Clear the current list
-                fileList.innerHTML = '';
+            // Limpa a lista atual
+            fileList.innerHTML = '';
 
-                // Populate the list with HTML files
-                htmlFiles.forEach(file => {
-                    const listItem = document.createElement('li');
-                    const link = document.createElement('a');
-                    link.href = file;
-                    link.textContent = file.split('/').pop();
-                    listItem.appendChild(link);
-                    fileList.appendChild(listItem);
-                });
-            }
-
-            // Fetch and list HTML files on page load
-            fetchHTMLFiles();
+            // Preenche a lista com os arquivos HTML
+            htmlFiles.forEach(file => {
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = file.path;
+                link.textContent = file.name;
+                listItem.appendChild(link);
+                fileList.appendChild(listItem);
+            });
         });
     </script>
 </body>
