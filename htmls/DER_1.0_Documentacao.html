@@ -1,0 +1,1845 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação DER 1.0 - Plataforma Financeira</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-light: #eaefff;
+            --secondary-color: #3f37c9;
+            --accent-color: #4cc9f0;
+            --success-color: #4ade80;
+            --info-color: #4895ef;
+            --warning-color: #f8961e;
+            --error-color: #f94144;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-light: #64748b;
+            --bg-color: #f8fafc;
+            --card-color: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --border-radius: 0.5rem;
+            --border-radius-lg: 1rem;
+            --transition-default: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-color);
+            font-size: 10pt; /* Base size for readability */
+        }
+
+        .container {
+            max-width: 210mm; /* A4 width */
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        header {
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        h1 {
+            font-size: 2.2rem; /* Slightly smaller than guide */
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.025em;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 1rem;
+        }
+
+        main {
+            margin-bottom: 3rem;
+        }
+
+        section.secao {
+            margin-bottom: 2.5rem;
+        }
+
+        h2 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--primary-light);
+        }
+
+        h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        p strong, b {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            background-color: #f1f1f1;
+            padding: 0.1em 0.4em;
+            border-radius: 3px;
+            font-size: 0.9em;
+            color: var(--secondary-color);
+        }
+
+        pre {
+            background-color: #f8f8f8;
+            border: 1px solid var(--border-color);
+            padding: 1rem;
+            border-radius: var(--border-radius);
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+
+        blockquote {
+            border-left: 4px solid var(--info-color);
+            padding: 0.8rem 1.2rem;
+            margin: 1.5rem 0;
+            background-color: #eef6ff;
+            color: var(--text-secondary);
+            font-style: italic;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+        blockquote p {
+            margin-bottom: 0.5rem;
+        }
+        blockquote p:last-child {
+            margin-bottom: 0;
+        }
+
+        .card {
+            background-color: var(--card-color);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-default);
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .card:hover {
+            box-shadow: var(--shadow-lg);
+            /* transform: translateY(-4px); */ /* Optional: Can be distracting */
+        }
+
+        .card-header {
+            padding: 1rem 1.5rem; /* Smaller padding */
+            background: linear-gradient(135deg, var(--primary-light), #fdfdff);
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin: 0;
+            color: var(--primary-color);
+            font-family: 'Inter', sans-serif; /* Adicionar explicitamente a fonte */
+        }
+
+        /* Estilos específicos para code dentro de card-title */
+        .card-title code {
+            font-size: 0.95em;
+            vertical-align: middle;
+            font-weight: 600;
+        }
+        
+        /* Garantir que o card de autenticacao tenha estilos consistentes */
+        #autenticacao .card-title,
+        #autenticacao .card-title code {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+        }
+        #autenticacao .card-title code {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: 600;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.2rem 0.6rem; /* Smaller */
+            border-radius: 50px;
+            font-size: 0.8rem; /* Smaller */
+            font-weight: 500;
+            margin-right: 0.4rem;
+            margin-bottom: 0.4rem;
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            white-space: nowrap;
+        }
+        .tag-pk { background-color: var(--success-color); color: white; border-color: var(--success-color);}
+        .tag-fk { background-color: var(--info-color); color: white; border-color: var(--info-color);}
+        .tag-unique { background-color: var(--warning-color); color: white; border-color: var(--warning-color); }
+        .tag-nullable { background-color: var(--text-light); color: white; border-color: var(--text-light); }
+        .tag-type { background-color: #f0f0f0; color: var(--text-secondary); border-color: #ccc;}
+
+        ul, ol {
+            padding-left: 1.5rem;
+            margin: 1rem 0 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+            position: relative;
+            padding-left: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        li::marker {
+            color: var(--primary-color);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem; /* Slightly smaller for tables */
+            box-shadow: var(--shadow-sm);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        th, td {
+            padding: 0.8rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+            vertical-align: top;
+        }
+
+        thead th {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        td:nth-child(1) { font-weight: 500; color: var(--text-primary); } /* Column Name */
+        td:nth-child(2) { font-family: 'Courier New', Courier, monospace; } /* Type */
+        td:nth-child(3) { white-space: normal; } /* Constraints */
+
+        nav.index-nav ul {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 2rem 0;
+            column-count: 3; /* Adjust based on number of items */
+            column-gap: 1.5rem;
+        }
+
+        nav.index-nav li {
+            margin-bottom: 0.5rem;
+            padding-left: 0;
+        }
+         nav.index-nav li::marker {
+             content: none;
+         }
+
+        nav.index-nav a {
+            text-decoration: none;
+            color: var(--primary-color);
+            font-weight: 500;
+            transition: color 0.2s ease;
+        }
+
+        nav.index-nav a:hover {
+            color: var(--secondary-color);
+            text-decoration: underline;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+
+        /* Print Button Styles */
+        .print-button {
+            position: fixed;
+            right: 2rem;
+            bottom: 2rem;
+            width: 3.5rem;
+            height: 3.5rem;
+            border-radius: 50%;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            box-shadow: var(--shadow-lg);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: var(--transition-default);
+        }
+
+        .print-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-3px);
+        }
+
+        .print-button:active {
+            transform: translateY(0);
+        }
+
+        .print-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .print-tooltip {
+            position: absolute;
+            right: 4.5rem;
+            background-color: var(--text-primary);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateX(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .print-tooltip::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -6px;
+            transform: translateY(-50%);
+            border-width: 6px 0 6px 6px;
+            border-style: solid;
+            border-color: transparent transparent transparent var(--text-primary);
+        }
+
+        .print-button:hover .print-tooltip {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Responsiveness */
+        @media (max-width: 1024px) {
+             nav.index-nav ul {
+                column-count: 2;
+             }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1rem;
+                margin: 1.5rem auto;
+            }
+            h1 { font-size: 1.8rem; }
+            h2 { font-size: 1.4rem; }
+            h3 { font-size: 1.2rem; }
+            nav.index-nav ul {
+                column-count: 1;
+            }
+            .print-button {
+                right: 1rem;
+                bottom: 1rem;
+                width: 3rem;
+                height: 3rem;
+            }
+            .print-tooltip { display: none; }
+            table { font-size: 0.85rem; }
+            th, td { padding: 0.6rem 0.8rem; }
+        }
+
+        /* Print Styles */
+        @media print {
+            @page {
+                margin: 1.2cm 1cm;
+                size: A4 portrait;
+            }
+
+            html, body {
+                width: 100%;
+                height: auto;
+                overflow: visible;
+                background: none;
+                font-size: 11pt !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                forced-color-adjust: none !important;
+            }
+
+            body { margin: 0; padding: 0; }
+            
+            .container { 
+                margin: 0; 
+                padding: 0; 
+                max-width: 100%; 
+                width: 100%; 
+            }
+            
+            /* Mostrar o cabeçalho, mas de forma mais compacta */
+            header {
+                display: block !important;
+                margin-bottom: 1rem !important;
+                padding-bottom: 0.5rem !important;
+                border-bottom: 1px solid var(--border-color) !important;
+                page-break-after: avoid !important;
+                break-after: avoid !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                forced-color-adjust: none !important;
+            }
+            
+            header h1 {
+                font-size: 18pt !important;
+                margin-bottom: 0.3rem !important;
+                line-height: 1.2 !important;
+            }
+            
+            header .subtitle {
+                font-size: 12pt !important;
+                margin-bottom: 0.3rem !important;
+                line-height: 1.2 !important;
+            }
+            
+            header p:not(.subtitle) {
+                font-size: 10pt !important;
+                margin-bottom: 0.3rem !important;
+                line-height: 1.3 !important;
+            }
+            
+            header blockquote {
+                margin: 0.5rem 0 !important;
+                padding: 0.4rem 0.7rem !important;
+                font-size: 9pt !important;
+                line-height: 1.3 !important;
+            }
+            
+            /* Esconder apenas elementos desnecessários */
+            .footer, .print-button, nav.index-nav { display: none; }
+
+            /* Otimizar seções e cards para espaço */
+            section.secao { 
+                margin-bottom: 0.8rem !important; 
+                break-inside: avoid; 
+                page-break-inside: avoid; 
+            }
+            
+            section.secao h2 {
+                font-size: 14pt !important;
+                margin-bottom: 0.5rem !important;
+                padding-bottom: 0.2rem !important;
+                margin-top: 0.8rem !important;
+                line-height: 1.2 !important;
+            }
+            
+            .card { 
+                break-inside: avoid; 
+                page-break-inside: avoid; 
+                box-shadow: none; 
+                border: 1px solid var(--border-color); 
+                margin-bottom: 0.7rem !important; 
+            }
+            
+            .card:hover { transform: none; box-shadow: none; }
+            
+            /* Preservar cores no cabeçalho do card, mas reduzir espaço */
+            .card-header { 
+                break-after: avoid; 
+                page-break-after: avoid; 
+                background: linear-gradient(135deg, var(--primary-light), #fdfdff) !important;
+                border-bottom: 1px solid var(--border-color);
+                padding: 0.4rem 0.7rem !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                forced-color-adjust: none !important;
+            }
+            
+            .card-title { 
+                color: var(--primary-color) !important; 
+                font-size: 13pt !important;
+                margin: 0 !important;
+                line-height: 1.2 !important;
+            }
+            
+            .card-content { 
+                padding: 0.5rem 0.7rem !important; 
+            }
+            
+            /* Reduzir espaços em cabeçalhos e texto */
+            h1 { font-size: 18pt !important; margin-bottom: 0.3rem !important; margin-top: 0 !important; line-height: 1.2 !important; }
+            h2 { font-size: 14pt !important; margin-bottom: 0.3rem !important; margin-top: 0.6rem !important; padding-bottom: 0.2rem !important; line-height: 1.2 !important; }
+            h3 { font-size: 13pt !important; margin-bottom: 0.3rem !important; margin-top: 0.5rem !important; line-height: 1.2 !important; }
+            h4 { font-size: 12pt !important; margin-bottom: 0.3rem !important; margin-top: 0.5rem !important; line-height: 1.2 !important; }
+            
+            p, li { 
+                font-size: 10.5pt !important; 
+                margin-bottom: 0.3rem !important; 
+                margin-top: 0 !important;
+                line-height: 1.3 !important;
+                color: var(--text-secondary) !important;
+            }
+            
+            ul, ol { 
+                margin: 0.4rem 0 0.6rem 1.2rem !important; 
+                padding-left: 0.7rem !important;
+            }
+            
+            li { 
+                margin-bottom: 0.2rem !important; 
+                padding-left: 0.3rem !important;
+            }
+            
+            /* Reduzir espaço em elementos específicos */
+            blockquote { 
+                border-left: 2px solid var(--info-color) !important; 
+                padding: 0.4rem 0.7rem !important; 
+                margin: 0.5rem 0 !important;
+                background-color: #eef6ff !important; 
+                color: var(--text-secondary) !important; 
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                forced-color-adjust: none !important;
+            }
+            
+            blockquote p {
+                margin-bottom: 0.2rem !important;
+                line-height: 1.3 !important;
+            }
+            
+            code { 
+                background-color: #f1f1f1 !important; 
+                color: var(--secondary-color) !important;
+                font-size: 9.5pt !important;
+                padding: 0.1em 0.3em !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                forced-color-adjust: none !important;
+            }
+            
+            /* Otimizar tabelas */
+            table { 
+                font-size: 9.5pt !important; 
+                margin: 0.5rem 0 !important; 
+                box-shadow: none; 
+                border: 1px solid var(--border-color); 
+                border-collapse: collapse !important;
+            }
+            
+            th, td { 
+                padding: 0.25rem 0.4rem !important; 
+                border: 1px solid var(--border-color); 
+                line-height: 1.3 !important;
+            }
+            
+            thead th { 
+                background-color: var(--primary-light) !important; 
+                color: var(--primary-color) !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                forced-color-adjust: none !important;
+            }
+            
+            tbody tr:nth-child(even) { 
+                background-color: #f9f9f9 !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                forced-color-adjust: none !important;
+            }
+            
+            /* Ajuste específico para tags na impressão */
+            span.tag { 
+                display: inline-block !important;
+                font-size: 9.5pt !important;
+                padding: 0.2rem 0.4rem !important;
+                margin: 0 0.2rem 0.15rem 0 !important;
+                line-height: 1.3 !important;
+                border-radius: 4px !important;
+                -webkit-print-color-adjust: exact !important;
+                print-color-adjust: exact !important;
+                forced-color-adjust: none !important;
+            }
+            
+            /* Ajuste específico para a primeira página */
+            #indice {
+                page-break-before: always;
+                break-before: always;
+            }
+            
+            /* Garantir que o índice e o resumo comecem numa nova página após o cabeçalho */
+            header + main section.secao:first-child {
+                page-break-before: always;
+                break-before: always;
+            }
+        }
+
+        /* Garantir que todos os cards tenham aparência consistente */
+        .card-header h3.card-title {
+            font-family: 'Inter', sans-serif;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card-title code {
+            font-size: 0.95em;
+            vertical-align: middle;
+            font-weight: 600;
+            margin-left: 0.25rem;
+        }
+        
+        /* Substituir os estilos específicos anteriores por um conjunto mais consistente */
+        #autenticacao .card-title code,
+        .card-header h3.card-title code {
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: 600;
+        }
+
+        /* Estilos para botões e componentes de edição */
+        .edit-btn {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+            border-radius: 4px;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        
+        .edit-btn:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .edit-btn svg {
+            width: 0.9rem;
+            height: 0.9rem;
+            margin-right: 0.3rem;
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .card-title-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s linear 0.25s, opacity 0.25s;
+        }
+        
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+            transition-delay: 0s;
+        }
+        
+        .modal-content {
+            background-color: white;
+            border-radius: var(--border-radius-lg);
+            width: 90%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: var(--shadow-lg);
+            padding: 1.5rem;
+        }
+        
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .modal-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 0;
+        }
+        
+        .close-modal {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+        }
+        
+        .close-modal:hover {
+            color: var(--primary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.3rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--primary-light);
+        }
+        
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+        }
+        
+        .btn {
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-default);
+        }
+        
+        .btn-secondary {
+            background-color: var(--text-light);
+            color: white;
+            border: none;
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--text-secondary);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                padding: 1rem;
+            }
+        }
+        
+        @media print {
+            .edit-btn, .modal-overlay {
+                display: none !important;
+            }
+        }
+        
+        .table-editor {
+            margin-top: 1rem;
+        }
+        
+        .table-editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .table-editor-title {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        
+        .add-row-btn {
+            background-color: var(--success-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 0.3rem 0.6rem;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        
+        .delete-row-btn {
+            background-color: var(--error-color);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            width: 1.5rem;
+            height: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-left: 0.5rem;
+        }
+
+        /* Otimizar tags */
+        .tag { 
+            border: 1px solid; 
+            background-color: inherit !important; 
+            color: inherit !important; 
+            padding: 0.12rem 0.35rem !important; 
+            font-size: 9pt !important;
+            margin: 0 0.15rem 0.1rem 0 !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            forced-color-adjust: none !important;
+            line-height: 1.2 !important;
+            display: inline-block !important;
+        }
+        
+        .tag-pk { background-color: var(--success-color) !important; color: white !important; border-color: var(--success-color) !important; }
+        .tag-fk { background-color: var(--info-color) !important; color: white !important; border-color: var(--info-color) !important; }
+        .tag-unique { background-color: var(--warning-color) !important; color: white !important; border-color: var(--warning-color) !important; }
+        .tag-nullable { background-color: var(--text-light) !important; color: white !important; border-color: var(--text-light) !important; }
+        .tag-type { background-color: #f0f0f0 !important; color: var(--text-secondary) !important; border-color: #ccc !important; }
+
+        a { text-decoration: none; color: var(--primary-color) !important; } /* Manter cor dos links */
+        a[href^="http"]:after { content: " (" attr(href) ")"; font-size: 8pt !important; } /* Show URLs */
+        a[href^="#"]:after { content: ""; } /* Hide internal links */
+
+        /* Forçar cores para imprimir */
+        * {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+            forced-color-adjust: none !important;
+        }
+        
+        /* Controle de quebras de página */
+        section, .card, h2, h3 {
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+        
+        h2, h3, h4 {
+            break-after: avoid;
+            page-break-after: avoid;
+        }
+        
+        /* Ajustar espaçamento do resumo de entidades */
+        #resumo table td,
+        #resumo table th {
+            padding: 0.25rem 0.35rem !important;
+        }
+        
+        /* Reduzir espaço entre título e conteúdo de cartões */
+        .card-header + .card-content {
+            padding-top: 0.4rem !important;
+        }
+        
+        /* Otimizar espaço entre colunas e tags nas tabelas */
+        td span.tag {
+            margin-right: 0.15rem !important;
+        }
+        
+        /* Ajuste específico para a primeira página */
+        #indice {
+            page-break-before: always;
+            break-before: always;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Documentação do DER Proposto para MVP</h1>
+            <p class="subtitle">Plataforma Financeira com Criptomoedas (Foco em Depix e USDT) - Versão 1.0 (2023-10-27)</p>
+             <p>Este documento detalha o Diagrama Entidade-Relacionamento (DER) proposto para o MVP. O DER foi projetado para suportar as funcionalidades essenciais de gestão de usuários, carteiras, taxas, depósitos, conversões, saldos e configurações do sistema, com foco em PostgreSQL/Supabase.</p>
+             <blockquote>
+                <p><strong>Observação Geral sobre Padronização:</strong> Datas usam <code>TIMESTAMP WITH TIME ZONE</code>. Status são ENUMs por tabela. Check Constraints complexas evitadas no MVP. Taxas em operações (`depositos_taxas`, `conversoes_taxas`) são "snapshots" para preservar histórico.</p>
+             </blockquote>
+        </header>
+
+        <main>
+            <section class="secao" id="indice">
+                <h2>Índice de Entidades</h2>
+                <nav class="index-nav">
+                    <ul>
+                        <li><a href="#usuarios">1. usuarios</a></li>
+                        <li><a href="#autenticacao">2. autenticacao</a></li>
+                        <li><a href="#carteiras_depix">3. carteiras_depix</a></li>
+                        <li><a href="#carteiras_usdt">4. carteiras_usdt</a></li>
+                        <li><a href="#taxas_configuracao">5. taxas_configuracao</a></li>
+                        <li><a href="#cobrancas_pix">6. cobrancas_pix</a></li>
+                        <li><a href="#depositos">7. depositos</a></li>
+                        <li><a href="#conversoes">8. conversoes</a></li>
+                        <li><a href="#saldos_depix">9. saldos_depix</a></li>
+                        <li><a href="#saldos_usdt">10. saldos_usdt</a></li>
+                        <li><a href="#depositos_taxas">11. depositos_taxas</a></li>
+                        <li><a href="#conversoes_taxas">12. conversoes_taxas</a></li>
+                        <li><a href="#tokens_jwt">13. tokens_jwt</a></li>
+                        <li><a href="#cotacoes">14. cotacoes</a></li>
+                        <li><a href="#processamento_convidados">15. processamento_convidados</a></li>
+                        <li><a href="#configuracoes_sistema">16. configuracoes_sistema</a></li>
+                        <li><a href="#carteiras_sistema">17. carteiras_sistema</a></li>
+                    </ul>
+                </nav>
+            </section>
+
+            <section class="secao" id="resumo">
+                 <h2>Resumo das Entidades (Tabelas)</h2>
+                 <table>
+                     <thead>
+                         <tr>
+                             <th>Entidade</th>
+                             <th>Propósito Principal</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                        <tr><td><code>usuarios</code></td><td>Armazena informações dos usuários do sistema.</td></tr>
+                        <tr><td><code>autenticacao</code></td><td>Armazena informações de autenticação dos usuários.</td></tr>
+                        <tr><td><code>carteiras_depix</code></td><td>Armazena informações das carteiras Depix dos usuários.</td></tr>
+                        <tr><td><code>carteiras_usdt</code></td><td>Armazena informações das carteiras USDT dos usuários.</td></tr>
+                        <tr><td><code>taxas_configuracao</code></td><td>Configura as taxas aplicadas a diferentes tipos de operações.</td></tr>
+                        <tr><td><code>cobrancas_pix</code></td><td>Registra e gerencia as cobranças PIX geradas para os usuários.</td></tr>
+                        <tr><td><code>depositos</code></td><td>Registra e gerencia os depósitos de usuários (entrada de fundos).</td></tr>
+                        <tr><td><code>conversoes</code></td><td>Registra e gerencia as conversões de Depix para USDT.</td></tr>
+                        <tr><td><code>saldos_depix</code></td><td>Registra o histórico de movimentações de saldo em Depix (ledger).</td></tr>
+                        <tr><td><code>saldos_usdt</code></td><td>Registra o histórico de movimentações de saldo em USDT (ledger).</td></tr>
+                        <tr><td><code>depositos_taxas</code></td><td>Tabela de junção (snapshot) para taxas de depósitos.</td></tr>
+                        <tr><td><code>conversoes_taxas</code></td><td>Tabela de junção (snapshot) para taxas de conversões.</td></tr>
+                        <tr><td><code>tokens_jwt</code></td><td>Armazena tokens JWT gerados para autenticação/autorização.</td></tr>
+                        <tr><td><code>cotacoes</code></td><td>Armazena cotações de mercado para diferentes tipos.</td></tr>
+                        <tr><td><code>processamento_convidados</code></td><td>Registra e controla o processamento de pagamentos de usuários convidados.</td></tr>
+                        <tr><td><code>configuracoes_sistema</code></td><td>Armazena configurações gerais do sistema.</td></tr>
+                        <tr><td><code>carteiras_sistema</code></td><td>Gerencia as carteiras Depix pertencentes ao sistema.</td></tr>
+                     </tbody>
+                 </table>
+            </section>
+
+            <section class="secao" id="detalhes_entidades">
+                <h2>Documentação Detalhada das Entidades</h2>
+
+                <!-- Entidade 1: usuarios -->
+                <div class="card" id="usuarios">
+                    <div class="card-header">
+                        <div class="card-title-container">
+                            <h3 class="card-title">1. usuarios</h3>
+                        </div>
+                        <!-- O botão de edição será adicionado via JavaScript -->
+                    </div>
+                    <div class="card-content">
+                        <p><strong>Propósito:</strong> Armazenar informações dos usuários do sistema, incluindo diferentes tipos (administradores, usuários comuns, convidados, etc.).</p>
+                        <h4>Colunas:</h4>
+                        <table>
+                            <thead><tr><th>Nome</th><th>Tipo (PostgreSQL)</th><th>Restrições/Notas</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>id</code></td><td><code>INT</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-type">Auto Incremento</span></td></tr>
+                                <tr><td><code>nome</code></td><td><code>VARCHAR(255)</code></td><td><span class="tag tag-nullable">NULL</span> Pode ser NULL para convidados.</td></tr>
+                                <tr><td><code>email</code></td><td><code>VARCHAR(255)</code></td><td><span class="tag tag-unique">UNIQUE</span> <span class="tag tag-nullable">NULL</span> Pode ser NULL para convidados.</td></tr>
+                                <tr><td><code>tipo</code></td><td><code>ENUM</code></td><td><code>'USUARIO', 'ADMIN', 'SUPERADMIN', 'OPERADOR', 'CONVIDADO'</code></td></tr>
+                                <tr><td><code>status</code></td><td><code>ENUM</code></td><td><code>'ATIVO', 'INATIVO', 'PENDENTE'</code></td></tr>
+                                <tr><td><code>data_criacao</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL DEFAULT CURRENT_TIMESTAMP</code></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Entidade 2: autenticacao -->
+                <div class="card" id="autenticacao">
+                    <div class="card-header"><h3 class="card-title">2. autenticacao</h3></div>
+                    <div class="card-content">
+                        <p><strong>Propósito:</strong> Armazenar informações de autenticação dos usuários, como senha hash e nível de permissão.</p>
+                        <h4>Colunas:</h4>
+                         <table>
+                            <thead><tr><th>Nome</th><th>Tipo (PostgreSQL)</th><th>Restrições/Notas</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>id_usuario</code></td><td><code>INT</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-fk">FK -&gt; usuarios.id</span> Relação 1:1</td></tr>
+                                <tr><td><code>senha_hash</code></td><td><code>TEXT</code></td><td><code>NOT NULL</code></td></tr>
+                                <tr><td><code>nivel_permissao</code></td><td><code>INT</code></td><td><code>NOT NULL DEFAULT 1</code></td></tr>
+                                <tr><td><code>ultimo_login</code></td><td><code>TIMESTAMPTZ</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>ip_ultimo_login</code></td><td><code>VARCHAR(50)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                            </tbody>
+                        </table>
+                         <h4>Relacionamentos:</h4>
+                         <ul>
+                            <li>Um-para-um com <code>usuarios</code>.</li>
+                         </ul>
+                    </div>
+                </div>
+
+                <!-- Entidade 3: carteiras_depix -->
+                <div class="card" id="carteiras_depix">
+                    <div class="card-header"><h3 class="card-title">3. carteiras_depix</h3></div>
+                    <div class="card-content">
+                        <p><strong>Propósito:</strong> Armazenar informações das carteiras Depix dos usuários.</p>
+                         <h4>Colunas:</h4>
+                        <table>
+                            <thead><tr><th>Nome</th><th>Tipo (PostgreSQL)</th><th>Restrições/Notas</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>id</code></td><td><code>INT</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-type">Auto Incremento</span></td></tr>
+                                <tr><td><code>id_usuario</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; usuarios.id</span> <span class="tag tag-unique">UNIQUE</span> Garante 1 carteira por usuário.</td></tr>
+                                <tr><td><code>endereco_depix</code></td><td><code>VARCHAR(255)</code></td><td><span class="tag tag-unique">UNIQUE</span> <code>NOT NULL</code></td></tr>
+                                <tr><td><code>status</code></td><td><code>ENUM</code></td><td><code>'ATIVA', 'INATIVA', 'PENDENTE'</code></td></tr>
+                                <tr><td><code>data_criacao</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL DEFAULT CURRENT_TIMESTAMP</code></td></tr>
+                            </tbody>
+                        </table>
+                         <h4>Relacionamentos:</h4>
+                         <ul>
+                            <li>Um-para-um com <code>usuarios</code>.</li>
+                         </ul>
+                    </div>
+                </div>
+
+                 <!-- Entidade 4: carteiras_usdt -->
+                <div class="card" id="carteiras_usdt">
+                    <div class="card-header"><h3 class="card-title">4. carteiras_usdt</h3></div>
+                    <div class="card-content">
+                        <p><strong>Propósito:</strong> Armazenar informações das carteiras USDT dos usuários.</p>
+                         <h4>Colunas:</h4>
+                        <table>
+                            <thead><tr><th>Nome</th><th>Tipo (PostgreSQL)</th><th>Restrições/Notas</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>id</code></td><td><code>INT</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-type">Auto Incremento</span></td></tr>
+                                <tr><td><code>id_usuario</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; usuarios.id</span> <span class="tag tag-unique">UNIQUE</span> Garante 1 carteira por usuário.</td></tr>
+                                <tr><td><code>endereco_usdt</code></td><td><code>VARCHAR(255)</code></td><td><span class="tag tag-unique">UNIQUE</span> <code>NOT NULL</code></td></tr>
+                                <tr><td><code>status</code></td><td><code>ENUM</code></td><td><code>'ATIVA', 'INATIVA', 'PENDENTE'</code></td></tr>
+                                <tr><td><code>data_criacao</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL DEFAULT CURRENT_TIMESTAMP</code></td></tr>
+                            </tbody>
+                        </table>
+                         <h4>Relacionamentos:</h4>
+                         <ul>
+                            <li>Um-para-um com <code>usuarios</code>.</li>
+                         </ul>
+                    </div>
+                </div>
+
+                <!-- Entidade 5: taxas_configuracao -->
+                <div class="card" id="taxas_configuracao">
+                    <div class="card-header"><h3 class="card-title">5. taxas_configuracao</h3></div>
+                    <div class="card-content">
+                        <p><strong>Propósito:</strong> Configurar as taxas aplicadas a diferentes tipos de operações (depósito, conversão, etc.). Permite flexibilidade na gestão de taxas.</p>
+                        <blockquote><strong>Nota sobre Snapshot:</strong> Cada depósito/conversão usa UMA configuração vigente no momento da operação. As tabelas <code>depositos_taxas</code> e <code>conversoes_taxas</code> gravam os valores exatos aplicados (snapshot) para preservar o histórico.</blockquote>
+                         <h4>Colunas:</h4>
+                        <table>
+                            <thead><tr><th>Nome</th><th>Tipo (PostgreSQL)</th><th>Restrições/Notas</th></tr></thead>
+                            <tbody>
+                                <tr><td><code>id</code></td><td><code>INT</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-type">Auto Incremento</span></td></tr>
+                                <tr><td><code>tipo_operacao</code></td><td><code>ENUM</code></td><td><code>'DEPOSITO', 'CONVERSAO', 'CONVIDADO'</code></td></tr>
+                                <tr><td><code>nome</code></td><td><code>VARCHAR(255)</code></td><td><code>NOT NULL</code> Nome descritivo.</td></tr>
+                                <tr><td><code>taxa_fixa_depix</code></td><td><code>DECIMAL(15,8)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>taxa_percentual_operacional</code></td><td><code>DECIMAL(5,4)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>receita_percentual_operacional</code></td><td><code>DECIMAL(5,4)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>receita_percentual_oculta</code></td><td><code>DECIMAL(5,4)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>custo_fixo_operacional</code></td><td><code>DECIMAL(15,8)</code></td><td><code>NOT NULL DEFAULT 0.00</code></td></tr>
+                                <tr><td><code>custo_percentual_operacional</code></td><td><code>DECIMAL(5,4)</code></td><td><code>NOT NULL DEFAULT 0.00</code></td></tr>
+                                <tr><td><code>vigente_desde</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL</code> Início da vigência.</td></tr>
+                                <tr><td><code>id_usuario_alteracao</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; usuarios.id</span> <span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>data_criacao</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL DEFAULT CURRENT_TIMESTAMP</code></td></tr>
+                            </tbody>
+                        </table>
+                         <h4>Relacionamentos:</h4>
+                         <ul>
+                            <li>Um-para-muitos com <code>depositos</code>, <code>conversoes</code>, <code>depositos_taxas</code>, <code>conversoes_taxas</code>, <code>processamento_convidados</code> (via FKs nessas tabelas).</li>
+                            <li>Muitos-para-um com <code>usuarios</code> (quem alterou).</li>
+                         </ul>
+                    </div>
+                </div>
+
+                <!-- Entidade 6: cobrancas_pix -->
+                <div class="card" id="cobrancas_pix">
+                    <div class="card-header"><h3 class="card-title">6. cobrancas_pix</h3></div>
+                    <div class="card-content">
+                        <p><strong>Propósito:</strong> Registrar e gerenciar as cobranças PIX geradas para os usuários.</p>
+                        <h4>Colunas:</h4>
+                        <table>
+                             <thead><tr><th>Nome</th><th>Tipo (PostgreSQL)</th><th>Restrições/Notas</th></tr></thead>
+                             <tbody>
+                                 <tr><td><code>id</code></td><td><code>INT</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-type">Auto Incremento</span></td></tr>
+                                 <tr><td><code>id_usuario</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; usuarios.id</span></td></tr>
+                                 <tr><td><code>valor_brl</code></td><td><code>DECIMAL(15,2)</code></td><td><code>NOT NULL</code></td></tr>
+                                 <tr><td><code>pix_copia_cola</code></td><td><code>TEXT</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                 <tr><td><code>qr_code_url</code></td><td><code>VARCHAR(255)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                 <tr><td><code>carteira_destino_depix</code></td><td><code>VARCHAR(255)</code></td><td><span class="tag tag-nullable">NULL</span> Preenchido posteriormente?</td></tr>
+                                 <tr><td><code>id_carteira_sistema</code></td><td><code>UUID</code></td><td><span class="tag tag-fk">FK -&gt; carteiras_sistema.id</span> <span class="tag tag-nullable">NULL</span></td></tr>
+                                 <tr><td><code>status</code></td><td><code>ENUM</code></td><td><code>'PENDENTE', 'PAGA', 'PROCESSANDO', 'ENVIADA', 'EXPIRADA', 'CANCELADA', 'ERROR'</code></td></tr>
+                                 <tr><td><code>data_criacao</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL DEFAULT CURRENT_TIMESTAMP</code></td></tr>
+                                 <tr><td><code>data_atualizacao</code></td><td><code>TIMESTAMPTZ</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                 <tr><td><code>data_pagamento</code></td><td><code>TIMESTAMPTZ</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                 <tr><td><code>data_expiracao</code></td><td><code>TIMESTAMPTZ</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                             </tbody>
+                        </table>
+                        <h4>Relacionamentos:</h4>
+                        <ul>
+                           <li>Muitos-para-um com <code>usuarios</code>.</li>
+                           <li>Um-para-um com <code>processamento_convidados</code> (se aplicável).</li>
+                           <li>Muitos-para-um com <code>carteiras_sistema</code>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Entidade 7: depositos -->
+                <div class="card" id="depositos">
+                    <div class="card-header"><h3 class="card-title">7. depositos</h3></div>
+                    <div class="card-content">
+                        <p><strong>Propósito:</strong> Registrar e gerenciar os depósitos de usuários (entrada de fundos no sistema).</p>
+                        <h4>Colunas:</h4>
+                        <table>
+                             <thead><tr><th>Nome</th><th>Tipo (PostgreSQL)</th><th>Restrições/Notas</th></tr></thead>
+                             <tbody>
+                                 <tr><td><code>id</code></td><td><code>INT</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-type">Auto Incremento</span></td></tr>
+                                 <tr><td><code>id_usuario</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; usuarios.id</span></td></tr>
+                                 <tr><td><code>id_taxa_configuracao</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; taxas_configuracao.id</span></td></tr>
+                                 <tr><td><code>ticket_brl</code></td><td><code>DECIMAL(15,2)</code></td><td><span class="tag tag-nullable">NULL</span> Valor referência PIX.</td></tr>
+                                 <tr><td><code>ticket_depix</code></td><td><code>DECIMAL(15,8)</code></td><td><span class="tag tag-nullable">NULL</span> Valor convertido.</td></tr>
+                                 <tr><td><code>total_taxas_depix</code></td><td><code>DECIMAL(15,8)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                 <tr><td><code>final_liquido_depix</code></td><td><code>DECIMAL(15,8)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                 <tr><td><code>status</code></td><td><code>ENUM</code></td><td><code>'PENDENTE_COBRANCA', 'AGUARDANDO_PAGAMENTO', 'AGUARDANDO_CONFIRMACAO_PIX', 'EM_PROCESSAMENTO', 'DEPIX_ENVIADO', 'CANCELADO', 'EXPIRADO', 'ERRO'</code></td></tr>
+                                 <tr><td><code>data_criacao</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL DEFAULT CURRENT_TIMESTAMP</code></td></tr>
+                                 <tr><td><code>data_atualizacao</code></td><td><code>TIMESTAMPTZ</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                 <tr><td><code>data_confirmacao</code></td><td><code>TIMESTAMPTZ</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                 <tr><td><code>data_processamento</code></td><td><code>TIMESTAMPTZ</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                             </tbody>
+                        </table>
+                        <h4>Relacionamentos:</h4>
+                        <ul>
+                           <li>Muitos-para-um com <code>usuarios</code>.</li>
+                           <li>Muitos-para-um com <code>taxas_configuracao</code>.</li>
+                           <li>Um-para-muitos com <code>saldos_depix</code> (gera lançamentos).</li>
+                           <li>Um-para-muitos com <code>depositos_taxas</code> (referencia o snapshot da taxa).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                 <!-- Entidade 8: conversoes -->
+                <div class="card" id="conversoes">
+                    <div class="card-header"><h3 class="card-title">8. conversoes</h3></div>
+                    <div class="card-content">
+                        <p><strong>Propósito:</strong> Registrar e gerenciar as conversões de Depix para USDT (saque/conversão de criptomoedas).</p>
+                        <h4>Colunas:</h4>
+                        <table>
+                             <thead><tr><th>Nome</th><th>Tipo (PostgreSQL)</th><th>Restrições/Notas</th></tr></thead>
+                             <tbody>
+                                <tr><td><code>id</code></td><td><code>INT</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-type">Auto Incremento</span></td></tr>
+                                <tr><td><code>id_usuario</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; usuarios.id</span></td></tr>
+                                <tr><td><code>id_taxa_configuracao</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; taxas_configuracao.id</span></td></tr>
+                                <tr><td><code>id_cotacao</code></td><td><code>UUID</code></td><td><span class="tag tag-fk">FK -&gt; cotacoes.id</span> <span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>inicial_depix</code></td><td><code>DECIMAL(15,8)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>total_taxas_depix</code></td><td><code>DECIMAL(15,8)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>final_liquido_depix</code></td><td><code>DECIMAL(15,8)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>valor_usdt_enviado</code></td><td><code>DECIMAL(15,8)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>txid</code></td><td><code>VARCHAR(255)</code></td><td><span class="tag tag-nullable">NULL</span> Hash da transação blockchain.</td></tr>
+                                <tr><td><code>status</code></td><td><code>ENUM</code></td><td><code>'PENDENTE', 'AGUARDANDO_ENVIO', 'ENVIADO', 'ERRO', 'CANCELADO', 'CONCLUIDO'</code></td></tr>
+                                <tr><td><code>data_criacao</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL DEFAULT CURRENT_TIMESTAMP</code></td></tr>
+                                <tr><td><code>data_atualizacao</code></td><td><code>TIMESTAMPTZ</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>data_envio</code></td><td><code>TIMESTAMPTZ</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>data_conclusao</code></td><td><code>TIMESTAMPTZ</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                             </tbody>
+                        </table>
+                        <h4>Relacionamentos:</h4>
+                         <ul>
+                            <li>Muitos-para-um com <code>usuarios</code>.</li>
+                            <li>Muitos-para-um com <code>taxas_configuracao</code>.</li>
+                            <li>Muitos-para-um com <code>cotacoes</code>.</li>
+                            <li>Um-para-muitos com <code>saldos_depix</code> (gera lançamentos).</li>
+                            <li>Um-para-muitos com <code>saldos_usdt</code> (gera lançamentos).</li>
+                            <li>Um-para-muitos com <code>conversoes_taxas</code> (referencia o snapshot da taxa).</li>
+                         </ul>
+                    </div>
+                </div>
+
+                <!-- Entidade 9: saldos_depix -->
+                <div class="card" id="saldos_depix">
+                    <div class="card-header"><h3 class="card-title">9. saldos_depix</h3></div>
+                    <div class="card-content">
+                        <p><strong>Propósito:</strong> Registrar o histórico de movimentações de saldo em Depix dos usuários (ledger de Depix).</p>
+                        <h4>Colunas:</h4>
+                        <table>
+                             <thead><tr><th>Nome</th><th>Tipo (PostgreSQL)</th><th>Restrições/Notas</th></tr></thead>
+                             <tbody>
+                                <tr><td><code>id</code></td><td><code>INT</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-type">Auto Incremento</span></td></tr>
+                                <tr><td><code>id_usuario</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; usuarios.id</span></td></tr>
+                                <tr><td><code>id_deposito</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; depositos.id</span> <span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>id_conversao</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; conversoes.id</span> <span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>tipo_transacao</code></td><td><code>ENUM</code></td><td><code>'DEPOSITO', 'CONVERSAO_SAIDA', 'REVERSAO_DEPOSITO', 'TAXA_DEPOSITO', 'TAXA_CONVERSAO'</code></td></tr>
+                                <tr><td><code>valor_alteracao_depix</code></td><td><code>DECIMAL(15,8)</code></td><td><code>NOT NULL</code> Positivo ou negativo.</td></tr>
+                                <tr><td><code>saldo_depix_anterior</code></td><td><code>DECIMAL(15,8)</code></td><td><code>NOT NULL</code></td></tr>
+                                <tr><td><code>saldo_depix_atual</code></td><td><code>DECIMAL(15,8)</code></td><td><code>NOT NULL</code></td></tr>
+                                <tr><td><code>data_ocorrencia</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL DEFAULT CURRENT_TIMESTAMP</code></td></tr>
+                            </tbody>
+                        </table>
+                        <h4>Relacionamentos:</h4>
+                        <ul>
+                           <li>Muitos-para-um com <code>usuarios</code>.</li>
+                           <li>Muitos-para-um com <code>depositos</code> (opcional).</li>
+                           <li>Muitos-para-um com <code>conversoes</code> (opcional).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Entidade 10: saldos_usdt -->
+                <div class="card" id="saldos_usdt">
+                    <div class="card-header"><h3 class="card-title">10. saldos_usdt</h3></div>
+                    <div class="card-content">
+                        <p><strong>Propósito:</strong> Registrar o histórico de movimentações de saldo em USDT dos usuários (ledger de USDT).</p>
+                        <h4>Colunas:</h4>
+                        <table>
+                             <thead><tr><th>Nome</th><th>Tipo (PostgreSQL)</th><th>Restrições/Notas</th></tr></thead>
+                             <tbody>
+                                <tr><td><code>id</code></td><td><code>INT</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-type">Auto Incremento</span></td></tr>
+                                <tr><td><code>id_usuario</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; usuarios.id</span></td></tr>
+                                <tr><td><code>id_conversao</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; conversoes.id</span> <code>NOT NULL</code> (Sempre relacionado a conversão)</td></tr>
+                                <tr><td><code>tipo_transacao</code></td><td><code>ENUM</code></td><td><code>'CONVERSAO_SAIDA', 'REVERSAO_CONVERSAO', 'TAXA_CONVERSAO_USDT'</code></td></tr>
+                                <tr><td><code>valor_alteracao_usdt</code></td><td><code>DECIMAL(15,8)</code></td><td><code>NOT NULL</code> Positivo ou negativo.</td></tr>
+                                <tr><td><code>saldo_usdt_anterior</code></td><td><code>DECIMAL(15,8)</code></td><td><code>NOT NULL</code></td></tr>
+                                <tr><td><code>saldo_usdt_atual</code></td><td><code>DECIMAL(15,8)</code></td><td><code>NOT NULL</code></td></tr>
+                                <tr><td><code>data_ocorrencia</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL DEFAULT CURRENT_TIMESTAMP</code></td></tr>
+                            </tbody>
+                        </table>
+                        <h4>Relacionamentos:</h4>
+                        <ul>
+                           <li>Muitos-para-um com <code>usuarios</code>.</li>
+                           <li>Muitos-para-um com <code>conversoes</code>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Entidade 11: depositos_taxas -->
+                <div class="card" id="depositos_taxas">
+                    <div class="card-header"><h3 class="card-title">11. depositos_taxas</h3></div>
+                    <div class="card-content">
+                        <p><strong>Propósito:</strong> Tabela de junção (snapshot) para relacionar <strong>cada</strong> depósito com a configuração de taxa específica aplicada a ele. Permite registrar as taxas exatas utilizadas num depósito, mesmo que a <code>taxas_configuracao</code> seja alterada futuramente.</p>
+                        <h4>Colunas:</h4>
+                        <table>
+                             <thead><tr><th>Nome</th><th>Tipo (PostgreSQL)</th><th>Restrições/Notas</th></tr></thead>
+                             <tbody>
+                                <tr><td><code>id_deposito</code></td><td><code>INT</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-fk">FK -&gt; depositos.id</span></td></tr>
+                                <tr><td><code>id_taxa_configuracao</code></td><td><code>INT</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-fk">FK -&gt; taxas_configuracao.id</span></td></tr>
+                                <tr><td><code>taxa_fixa_depix</code></td><td><code>DECIMAL(15,8)</code></td><td><span class="tag tag-nullable">NULL</span> Valor snapshot.</td></tr>
+                                <tr><td><code>taxa_percentual_operacional_depix</code></td><td><code>DECIMAL(5,4)</code></td><td><span class="tag tag-nullable">NULL</span> Valor snapshot.</td></tr>
+                                <tr><td><code>receita_percentual_operacional</code></td><td><code>DECIMAL(5,4)</code></td><td><span class="tag tag-nullable">NULL</span> Valor snapshot.</td></tr>
+                                <tr><td><code>receita_percentual_oculta</code></td><td><code>DECIMAL(5,4)</code></td><td><span class="tag tag-nullable">NULL</span> Valor snapshot.</td></tr>
+                                <tr><td><code>custo_fixo_operacional</code></td><td><code>DECIMAL(15,8)</code></td><td><code>NOT NULL</code> Valor snapshot.</td></tr>
+                                <tr><td><code>custo_percentual_operacional</code></td><td><code>DECIMAL(5,4)</code></td><td><code>NOT NULL</code> Valor snapshot.</td></tr>
+                                <tr><td><code>data_aplicacao</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL DEFAULT CURRENT_TIMESTAMP</code></td></tr>
+                            </tbody>
+                        </table>
+                        <h4>Relacionamentos:</h4>
+                        <ul>
+                            <li>Define a relação M:N (na prática 1:1 snapshot) entre <code>depositos</code> e <code>taxas_configuracao</code>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Entidade 12: conversoes_taxas -->
+                <div class="card" id="conversoes_taxas">
+                    <div class="card-header"><h3 class="card-title">12. conversoes_taxas</h3></div>
+                    <div class="card-content">
+                        <p><strong>Propósito:</strong> Tabela de junção (snapshot) para relacionar <strong>cada</strong> conversão com a configuração de taxa específica aplicada a ela. Semelhante a <code>depositos_taxas</code>.</p>
+                         <h4>Colunas:</h4>
+                        <table>
+                             <thead><tr><th>Nome</th><th>Tipo (PostgreSQL)</th><th>Restrições/Notas</th></tr></thead>
+                             <tbody>
+                                <tr><td><code>id_conversao</code></td><td><code>INT</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-fk">FK -&gt; conversoes.id</span></td></tr>
+                                <tr><td><code>id_taxa_configuracao</code></td><td><code>INT</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-fk">FK -&gt; taxas_configuracao.id</span></td></tr>
+                                <tr><td><code>taxa_fixa_conversao</code></td><td><code>DECIMAL(15,8)</code></td><td><span class="tag tag-nullable">NULL</span> Valor snapshot.</td></tr>
+                                <tr><td><code>taxa_percentual_operacional_conversao</code></td><td><code>DECIMAL(5,4)</code></td><td><span class="tag tag-nullable">NULL</span> Valor snapshot.</td></tr>
+                                <tr><td><code>receita_percentual_operacional</code></td><td><code>DECIMAL(5,4)</code></td><td><span class="tag tag-nullable">NULL</span> Valor snapshot.</td></tr>
+                                <tr><td><code>receita_percentual_oculta</code></td><td><code>DECIMAL(5,4)</code></td><td><span class="tag tag-nullable">NULL</span> Valor snapshot.</td></tr>
+                                <tr><td><code>custo_fixo_operacional</code></td><td><code>DECIMAL(15,8)</code></td><td><span class="tag tag-nullable">NULL</span> Valor snapshot.</td></tr>
+                                <tr><td><code>custo_percentual_operacional</code></td><td><code>DECIMAL(5,4)</code></td><td><span class="tag tag-nullable">NULL</span> Valor snapshot.</td></tr>
+                                <tr><td><code>data_aplicacao</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL DEFAULT CURRENT_TIMESTAMP</code></td></tr>
+                            </tbody>
+                        </table>
+                        <h4>Relacionamentos:</h4>
+                        <ul>
+                            <li>Define a relação M:N (na prática 1:1 snapshot) entre <code>conversoes</code> e <code>taxas_configuracao</code>.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                 <!-- Entidade 13: tokens_jwt -->
+                <div class="card" id="tokens_jwt">
+                    <div class="card-header"><h3 class="card-title">13. tokens_jwt</h3></div>
+                    <div class="card-content">
+                        <p><strong>Propósito:</strong> Armazenar tokens JWT (JSON Web Tokens) gerados para autenticação e autorização dos usuários e APIs.</p>
+                         <h4>Colunas:</h4>
+                        <table>
+                             <thead><tr><th>Nome</th><th>Tipo (PostgreSQL)</th><th>Restrições/Notas</th></tr></thead>
+                             <tbody>
+                                <tr><td><code>id</code></td><td><code>BIGINT / SERIAL</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-type">Auto Incremento</span></td></tr>
+                                <tr><td><code>tipo</code></td><td><code>ENUM</code></td><td><code>NOT NULL</code> Ex: 'ACESSO', 'REFRESH', 'DEPIX_API', etc.</td></tr>
+                                <tr><td><code>token_mascarado</code></td><td><code>TEXT</code></td><td><code>NOT NULL</code> Versão mascarada/hashed.</td></tr>
+                                <tr><td><code>validade_inicio</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL</code></td></tr>
+                                <tr><td><code>validade_fim</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL</code></td></tr>
+                                <tr><td><code>comentario_tecnico</code></td><td><code>TEXT</code></td><td><span class="tag tag-nullable">NULL</span> Auditoria/Debug.</td></tr>
+                                <tr><td><code>soft_deletado</code></td><td><code>BOOLEAN</code></td><td><code>NOT NULL DEFAULT FALSE</code></td></tr>
+                                <tr><td><code>data_criacao</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL DEFAULT CURRENT_TIMESTAMP</code></td></tr>
+                                <tr><td><code>data_atualizacao</code></td><td><code>TIMESTAMPTZ</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>id_usuario</code></td><td><code>BIGINT</code></td><td><span class="tag tag-fk">FK -&gt; usuarios.id</span> <span class="tag tag-nullable">NULL</span> Opcional (tokens de API).</td></tr>
+                            </tbody>
+                        </table>
+                        <h4>Relacionamentos:</h4>
+                         <ul>
+                            <li>Muitos-para-um com <code>usuarios</code> (opcional).</li>
+                         </ul>
+                    </div>
+                </div>
+
+                 <!-- Entidade 14: cotacoes -->
+                <div class="card" id="cotacoes">
+                    <div class="card-header"><h3 class="card-title">14. cotacoes</h3></div>
+                    <div class="card-content">
+                        <p><strong>Propósito:</strong> Armazenar cotações de mercado para diferentes tipos (diária, conversão).</p>
+                         <h4>Colunas:</h4>
+                        <table>
+                             <thead><tr><th>Nome</th><th>Tipo (PostgreSQL)</th><th>Restrições/Notas</th></tr></thead>
+                             <tbody>
+                                <tr><td><code>id</code></td><td><code>UUID</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-type">DEFAULT UUID()</span></td></tr>
+                                <tr><td><code>tipo</code></td><td><code>ENUM</code></td><td><code>'DIARIA', 'CONVERSAO' NOT NULL</code></td></tr>
+                                <tr><td><code>valor_cotacao</code></td><td><code>DECIMAL(15,8)</code></td><td><code>NOT NULL</code></td></tr>
+                                <tr><td><code>data_cotacao</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL DEFAULT CURRENT_TIMESTAMP</code></td></tr>
+                                <tr><td><code>data_expiracao</code></td><td><code>TIMESTAMPTZ</code></td><td><span class="tag tag-nullable">NULL</span> Se aplicável.</td></tr>
+                                <tr><td><code>id_conversao</code></td><td><code>UUID</code></td><td><span class="tag tag-fk">FK -&gt; conversoes.id</span> <span class="tag tag-nullable">NULL</span> Apenas se tipo='CONVERSAO'.</td></tr>
+                            </tbody>
+                        </table>
+                        <h4>Relacionamentos:</h4>
+                         <ul>
+                            <li>Um-para-muitos com <code>conversoes</code> (uma cotação pode ser usada em várias ou ser específica para uma).</li>
+                         </ul>
+                    </div>
+                </div>
+
+                 <!-- Entidade 15: processamento_convidados -->
+                <div class="card" id="processamento_convidados">
+                    <div class="card-header"><h3 class="card-title">15. processamento_convidados</h3></div>
+                    <div class="card-content">
+                        <p><strong>Propósito:</strong> Registrar e controlar o processamento de pagamentos de usuários convidados, que podem ter um fluxo de processamento diferenciado.</p>
+                         <h4>Colunas:</h4>
+                        <table>
+                             <thead><tr><th>Nome</th><th>Tipo (PostgreSQL)</th><th>Restrições/Notas</th></tr></thead>
+                             <tbody>
+                                <tr><td><code>id</code></td><td><code>INT</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-type">Auto Incremento</span></td></tr>
+                                <tr><td><code>id_cobranca_pix</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; cobrancas_pix.id</span></td></tr>
+                                <tr><td><code>valor_recebido_brl</code></td><td><code>DECIMAL(15,2)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>taxa_fixa_depix</code></td><td><code>DECIMAL(15,8)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>taxa_percentual</code></td><td><code>DECIMAL(5,4)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>valor_taxa_percentual_depix</code></td><td><code>DECIMAL(15,8)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>valor_taxa_total_depix</code></td><td><code>DECIMAL(15,8)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>valor_liquido_enviar_depix</code></td><td><code>DECIMAL(15,8)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>carteira_destino_depix</code></td><td><code>VARCHAR(255)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>id_carteira_sistema</code></td><td><code>UUID</code></td><td><span class="tag tag-fk">FK -&gt; carteiras_sistema.id</span> <code>NOT NULL</code></td></tr>
+                                <tr><td><code>txid_entrada</code></td><td><code>VARCHAR(255)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>txid_saida</code></td><td><code>VARCHAR(255)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>id_automacao</code></td><td><code>VARCHAR(100)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>tentativas_automacao</code></td><td><code>INT</code></td><td><span class="tag tag-nullable">NULL</span> <code>DEFAULT 0</code></td></tr>
+                                <tr><td><code>status_processamento</code></td><td><code>ENUM</code></td><td><code>'PENDENTE', 'PROCESSANDO_AUTO', 'ENVIADO', 'ERRO_AUTO', 'FALLBACK_MANUAL'</code></td></tr>
+                                <tr><td><code>comentario_operador</code></td><td><code>TEXT</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>processado_por</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; usuarios.id</span> <span class="tag tag-nullable">NULL</span> Operador manual.</td></tr>
+                                <tr><td><code>data_criacao</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL DEFAULT CURRENT_TIMESTAMP</code></td></tr>
+                                <tr><td><code>data_ultima_tentativa</code></td><td><code>TIMESTAMPTZ</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>data_processamento</code></td><td><code>TIMESTAMPTZ</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                            </tbody>
+                        </table>
+                         <h4>Relacionamentos:</h4>
+                         <ul>
+                            <li>Um-para-um com <code>cobrancas_pix</code>.</li>
+                            <li>Muitos-para-um com <code>carteiras_sistema</code>.</li>
+                            <li>Muitos-para-um com <code>usuarios</code> (processador manual, opcional).</li>
+                         </ul>
+                    </div>
+                </div>
+
+                 <!-- Entidade 16: configuracoes_sistema -->
+                <div class="card" id="configuracoes_sistema">
+                    <div class="card-header"><h3 class="card-title">16. configuracoes_sistema</h3></div>
+                    <div class="card-content">
+                        <p><strong>Propósito:</strong> Armazenar configurações gerais do sistema, como parâmetros, flags, etc.</p>
+                         <h4>Colunas:</h4>
+                        <table>
+                             <thead><tr><th>Nome</th><th>Tipo (PostgreSQL)</th><th>Restrições/Notas</th></tr></thead>
+                             <tbody>
+                                <tr><td><code>id</code></td><td><code>INT</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-type">Auto Incremento</span></td></tr>
+                                <tr><td><code>chave</code></td><td><code>VARCHAR(50)</code></td><td><code>NOT NULL</code> <span class="tag tag-unique">UNIQUE</span></td></tr>
+                                <tr><td><code>valor</code></td><td><code>TEXT</code></td><td><code>NOT NULL</code></td></tr>
+                                <tr><td><code>descricao</code></td><td><code>TEXT</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>data_atualizacao</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL DEFAULT CURRENT_TIMESTAMP</code></td></tr>
+                                <tr><td><code>id_usuario_alteracao</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; usuarios.id</span> <code>NOT NULL</code></td></tr>
+                                <tr><td><code>ip_alteracao</code></td><td><code>VARCHAR(50)</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>requer_superadmin</code></td><td><code>BOOLEAN</code></td><td><code>NOT NULL DEFAULT FALSE</code></td></tr>
+                            </tbody>
+                        </table>
+                        <h4>Relacionamentos:</h4>
+                         <ul>
+                            <li>Muitos-para-um com <code>usuarios</code> (quem alterou).</li>
+                         </ul>
+                    </div>
+                </div>
+
+                 <!-- Entidade 17: carteiras_sistema -->
+                <div class="card" id="carteiras_sistema">
+                    <div class="card-header"><h3 class="card-title">17. carteiras_sistema</h3></div>
+                    <div class="card-content">
+                        <p><strong>Propósito:</strong> Gerenciar as carteiras Depix pertencentes ao sistema, utilizadas para operações internas (recebimento de depósitos, envio de conversões, etc.).</p>
+                         <h4>Colunas:</h4>
+                        <table>
+                             <thead><tr><th>Nome</th><th>Tipo (PostgreSQL)</th><th>Restrições/Notas</th></tr></thead>
+                             <tbody>
+                                <tr><td><code>id</code></td><td><code>UUID</code></td><td><span class="tag tag-pk">PK</span> <span class="tag tag-type">DEFAULT UUID()</span></td></tr>
+                                <tr><td><code>endereco_depix</code></td><td><code>VARCHAR(255)</code></td><td><code>NOT NULL</code> <span class="tag tag-unique">UNIQUE</span></td></tr>
+                                <tr><td><code>descricao</code></td><td><code>TEXT</code></td><td><code>NOT NULL</code> Ex: "Hot Wallet Principal".</td></tr>
+                                <tr><td><code>data_inicio</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL</code> Data ativação.</td></tr>
+                                <tr><td><code>data_fim</code></td><td><code>TIMESTAMPTZ</code></td><td><span class="tag tag-nullable">NULL</span> Data desativação.</td></tr>
+                                <tr><td><code>status</code></td><td><code>ENUM</code></td><td><code>'ATIVA', 'ARQUIVADA', 'TRANSICAO' NOT NULL</code></td></tr>
+                                <tr><td><code>saldo_atual</code></td><td><code>DECIMAL(15,8)</code></td><td><code>NOT NULL DEFAULT 0.00</code></td></tr>
+                                <tr><td><code>saldo_final</code></td><td><code>DECIMAL(15,8)</code></td><td><span class="tag tag-nullable">NULL</span> Saldo ao arquivar.</td></tr>
+                                <tr><td><code>txid_migracao</code></td><td><code>VARCHAR(255)</code></td><td><span class="tag tag-nullable">NULL</span> Hash migração fundos.</td></tr>
+                                <tr><td><code>id_usuario_criacao</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; usuarios.id</span> <code>NOT NULL</code></td></tr>
+                                <tr><td><code>id_usuario_arquivamento</code></td><td><code>INT</code></td><td><span class="tag tag-fk">FK -&gt; usuarios.id</span> <span class="tag tag-nullable">NULL</span></td></tr>
+                                <tr><td><code>data_criacao</code></td><td><code>TIMESTAMPTZ</code></td><td><code>NOT NULL DEFAULT CURRENT_TIMESTAMP</code></td></tr>
+                                <tr><td><code>data_ultima_atualizacao</code></td><td><code>TIMESTAMPTZ</code></td><td><span class="tag tag-nullable">NULL</span></td></tr>
+                            </tbody>
+                        </table>
+                        <h4>Relacionamentos:</h4>
+                         <ul>
+                            <li>Um-para-muitos com <code>cobrancas_pix</code>.</li>
+                            <li>Um-para-muitos com <code>processamento_convidados</code>.</li>
+                            <li>Muitos-para-um com <code>usuarios</code> (criador).</li>
+                            <li>Muitos-para-um com <code>usuarios</code> (arquivador, opcional).</li>
+                         </ul>
+                    </div>
+                </div>
+
+            </section> <!-- Fim detalhes_entidades -->
+
+            <section class="secao" id="resumo_relacionamentos">
+                <h2>Resumo dos Relacionamentos</h2>
+                <h4>1. Um-para-um:</h4>
+                <ul>
+                    <li><code>usuarios</code> &lt;-&gt; <code>autenticacao</code></li>
+                    <li><code>usuarios</code> &lt;-&gt; <code>carteiras_depix</code></li>
+                    <li><code>usuarios</code> &lt;-&gt; <code>carteiras_usdt</code></li>
+                    <li><code>cobrancas_pix</code> &lt;-&gt; <code>processamento_convidados</code></li>
+                </ul>
+
+                <h4>2. Um-para-muitos / Muitos-para-um:</h4>
+                <ul>
+                    <li><code>usuarios</code> -&gt; (<code>cobrancas_pix</code>, <code>depositos</code>, <code>conversoes</code>, <code>saldos_depix</code>, <code>saldos_usdt</code>, <code>tokens_jwt</code>)</li>
+                    <li><code>usuarios</code> (alterador) -&gt; (<code>taxas_configuracao</code>, <code>configuracoes_sistema</code>)</li>
+                     <li><code>usuarios</code> (criador/arquivador/processador) -&gt; (<code>carteiras_sistema</code>, <code>processamento_convidados</code>)</li>
+                    <li><code>taxas_configuracao</code> -&gt; (<code>depositos</code>, <code>conversoes</code>)</li>
+                    <li><code>cotacoes</code> -&gt; <code>conversoes</code></li>
+                    <li><code>carteiras_sistema</code> -&gt; (<code>cobrancas_pix</code>, <code>processamento_convidados</code>)</li>
+                    <li><code>depositos</code> -&gt; <code>saldos_depix</code></li>
+                    <li><code>conversoes</code> -&gt; (<code>saldos_depix</code>, <code>saldos_usdt</code>)</li>
+                </ul>
+
+                <h4>3. Muitos-para-muitos (Tabelas de Junção para Snapshot):</h4>
+                 <ul>
+                    <li><code>depositos</code> &lt;-&gt; <code>taxas_configuracao</code> (via <code>depositos_taxas</code>)</li>
+                    <li><code>conversoes</code> &lt;-&gt; <code>taxas_configuracao</code> (via <code>conversoes_taxas</code>)</li>
+                 </ul>
+                 <blockquote>Nota: Embora estruturalmente M:N, na prática é um snapshot 1:1 no momento da operação.</blockquote>
+            </section>
+
+            <section class="secao" id="mvp">
+                <h2>Considerações para MVP (Minimum Viable Product)</h2>
+                <p>Para um MVP inicial, as seguintes entidades são consideradas essenciais:</p>
+                <ul>
+                    <li><code>usuarios</code></li>
+                    <li><code>autenticacao</code></li>
+                    <li><code>carteiras_depix</code></li>
+                    <li><code>carteiras_usdt</code></li>
+                    <li><code>taxas_configuracao</code> (foco em 'DEPOSITO', 'CONVERSAO')</li>
+                    <li><code>cobrancas_pix</code> (funcionalidade básica)</li>
+                    <li><code>depositos</code> (fluxo básico)</li>
+                    <li><code>conversoes</code> (fluxo básico)</li>
+                    <li><code>saldos_depix</code></li>
+                    <li><code>saldos_usdt</code></li>
+                    <li><code>cotacoes</code> (diárias)</li>
+                    <li><code>carteiras_sistema</code> (gerenciamento interno básico)</li>
+                </ul>
+                <p>Entidades como <code>processamento_convidados</code>, <code>tokens_jwt</code> (se auth simplificada), e configurações avançadas podem ser implementadas posteriormente.</p>
+            </section>
+
+            <section class="secao" id="proximos_passos">
+                <h2>Próximos Passos</h2>
+                <ol>
+                    <li><strong>Revisão e Validação:</strong> Revisar este documento com as partes interessadas.</li>
+                    <li><strong>Data Dictionary Detalhado:</strong> Criar um dicionário de dados mais específico.</li>
+                    <li><strong>Design Físico:</strong> Traduzir para o design físico (PostgreSQL/Supabase) e criar script DDL.</li>
+                    <li><strong>Implementação e Testes:</strong> Implementar e testar rigorosamente.</li>
+                </ol>
+            </section>
+
+        </main>
+
+        <footer class="footer">
+            <p>© 2024 Documentação Interna - DER v1.0</p>
+        </footer>
+    </div> <!-- Fim .container -->
+
+    <!-- Botão de impressão flutuante -->
+    <button class="print-button" onclick="window.print()" title="Imprimir documento">
+        <span class="print-tooltip">Imprimir documento</span>
+        <svg class="print-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+        </svg>
+    </button>
+
+    <!-- Modal para edição -->
+    <div class="modal-overlay" id="editModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalTitle">Editar Entidade</h3>
+                <button class="close-modal" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <form id="entityForm">
+                    <div class="form-group">
+                        <label for="entityName">Nome da Entidade:</label>
+                        <input type="text" id="entityName" class="form-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="entityPurpose">Propósito:</label>
+                        <textarea id="entityPurpose" class="form-control" rows="3" required></textarea>
+                    </div>
+                    
+                    <div class="table-editor">
+                        <div class="table-editor-header">
+                            <div class="table-editor-title">Colunas:</div>
+                            <button type="button" id="addColumn" class="add-row-btn">+ Adicionar Coluna</button>
+                        </div>
+                        <table class="table" id="columnsTable">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Tipo (PostgreSQL)</th>
+                                    <th>Restrições/Notas</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="columnsTableBody">
+                                <!-- Linhas das colunas serão adicionadas dinamicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <div class="table-editor">
+                        <div class="table-editor-header">
+                            <div class="table-editor-title">Relacionamentos:</div>
+                            <button type="button" id="addRelationship" class="add-row-btn">+ Adicionar Relacionamento</button>
+                        </div>
+                        <table class="table" id="relationshipsTable">
+                            <thead>
+                                <tr>
+                                    <th>Descrição</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="relationshipsTableBody">
+                                <!-- Linhas dos relacionamentos serão adicionadas dinamicamente -->
+                            </tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="cancelEdit">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="saveEntity">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para funcionalidades de edição -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Adicionar botões de edição a todos os cards
+            const cards = document.querySelectorAll('.card');
+            
+            cards.forEach(card => {
+                const cardHeader = card.querySelector('.card-header');
+                const cardTitle = card.querySelector('.card-title');
+                
+                // Criar container para o título
+                const titleContainer = document.createElement('div');
+                titleContainer.className = 'card-title-container';
+                
+                // Mover o título para o container
+                cardHeader.insertBefore(titleContainer, cardTitle);
+                titleContainer.appendChild(cardTitle);
+                
+                // Adicionar botão de edição
+                const editButton = document.createElement('button');
+                editButton.className = 'edit-btn';
+                editButton.innerHTML = `
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"></path>
+                    </svg>
+                    Editar
+                `;
+                editButton.addEventListener('click', function() {
+                    openEditModal(card);
+                });
+                
+                cardHeader.appendChild(editButton);
+            });
+            
+            // Configurar o modal
+            const modal = document.getElementById('editModal');
+            const closeBtn = document.getElementById('closeModal');
+            const cancelBtn = document.getElementById('cancelEdit');
+            const saveBtn = document.getElementById('saveEntity');
+            const addColumnBtn = document.getElementById('addColumn');
+            const addRelationshipBtn = document.getElementById('addRelationship');
+            
+            closeBtn.addEventListener('click', closeModal);
+            cancelBtn.addEventListener('click', closeModal);
+            
+            addColumnBtn.addEventListener('click', function() {
+                addColumnRow();
+            });
+            
+            addRelationshipBtn.addEventListener('click', function() {
+                addRelationshipRow();
+            });
+            
+            saveBtn.addEventListener('click', function() {
+                saveEntityChanges();
+            });
+            
+            // Função para abrir o modal de edição
+            function openEditModal(card) {
+                const cardId = card.id;
+                const cardTitle = card.querySelector('.card-title').textContent;
+                const cardPurpose = card.querySelector('.card-content p strong').parentNode.textContent;
+                
+                // Configurar o título do modal
+                document.getElementById('modalTitle').textContent = `Editar ${cardTitle}`;
+                
+                // Preencher o formulário
+                document.getElementById('entityName').value = cardTitle.split('. ')[1];
+                document.getElementById('entityPurpose').value = cardPurpose.replace('Propósito:', '').trim();
+                
+                // Limpar tabelas existentes
+                document.getElementById('columnsTableBody').innerHTML = '';
+                document.getElementById('relationshipsTableBody').innerHTML = '';
+                
+                // Preencher tabela de colunas
+                const columnsTable = card.querySelectorAll('.card-content table')[0];
+                if (columnsTable) {
+                    const columnRows = columnsTable.querySelectorAll('tbody tr');
+                    columnRows.forEach(row => {
+                        const cells = row.querySelectorAll('td');
+                        if (cells.length >= 3) {
+                            const name = cells[0].textContent.trim();
+                            const type = cells[1].textContent.trim();
+                            const constraints = cells[2].textContent.trim();
+                            
+                            addColumnRow(name, type, constraints);
+                        }
+                    });
+                }
+                
+                // Preencher tabela de relacionamentos
+                const relationships = card.querySelectorAll('.card-content ul:last-of-type li');
+                relationships.forEach(rel => {
+                    addRelationshipRow(rel.textContent.trim());
+                });
+                
+                // Abrir o modal
+                modal.classList.add('active');
+                
+                // Armazenar ID do card atual para uso ao salvar
+                modal.dataset.currentCardId = cardId;
+            }
+            
+            // Função para fechar o modal
+            function closeModal() {
+                modal.classList.remove('active');
+            }
+            
+            // Função para adicionar uma linha na tabela de colunas
+            function addColumnRow(name = '', type = '', constraints = '') {
+                const tbody = document.getElementById('columnsTableBody');
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td><input type="text" class="form-control" value="${name}" placeholder="Nome da coluna"></td>
+                    <td><input type="text" class="form-control" value="${type}" placeholder="Tipo"></td>
+                    <td><input type="text" class="form-control" value="${constraints}" placeholder="Restrições/Notas"></td>
+                    <td><button type="button" class="delete-row-btn">&times;</button></td>
+                `;
+                
+                const deleteBtn = row.querySelector('.delete-row-btn');
+                deleteBtn.addEventListener('click', function() {
+                    row.remove();
+                });
+                
+                tbody.appendChild(row);
+            }
+            
+            // Função para adicionar uma linha na tabela de relacionamentos
+            function addRelationshipRow(description = '') {
+                const tbody = document.getElementById('relationshipsTableBody');
+                const row = document.createElement('tr');
+                
+                row.innerHTML = `
+                    <td><input type="text" class="form-control" value="${description}" placeholder="Descrição do relacionamento"></td>
+                    <td><button type="button" class="delete-row-btn">&times;</button></td>
+                `;
+                
+                const deleteBtn = row.querySelector('.delete-row-btn');
+                deleteBtn.addEventListener('click', function() {
+                    row.remove();
+                });
+                
+                tbody.appendChild(row);
+            }
+            
+            // Função para salvar as alterações
+            function saveEntityChanges() {
+                const cardId = modal.dataset.currentCardId;
+                const card = document.getElementById(cardId);
+                
+                if (!card) {
+                    alert('Erro: Card não encontrado!');
+                    return;
+                }
+                
+                const entityName = document.getElementById('entityName').value;
+                const entityPurpose = document.getElementById('entityPurpose').value;
+                
+                // Atualizar título
+                const cardNumber = card.querySelector('.card-title').textContent.split('.')[0];
+                card.querySelector('.card-title').textContent = `${cardNumber}. ${entityName}`;
+                
+                // Atualizar propósito
+                const purposeElement = card.querySelector('.card-content p strong').parentNode;
+                purposeElement.innerHTML = `<strong>Propósito:</strong> ${entityPurpose}`;
+                
+                // Atualizar colunas
+                const columnsTable = card.querySelectorAll('.card-content table')[0];
+                if (columnsTable) {
+                    const tbody = columnsTable.querySelector('tbody');
+                    tbody.innerHTML = '';
+                    
+                    const columnRows = document.querySelectorAll('#columnsTableBody tr');
+                    columnRows.forEach(row => {
+                        const inputs = row.querySelectorAll('input');
+                        
+                        const newRow = document.createElement('tr');
+                        newRow.innerHTML = `
+                            <td><code>${inputs[0].value}</code></td>
+                            <td><code>${inputs[1].value}</code></td>
+                            <td>${inputs[2].value}</td>
+                        `;
+                        
+                        tbody.appendChild(newRow);
+                    });
+                }
+                
+                // Atualizar relacionamentos
+                const relationshipsUl = card.querySelectorAll('.card-content ul:last-of-type');
+                if (relationshipsUl.length > 0) {
+                    relationshipsUl[0].innerHTML = '';
+                    
+                    const relationshipRows = document.querySelectorAll('#relationshipsTableBody tr');
+                    relationshipRows.forEach(row => {
+                        const input = row.querySelector('input');
+                        
+                        const li = document.createElement('li');
+                        li.textContent = input.value;
+                        
+                        relationshipsUl[0].appendChild(li);
+                    });
+                }
+                
+                // Fechar o modal
+                closeModal();
+                
+                // Feedback ao usuário
+                alert('Alterações salvas com sucesso!');
+            }
+        });
+    </script>
+</body>
+</html> 
