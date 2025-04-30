@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DER Super-detalhado — Backend Supabase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-light: #eaefff;
+            --secondary-color: #3f37c9;
+            --accent-color: #4cc9f0;
+            --success-color: #4ade80;
+            --info-color: #4895ef;
+            --warning-color: #f8961e;
+            --error-color: #f94144;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-light: #64748b;
+            --bg-color: #f8fafc;
+            --card-color: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --border-radius: 0.5rem;
+            --border-radius-lg: 1rem;
+            --transition-default: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 210mm;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            letter-spacing: -0.025em;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-top: 2rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+        }
+
+        .card {
+            background-color: var(--card-color);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-default);
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .card-content {
+            padding: 2rem;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--card-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        th {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            font-weight: 600;
+            text-align: left;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background-color: var(--bg-color);
+        }
+
+        .field-type {
+            color: var(--text-light);
+            font-size: 0.85rem;
+            font-family: 'Monaco', 'Consolas', monospace;
+        }
+
+        .field-description {
+            font-style: italic;
+            color: var(--text-light);
+            font-size: 0.85rem;
+        }
+
+        pre {
+            background-color: #f1f5f9;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        ul {
+            padding-left: 1.5rem;
+            margin: 1rem 0 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+            position: relative;
+            padding-left: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        li:last-child {
+            margin-bottom: 0;
+        }
+
+        .footer {
+            margin-top: 4rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .print-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 3.5rem;
+            height: 3.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition-default);
+            z-index: 100;
+        }
+
+        .print-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .print-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .print-tooltip {
+            position: absolute;
+            right: calc(100% + 0.5rem);
+            background-color: var(--text-primary);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition-default);
+        }
+
+        .print-button:hover .print-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        @media print {
+            body {
+                background-color: white;
+            }
+            
+            .container {
+                margin: 0;
+                max-width: 100%;
+            }
+            
+            .print-button {
+                display: none;
+            }
+            
+            .card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid var(--border-color);
+            }
+            
+            .footer {
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>DER Super-detalhado — Backend Supabase</h1>
+            <p class="subtitle">Todos os campos, PK, FK, defaults, gatilhos, índices, observações</p>
+        </header>
+
+        <main>
+            <!-- Seção I: Núcleo CRM -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">I. Núcleo CRM (Lead & Relacionamento)</h2>
+                </div>
+                <div class="card-content">
+                    <!-- Tabela pacientes -->
+                    <h3>1. <code>pacientes</code> – cadastro principal</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Coluna</th>
+                                    <th>Tipo</th>
+                                    <th>PK/FK</th>
+                                    <th>Default</th>
+                                    <th>Restrições & Extras</th>
+                                    <th>Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>id</code></td>
+                                    <td class="field-type"><strong>uuid</strong></td>
+                                    <td>PK</td>
+                                    <td><code>gen_random_uuid()</code></td>
+                                    <td><code>NOT NULL</code></td>
+                                    <td class="field-description">Chave global de todo o sistema</td>
+                                </tr>
+                                <tr>
+                                    <td><code>remote_jid</code></td>
+                                    <td class="field-type">text</td>
+                                    <td>UNIQUE</td>
+                                    <td>—</td>
+                                    <td>formatação <code>55DDDNUM@s.whatsapp.net</code></td>
+                                    <td class="field-description">Usado para "upsert" no webhook</td>
+                                </tr>
+                                <tr>
+                                    <td><code>nome_completo</code></td>
+                                    <td class="field-type">text</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td><code>CHECK (char_length(nome_completo) > 0)</code></td>
+                                    <td class="field-description">—</td>
+                                </tr>
+                                <tr>
+                                    <td><code>telefone_principal</code></td>
+                                    <td class="field-type">text</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td>Index ↓</td>
+                                    <td class="field-description">Original "puro" sem máscara</td>
+                                </tr>
+                                <tr>
+                                    <td><code>email</code></td>
+                                    <td class="field-type">text</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td><code>CHECK (position('@' in email) > 1)</code></td>
+                                    <td class="field-description">—</td>
+                                </tr>
+                                <tr>
+                                    <td><code>fonte_primeiro_contato</code></td>
+                                    <td class="field-type"><code>fonte_primeiro_contato_t</code></td>
+                                    <td>—</td>
+                                    <td><code>DEFAULT 'whatsapp'</code></td>
+                                    <td>—</td>
+                                    <td class="field-description">Qual campanha trouxe o lead</td>
+                                </tr>
+                                <tr>
+                                    <td><code>etapa_status</code></td>
+                                    <td class="field-type"><code>etapa_status_t</code></td>
+                                    <td>—</td>
+                                    <td><code>DEFAULT 'novo'</code></td>
+                                    <td>Index ↓</td>
+                                    <td class="field-description">Funil: <code>novo</code>, <code>qualificacao</code>, <code>tour</code>, <code>ativo</code>, <code>inativo</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>respostas_extras_json</code></td>
+                                    <td class="field-type">jsonb</td>
+                                    <td>—</td>
+                                    <td><code>{}</code></td>
+                                    <td>—</td>
+                                    <td class="field-description">Último resumo do Orquestrador (≤1 k tokens)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>data_nascimento</code></td>
+                                    <td class="field-type">date</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td class="field-description">—</td>
+                                </tr>
+                                <tr>
+                                    <td><code>created_at</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td>—</td>
+                                    <td><code>now()</code></td>
+                                    <td>—</td>
+                                    <td class="field-description">—</td>
+                                </tr>
+                                <tr>
+                                    <td><code>updated_at</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td>—</td>
+                                    <td><code>now()</code></td>
+                                    <td>via trigger <code>tg_pacientes_updated_at</code></td>
+                                    <td class="field-description">—</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4>Índices</h4>
+                    <pre><code>CREATE UNIQUE INDEX uidx_pacientes_remote_jid ON pacientes(remote_jid);
+CREATE INDEX idx_pacientes_telefone ON pacientes(telefone_principal);
+CREATE INDEX idx_pacientes_etapa ON pacientes(etapa_status);</code></pre>
+
+                    <h4>Gatilho</h4>
+                    <pre><code>tg_pacientes_updated_at BEFORE UPDATE ON pacientes
+  FOR EACH ROW EXECUTE FUNCTION set_now_on_update();</code></pre>
+
+                    <hr style="margin: 2rem 0; border: 0; border-top: 1px solid var(--border-color);">
+
+                    <!-- Tabela mensagens_whatsapp -->
+                    <h3>2. <code>mensagens_whatsapp</code> – registro de cada mensagem</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Coluna</th>
+                                    <th>Tipo</th>
+                                    <th>PK/FK</th>
+                                    <th>Default</th>
+                                    <th>Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>id</code></td>
+                                    <td class="field-type"><strong>uuid</strong></td>
+                                    <td>PK</td>
+                                    <td><code>gen_random_uuid()</code></td>
+                                    <td class="field-description">—</td>
+                                </tr>
+                                <tr>
+                                    <td><code>paciente_id</code></td>
+                                    <td class="field-type">uuid FK</td>
+                                    <td>—</td>
+                                    <td>FK → pacientes(id) ON DELETE CASCADE</td>
+                                    <td class="field-description">—</td>
+                                </tr>
+                                <tr>
+                                    <td><code>direcao</code></td>
+                                    <td class="field-type"><code>direcao_msg_t</code></td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td class="field-description"><code>entrada</code>/<code>saida</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>tipo_midia</code></td>
+                                    <td class="field-type">varchar(16)</td>
+                                    <td>—</td>
+                                    <td><code>DEFAULT 'texto'</code></td>
+                                    <td class="field-description"><code>texto</code>/<code>imagem</code>/<code>audio</code>/<code>video</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>corpo_texto</code></td>
+                                    <td class="field-type">text</td>
+                                    <td>—</td>
+                                    <td><code>''</code></td>
+                                    <td class="field-description">texto bruto original</td>
+                                </tr>
+                                <tr>
+                                    <td><code>texto_normalizado</code></td>
+                                    <td class="field-type">text</td>
+                                    <td>—</td>
+                                    <td><code>''</code></td>
+                                    <td class="field-description">removido emoji/acentos/stopwords</td>
+                                </tr>
+                                <tr>
+                                    <td><code>media_url</code></td>
+                                    <td class="field-type">text</td>
+                                    <td>—</td>
+                                    <td>NULL</td>
+                                    <td class="field-description">link CDN/WhatsApp</td>
+                                </tr>
+                                <tr>
+                                    <td><code>hash_midia</code></td>
+                                    <td class="field-type">text</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td class="field-description">sha256 para deduplicação</td>
+                                </tr>
+                                <tr>
+                                    <td><code>timestamp_wa</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td class="field-description">horário enviado pelo WhatsApp</td>
+                                </tr>
+                                <tr>
+                                    <td><code>criado_em</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td>—</td>
+                                    <td><code>now()</code></td>
+                                    <td class="field-description">—</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4>Índice composto para histórico:</h4>
+                    <pre><code>CREATE INDEX idx_msg_paciente_ts
+  ON mensagens_whatsapp(paciente_id, criado_em DESC);</code></pre>
+
+                    <hr style="margin: 2rem 0; border: 0; border-top: 1px solid var(--border-color);">
+
+                    <!-- Tabela validacao_telefone -->
+                    <h3>3. <code>validacao_telefone</code> – cache de API externa</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Coluna</th>
+                                    <th>Tipo</th>
+                                    <th>PK</th>
+                                    <th>Default</th>
+                                    <th>Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>telefone</code></td>
+                                    <td class="field-type">text</td>
+                                    <td>PK</td>
+                                    <td>—</td>
+                                    <td class="field-description">formato E.164 sem <code>+</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>valido_bool</code></td>
+                                    <td class="field-type">boolean</td>
+                                    <td>—</td>
+                                    <td>NULL</td>
+                                    <td class="field-description">pode ser NULL (não validado)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>formato_internacional</code></td>
+                                    <td class="field-type">text</td>
+                                    <td>—</td>
+                                    <td>NULL</td>
+                                    <td class="field-description"><code>+55DDDNUM</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>carrier</code></td>
+                                    <td class="field-type">text</td>
+                                    <td>—</td>
+                                    <td>NULL</td>
+                                    <td class="field-description">operadora detectada</td>
+                                </tr>
+                                <tr>
+                                    <td><code>fonte_json_resp</code></td>
+                                    <td class="field-type">jsonb</td>
+                                    <td>—</td>
+                                    <td>{}</td>
+                                    <td class="field-description">resposta crua</td>
+                                </tr>
+                                <tr>
+                                    <td><code>validado_em</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td>—</td>
+                                    <td>NULL</td>
+                                    <td class="field-description">—</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Outras seções seguirão aqui -->
+            
+            <!-- Seção II: Agenda Clínica -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">II. Agenda Clínica</h2>
+                </div>
+                <div class="card-content">
+                    <div class="alert" style="background-color: var(--primary-light); padding: 1rem; border-radius: var(--border-radius); margin-bottom: 1.5rem;">
+                        <strong>Nota:</strong> Todas as datas estão em timezone da clínica (America/Asuncion) e, por segurança, armazenadas em UTC.
+                    </div>
+                    
+                    <!-- Tabela profissionais -->
+                    <h3>4. <code>profissionais</code></h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Coluna</th>
+                                    <th>Tipo</th>
+                                    <th>PK</th>
+                                    <th>Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>id</code></td>
+                                    <td class="field-type"><strong>uuid</strong></td>
+                                    <td>PK</td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>nome_completo</code></td>
+                                    <td class="field-type">text</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>especialidade</code></td>
+                                    <td class="field-type"><code>especialidade_profissional_t</code></td>
+                                    <td></td>
+                                    <td class="field-description">endodontia, ortodontia…</td>
+                                </tr>
+                                <tr>
+                                    <td><code>cro</code></td>
+                                    <td class="field-type">text</td>
+                                    <td></td>
+                                    <td class="field-description">registro</td>
+                                </tr>
+                                <tr>
+                                    <td>outros campos</td>
+                                    <td colspan="3" class="field-description">
+                                        <code>email</code>, <code>telefone</code>, <code>ativo bool</code>, <code>data_contratacao date</code>, <code>created_at/updated_at</code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tabela tratamentos -->
+                    <h3>5. <code>tratamentos</code></h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Coluna</th>
+                                    <th>Tipo</th>
+                                    <th>PK</th>
+                                    <th>Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>id</code></td>
+                                    <td class="field-type"><strong>uuid</strong></td>
+                                    <td>PK</td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>nome</code></td>
+                                    <td class="field-type">text</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>descricao_md</code></td>
+                                    <td class="field-type">text (Markdown)</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>duracao_minutos</code></td>
+                                    <td class="field-type">int</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>preco_decimal</code></td>
+                                    <td class="field-type">numeric(12,2)</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td>outros campos</td>
+                                    <td colspan="3" class="field-description">
+                                        <code>ativo bool</code>, <code>criado_em</code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tabela agendamentos -->
+                    <h3>6. <code>agendamentos</code></h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Coluna</th>
+                                    <th>Tipo</th>
+                                    <th>PK/FK</th>
+                                    <th>Default</th>
+                                    <th>Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>id</code></td>
+                                    <td class="field-type"><strong>serial</strong></td>
+                                    <td>PK</td>
+                                    <td>—</td>
+                                    <td class="field-description">—</td>
+                                </tr>
+                                <tr>
+                                    <td><code>paciente_id</code></td>
+                                    <td class="field-type">uuid FK</td>
+                                    <td>—</td>
+                                    <td>FK → pacientes</td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>profissional_id</code></td>
+                                    <td class="field-type">uuid FK</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>tratamento_id</code></td>
+                                    <td class="field-type">uuid FK</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>inicio_em</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td class="field-description">horário UTC</td>
+                                </tr>
+                                <tr>
+                                    <td><code>fim_em</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td>—</td>
+                                    <td>—</td>
+                                    <td class="field-description">automático via trigger se NULL</td>
+                                </tr>
+                                <tr>
+                                    <td><code>status</code></td>
+                                    <td class="field-type"><code>status_agendamento_t</code></td>
+                                    <td>—</td>
+                                    <td><code>DEFAULT 'agendado'</code></td>
+                                    <td class="field-description">enum: agendado, concluido, cancelado, faltou</td>
+                                </tr>
+                                <tr>
+                                    <td><code>confirmado</code></td>
+                                    <td class="field-type">bool</td>
+                                    <td>—</td>
+                                    <td><code>false</code></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>taxa_decimal</code></td>
+                                    <td class="field-type">numeric(6,2)</td>
+                                    <td>—</td>
+                                    <td></td>
+                                    <td class="field-description">percentual ou valor fixo</td>
+                                </tr>
+                                <tr>
+                                    <td><code>tipo_preco</code></td>
+                                    <td class="field-type"><code>tipo_preco_t</code></td>
+                                    <td>—</td>
+                                    <td><code>DEFAULT 'pago'</code></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>anotacao_md</code></td>
+                                    <td class="field-type">text</td>
+                                    <td>—</td>
+                                    <td></td>
+                                    <td class="field-description">notas internas</td>
+                                </tr>
+                                <tr>
+                                    <td><code>id_evento_google</code></td>
+                                    <td class="field-type">text</td>
+                                    <td>—</td>
+                                    <td></td>
+                                    <td class="field-description">ponte calendar</td>
+                                </tr>
+                                <tr>
+                                    <td>outros campos</td>
+                                    <td colspan="4" class="field-description">
+                                        <code>sincronizado_em</code>, <code>created_at</code>, <code>updated_at</code>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4>Índices</h4>
+                    <pre><code>CREATE INDEX idx_agenda_profissional_inicio
+  ON agendamentos(profissional_id, inicio_em);
+CREATE INDEX idx_agenda_paciente_status
+  ON agendamentos(paciente_id, status);</code></pre>
+
+                    <!-- Tabela historico_agendamento -->
+                    <h3>7. <code>historico_agendamento</code></h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Coluna</th>
+                                    <th>Tipo</th>
+                                    <th>PK</th>
+                                    <th>Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>id</code></td>
+                                    <td class="field-type"><strong>serial</strong></td>
+                                    <td>PK</td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>agendamento_id</code></td>
+                                    <td class="field-type">int FK</td>
+                                    <td></td>
+                                    <td class="field-description">→ agendamentos</td>
+                                </tr>
+                                <tr>
+                                    <td><code>status_antigo</code> / <code>status_novo</code></td>
+                                    <td class="field-type"><code>status_agendamento_t</code></td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>alterado_por</code></td>
+                                    <td class="field-type"><code>alterado_por_t</code></td>
+                                    <td></td>
+                                    <td class="field-description">sistema/agente/usuario</td>
+                                </tr>
+                                <tr>
+                                    <td><code>motivo</code></td>
+                                    <td class="field-type">text</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>alterado_em</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td></td>
+                                    <td class="field-description">default now()</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tabela procedimentos_realizados -->
+                    <h3>8. <code>procedimentos_realizados</code></h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Coluna</th>
+                                    <th>Tipo</th>
+                                    <th>PK</th>
+                                    <th>Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>id</code></td>
+                                    <td class="field-type"><strong>uuid</strong></td>
+                                    <td>PK</td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>agendamento_id</code></td>
+                                    <td class="field-type">int FK</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>profissional_id</code></td>
+                                    <td class="field-type">uuid FK</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>preco_cobrado</code></td>
+                                    <td class="field-type">numeric(12,2)</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>notas_md</code></td>
+                                    <td class="field-type">text</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>realizado_em</code>, <code>created_at</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tabela paciente_tratamentos -->
+                    <h3>9. <code>paciente_tratamentos</code> – nível de interesse</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Coluna</th>
+                                    <th>Tipo</th>
+                                    <th>PK</th>
+                                    <th>Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>id</code></td>
+                                    <td class="field-type"><strong>uuid</strong></td>
+                                    <td>PK</td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>paciente_id</code></td>
+                                    <td class="field-type">uuid FK</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>tratamento_id</code></td>
+                                    <td class="field-type">uuid FK</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>nivel_interesse</code></td>
+                                    <td class="field-type"><code>nivel_interesse_t</code></td>
+                                    <td></td>
+                                    <td class="field-description">baixo/medio/alto</td>
+                                </tr>
+                                <tr>
+                                    <td><code>adicionado_em</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Outras seções seguirão aqui -->
+            
+            <!-- Seção III: Marketing & Promoções -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">III. Marketing & Promoções</h2>
+                </div>
+                <div class="card-content">
+                    <!-- Tabela promocoes -->
+                    <h3>10. <code>promocoes</code></h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Coluna</th>
+                                    <th>Tipo</th>
+                                    <th>PK</th>
+                                    <th>Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>id</code></td>
+                                    <td class="field-type"><strong>uuid</strong></td>
+                                    <td>PK</td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>titulo</code></td>
+                                    <td class="field-type">text</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>texto_md</code></td>
+                                    <td class="field-type">text</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>id_template_whatsapp</code></td>
+                                    <td class="field-type">text</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>inicio_em</code>/<code>fim_em</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>filtro_alvo_json</code></td>
+                                    <td class="field-type">jsonb</td>
+                                    <td></td>
+                                    <td class="field-description">regra de seleção</td>
+                                </tr>
+                                <tr>
+                                    <td><code>criado_em</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tabela alvos_promocao -->
+                    <h3>11. <code>alvos_promocao</code></h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Coluna</th>
+                                    <th>Tipo</th>
+                                    <th>PK composta</th>
+                                    <th>Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>paciente_id</code></td>
+                                    <td class="field-type">uuid FK</td>
+                                    <td>PK(1)</td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>promocao_id</code></td>
+                                    <td class="field-type">uuid FK</td>
+                                    <td>PK(2)</td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>selecionado_em</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>enviado_em</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>entregue_bool</code></td>
+                                    <td class="field-type">bool</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>resposta_envio_json</code></td>
+                                    <td class="field-type">jsonb</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Seção IV: IA & Semântica -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">IV. IA & Semântica</h2>
+                </div>
+                <div class="card-content">
+                    <!-- Tabela cache_embeddings -->
+                    <h3>12. <code>cache_embeddings</code></h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Coluna</th>
+                                    <th>Tipo</th>
+                                    <th>PK</th>
+                                    <th>Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>id</code></td>
+                                    <td class="field-type"><strong>uuid</strong></td>
+                                    <td>PK</td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>tipo_fonte</code></td>
+                                    <td class="field-type"><code>fonte_embedding_t</code></td>
+                                    <td></td>
+                                    <td class="field-description">msg_whatsapp / doc_faq</td>
+                                </tr>
+                                <tr>
+                                    <td><code>fonte_id</code></td>
+                                    <td class="field-type">uuid / int</td>
+                                    <td></td>
+                                    <td class="field-description">referência original</td>
+                                </tr>
+                                <tr>
+                                    <td><code>embedding</code></td>
+                                    <td class="field-type"><strong>vector(1536)</strong></td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>trecho_texto</code></td>
+                                    <td class="field-type">text</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>criado_em</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4>Índice de similaridade (pgvector):</h4>
+                    <pre><code>CREATE INDEX idx_embeddings_cosine
+  ON cache_embeddings USING ivfflat(embedding vector_cosine_ops)
+  WITH (lists = 100);</code></pre>
+                </div>
+            </div>
+
+            <!-- Seção V: Automação & Swarm de Agentes -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">V. Automação & Swarm de Agentes</h2>
+                </div>
+                <div class="card-content">
+                    <!-- Tabela tasks_queue -->
+                    <h3>13. <code>tasks_queue</code> (🆕)</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Coluna</th>
+                                    <th>Tipo</th>
+                                    <th>PK</th>
+                                    <th>Default/Extras</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>id</code></td>
+                                    <td class="field-type"><strong>uuid</strong></td>
+                                    <td>PK</td>
+                                    <td class="field-description"><code>gen_random_uuid()</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>paciente_id</code></td>
+                                    <td class="field-type">uuid FK</td>
+                                    <td>—</td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>agent</code></td>
+                                    <td class="field-type">text</td>
+                                    <td>—</td>
+                                    <td class="field-description">nome lógico (<code>writer.basico</code>…)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>payload_json</code></td>
+                                    <td class="field-type">jsonb</td>
+                                    <td></td>
+                                    <td class="field-description">{} | input ou output</td>
+                                </tr>
+                                <tr>
+                                    <td><code>status</code></td>
+                                    <td class="field-type"><code>task_status_t</code></td>
+                                    <td></td>
+                                    <td class="field-description"><code>todo</code> | todo/processing/done/retry/erro/blocked</td>
+                                </tr>
+                                <tr>
+                                    <td><code>tentativas</code></td>
+                                    <td class="field-type">int</td>
+                                    <td></td>
+                                    <td class="field-description">0</td>
+                                </tr>
+                                <tr>
+                                    <td><code>created_at</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td></td>
+                                    <td class="field-description">now()</td>
+                                </tr>
+                                <tr>
+                                    <td><code>updated_at</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td></td>
+                                    <td class="field-description">via trigger</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Triggers</strong></td>
+                                    <td colspan="3" class="field-description"><code>tg_tasks_queue_updated_at</code>, <code>notify_new_task</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Tabela conversation_state -->
+                    <h3>14. <code>conversation_state</code> (🆕)</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Coluna</th>
+                                    <th>Tipo</th>
+                                    <th>PK/FK</th>
+                                    <th>Default</th>
+                                    <th>Descrição</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>paciente_id</code></td>
+                                    <td class="field-type">uuid FK</td>
+                                    <td>PK</td>
+                                    <td>—</td>
+                                    <td class="field-description">1-para-1 com pacientes</td>
+                                </tr>
+                                <tr>
+                                    <td><code>state</code></td>
+                                    <td class="field-type">varchar(64)</td>
+                                    <td>—</td>
+                                    <td><code>'novo'</code></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>task_id_atual</code></td>
+                                    <td class="field-type">uuid FK</td>
+                                    <td>→ tasks_queue(id)</td>
+                                    <td>NULL</td>
+                                    <td class="field-description">último step que aguarda</td>
+                                </tr>
+                                <tr>
+                                    <td><code>waiting_user_reply</code></td>
+                                    <td class="field-type">bool</td>
+                                    <td></td>
+                                    <td><code>false</code></td>
+                                    <td class="field-description">se true, Orquestrador pausa</td>
+                                </tr>
+                                <tr>
+                                    <td><code>next_follow_up_at</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td></td>
+                                    <td>NULL</td>
+                                    <td class="field-description">agenda lembrete</td>
+                                </tr>
+                                <tr>
+                                    <td><code>follow_up_stage</code></td>
+                                    <td class="field-type">int</td>
+                                    <td></td>
+                                    <td>0</td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>updated_at</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td></td>
+                                    <td>via trigger</td>
+                                    <td class="field-description"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4>Índices:</h4>
+                    <pre><code>CREATE INDEX idx_conv_wait_next ON conversation_state(waiting_user_reply, next_follow_up_at);</code></pre>
+
+                    <!-- Tabela log_eventos -->
+                    <h3>15. <code>log_eventos</code> (🆕 remodelado)</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Coluna</th>
+                                    <th>Tipo</th>
+                                    <th>PK</th>
+                                    <th>Observações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>id</code></td>
+                                    <td class="field-type"><strong>serial</strong></td>
+                                    <td>PK</td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>paciente_id</code></td>
+                                    <td class="field-type">uuid FK</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>tipo_evento</code></td>
+                                    <td class="field-type">varchar(16)</td>
+                                    <td></td>
+                                    <td class="field-description">plan/task/erro/followup</td>
+                                </tr>
+                                <tr>
+                                    <td><code>payload_json</code></td>
+                                    <td class="field-type">jsonb</td>
+                                    <td></td>
+                                    <td class="field-description"></td>
+                                </tr>
+                                <tr>
+                                    <td><code>registrado_em</code></td>
+                                    <td class="field-type">timestamptz</td>
+                                    <td></td>
+                                    <td class="field-description">default now()</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Outras seções seguirão aqui -->
+            
+            <!-- Seção VI: Outras utilidades -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">VI. Outras utilidades</h2>
+                </div>
+                <div class="card-content">
+                    <!-- Views -->
+                    <h3>16. Views (materializadas ou simples)</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>View</th>
+                                    <th>Descrição</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>v_agenda_profissional</code></td>
+                                    <td class="field-description">(profissional_id, dia, hora_inicio, hora_fim, status)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>v_horarios_livres</code></td>
+                                    <td class="field-description">(profissional_id, trata_id, inicio, fim)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>v_receita_profissional</code></td>
+                                    <td class="field-description">(profissional_id, mes, total_receita)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>v_pacientes_agendamentos</code></td>
+                                    <td class="field-description">(paciente_id, proximo_horario, ultimo_status)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Funções SQL/UDF -->
+                    <h3>17. Funções SQL/UDF</h3>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Assinatura</th>
+                                    <th>Papel</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>set_now_on_update()</code></td>
+                                    <td class="field-type">TRIGGER</td>
+                                    <td class="field-description">genérico <code>NEW.updated_at := now()</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>notify_new_task()</code></td>
+                                    <td class="field-type">TRIGGER</td>
+                                    <td class="field-description"><code>pg_notify('new_task', NEW.id::text)</code> quando status = todo</td>
+                                </tr>
+                                <tr>
+                                    <td><code>f_horarios_livres(_dias int)</code></td>
+                                    <td class="field-type">retorna setof (profissional_id, data, hora)</td>
+                                    <td class="field-description">agenda</td>
+                                </tr>
+                                <tr>
+                                    <td><code>f_proximos_horarios(_tratamento uuid, _dia date, _limite int)</code></td>
+                                    <td class="field-type">JSON</td>
+                                    <td class="field-description">sugestão de slots</td>
+                                </tr>
+                                <tr>
+                                    <td><code>fun_cancelar_agendamento(_id int, _mot text, _by alterado_por_t)</code></td>
+                                    <td class="field-type">void</td>
+                                    <td class="field-description">cancela seguro + histórico</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção VII: Enums completos -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">VII. Enums completos</h2>
+                </div>
+                <div class="card-content">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Enum</th>
+                                    <th>Valores</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>alterado_por_t</code></td>
+                                    <td class="field-description"><code>sistema</code>, <code>agente</code>, <code>usuario</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>direcao_msg_t</code></td>
+                                    <td class="field-description"><code>entrada</code>, <code>saida</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>especialidade_profissional_t</code></td>
+                                    <td class="field-description"><code>ortodontia</code>, <code>endodontia</code>, <code>implantodontia</code>, …</td>
+                                </tr>
+                                <tr>
+                                    <td><code>etapa_status_t</code></td>
+                                    <td class="field-description"><code>novo</code>, <code>qualificacao</code>, <code>tour</code>, <code>ativo</code>, <code>inativo</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>fonte_embedding_t</code></td>
+                                    <td class="field-description"><code>msg_whatsapp</code>, <code>doc_faq</code>, <code>doc_site</code>, <code>historico_agenda</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>fonte_primeiro_contato_t</code></td>
+                                    <td class="field-description"><code>whatsapp</code>, <code>instagram</code>, <code>indicacao</code>, <code>presencial</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>nivel_interesse_t</code></td>
+                                    <td class="field-description"><code>baixo</code>, <code>medio</code>, <code>alto</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>status_agendamento_t</code></td>
+                                    <td class="field-description"><code>agendado</code>, <code>concluido</code>, <code>cancelado</code>, <code>faltou</code></td>
+                                </tr>
+                                <tr>
+                                    <td><code>tipo_preco_t</code></td>
+                                    <td class="field-description"><code>gratuito</code>, <code>pago</code>, <code>pacote</code></td>
+                                </tr>
+                                <tr>
+                                    <td><strong><code>task_status_t</code></strong></td>
+                                    <td class="field-description"><code>todo</code>, <code>processing</code>, <code>done</code>, <code>retry</code>, <code>erro</code>, <code>blocked</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção VIII: Relacionamentos-chave -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">VIII. Relacionamentos-chave (texto)</h2>
+                </div>
+                <div class="card-content">
+                    <ul style="list-style-type: none; padding-left: 0;">
+                        <li>• <strong>pacientes</strong> 1──∞ <strong>mensagens_whatsapp</strong></li>
+                        <li>• <strong>pacientes</strong> 1──∞ <strong>agendamentos</strong> ∞──1 <strong>profissionais</strong></li>
+                        <li>• <strong>agendamentos</strong> 1──∞ <strong>historico_agendamento</strong></li>
+                        <li>• <strong>agendamentos</strong> 1──∞ <strong>procedimentos_realizados</strong></li>
+                        <li>• <strong>pacientes</strong> 1──∞ <strong>paciente_tratamentos</strong> ∞──1 <strong>tratamentos</strong></li>
+                        <li>• <strong>pacientes</strong> 1──∞ <strong>alvos_promocao</strong> ∞──1 <strong>promocoes</strong></li>
+                        <li>• <strong>pacientes</strong> 1──1 <strong>conversation_state</strong></li>
+                        <li>• <strong>pacientes</strong> 1──∞ <strong>tasks_queue</strong></li>
+                        <li>• <strong>tasks_queue</strong> 1──0‒1 <strong>conversation_state.task_id_atual</strong></li>
+                        <li>• <strong>pacientes</strong> 1──∞ <strong>log_eventos</strong></li>
+                        <li>• <strong>cache_embeddings</strong> referencia múltiplas fontes (polimórfico).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Observações Finais -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">Observações Finais</h2>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        <li><strong>Time Zone</strong>: todos os timestamps são salvos em UTC; exibição converte para <em>America/Asuncion</em>.</li>
+                        <li><strong>RLS</strong>: desativada para <code>service_role</code>, ativada <em>read-only</em> para dashboards.</li>
+                        <li><strong>Consistency</strong>: <code>tasks_queue</code> usa <code>SELECT … FOR UPDATE SKIP LOCKED</code> para evitar race-conditions entre workers.</li>
+                        <li><strong>Fail-over</strong>: Orquestrador único via <code>pg_try_advisory_lock(42)</code>; se falhar, instância reserva assume.</li>
+                        <li><strong>Auditoria</strong>: <code>log_eventos</code> + triggers de <code>updated_at</code> cobrem rastreabilidade de todos os fluxos.</li>
+                        <li><strong>GDPR/LGPD</strong>: dados de saúde sensíveis <strong>não</strong> são enviados a LLM externos; snapshots são resumos anônimos.</li>
+                    </ul>
+                    <p>Este documento serve como referência definitiva do banco de dados Supabase que sustenta o enxame de agentes, seus fluxos clínicos, CRM, marketing, IA e automação.</p>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>© 2023 Documento Interno</p>
+        </footer>
+    </div>
+
+    <button class="print-button" onclick="window.print()">
+        <span class="print-tooltip">Imprimir documento</span>
+        <svg class="print-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+        </svg>
+    </button>
+</body>
+</html> 
