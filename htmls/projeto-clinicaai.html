@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Projeto Clinica AI-Swarm V3</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #4361ee;
+            --primary-light: #eaefff;
+            --secondary-color: #3f37c9;
+            --accent-color: #4cc9f0;
+            --success-color: #4ade80;
+            --info-color: #4895ef;
+            --warning-color: #f8961e;
+            --error-color: #f94144;
+            --text-primary: #1e293b;
+            --text-secondary: #475569;
+            --text-light: #64748b;
+            --bg-color: #f8fafc;
+            --card-color: #ffffff;
+            --border-color: #e2e8f0;
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --border-radius: 0.5rem;
+            --border-radius-lg: 1rem;
+            --transition-default: all 0.3s ease;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 210mm;
+            margin: 3rem auto;
+            padding: 0 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            letter-spacing: -0.025em;
+        }
+
+        h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--secondary-color);
+            margin-top: 2rem;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            font-weight: 400;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .card {
+            background-color: var(--card-color);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            transition: var(--transition-default);
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            padding: 1.5rem 2rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .card-content {
+            padding: 2rem;
+        }
+
+        .table-container {
+            overflow-x: auto;
+            margin: 1rem 0;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: var(--card-color);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        th {
+            background-color: var(--primary-light);
+            color: var(--primary-color);
+            font-weight: 600;
+            text-align: left;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+
+        td {
+            padding: 0.75rem 1rem;
+            border-top: 1px solid var(--border-color);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        tr:hover {
+            background-color: var(--bg-color);
+        }
+
+        pre {
+            background-color: #f1f5f9;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            overflow-x: auto;
+        }
+
+        code {
+            font-family: 'Monaco', 'Consolas', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        ul {
+            padding-left: 1.5rem;
+            margin: 1rem 0 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.75rem;
+            position: relative;
+            padding-left: 0.5rem;
+            color: var(--text-secondary);
+        }
+
+        li:last-child {
+            margin-bottom: 0;
+        }
+
+        .footer {
+            margin-top: 4rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        .print-button {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 3.5rem;
+            height: 3.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: var(--shadow-lg);
+            transition: var(--transition-default);
+            z-index: 100;
+        }
+
+        .print-button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .print-icon {
+            width: 1.5rem;
+            height: 1.5rem;
+        }
+
+        .print-tooltip {
+            position: absolute;
+            right: calc(100% + 0.5rem);
+            background-color: var(--text-primary);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--border-radius);
+            font-size: 0.8rem;
+            white-space: nowrap;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition-default);
+        }
+
+        .print-button:hover .print-tooltip {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        hr.section-divider {
+            border: 0;
+            height: 1px;
+            background: var(--border-color);
+            margin: 2rem 0;
+        }
+
+        .strong-text {
+            font-weight: 600;
+        }
+
+        .json-block {
+            background-color: #f8f9fa;
+            border-radius: var(--border-radius);
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+
+        .note-block {
+            background-color: var(--primary-light);
+            border-left: 4px solid var(--primary-color);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        @media print {
+            body {
+                background-color: white;
+            }
+            
+            .container {
+                margin: 0;
+                max-width: 100%;
+            }
+            
+            .print-button {
+                display: none;
+            }
+            
+            .card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid var(--border-color);
+            }
+            
+            .footer {
+                margin-top: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Projeto <strong>Clinica AI-Swarm V3</strong></h1>
+            <p class="subtitle">WhatsApp ⊂ n8n ⊂ Supabase — atendimento, vendas e follow-up autônomos, auditáveis e escaláveis.</p>
+        </header>
+
+        <main>
+            <!-- Seção 0: Objetivo-chave -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">0 ▪ Objetivo-chave</h2>
+                </div>
+                <div class="card-content">
+                    <p>Converter <strong>conversas WhatsApp</strong> em <strong>consultas confirmadas</strong> com mínima intervenção humana, mantendo tom humano, velocidade robótica e rastreabilidade médica/LGPD.</p>
+                </div>
+            </div>
+
+            <!-- Seção 1: Stack de Produção -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">1 ▪ Stack de Produção</h2>
+                </div>
+                <div class="card-content">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Camada</th>
+                                    <th>Tecnologias</th>
+                                    <th>Função</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><strong>Canal</strong></td>
+                                    <td>WhatsApp Business Cloud API</td>
+                                    <td>Webhook + envio (templates/aprove mídia)</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Orquestração</strong></td>
+                                    <td>n8n (2 containers HA)</td>
+                                    <td>cron, workers paralelos, HTTP WA</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Persistência</strong></td>
+                                    <td>Supabase (Postgres + Storage)</td>
+                                    <td>24 tabelas, 4 views, pgvector</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>LLM</strong></td>
+                                    <td>OpenAI GPT-4o / ollama-mixtral (on-prem)</td>
+                                    <td>Orquestrador, Writer, sumarização</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Observabilidade</strong></td>
+                                    <td>Grafana + pg_stat_statements</td>
+                                    <td>SLA, filas, erro, tempo resposta</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>CI/CD</strong></td>
+                                    <td>GitHub Actions → Fly.io</td>
+                                    <td>migrate SQL, hot-swap workflows</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção 2: Modelo de Dados -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">2 ▪ Modelo de Dados (DER 100 %)</h2>
+                </div>
+                <div class="card-content">
+                    <p><strong>Blocos lógicos</strong> 👇</p>
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Núcleo</th>
+                                    <th>Tabelas (chave)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>CRM</td>
+                                    <td><code>pacientes</code>, <code>mensagens_whatsapp</code>, <code>validacao_telefone</code></td>
+                                </tr>
+                                <tr>
+                                    <td>Agenda</td>
+                                    <td><code>profissionais</code>, <code>tratamentos</code>, <code>agendamentos</code>, <code>historico_agendamento</code>, <code>procedimentos_realizados</code>, views horários</td>
+                                </tr>
+                                <tr>
+                                    <td>Marketing</td>
+                                    <td><code>promocoes</code>, <code>alvos_promocao</code>, <code>paciente_tratamentos</code></td>
+                                </tr>
+                                <tr>
+                                    <td>Conteúdo</td>
+                                    <td><code>documents</code>, <code>media_objetos</code>, <code>casos_clinicos</code></td>
+                                </tr>
+                                <tr>
+                                    <td>IA & Embeddings</td>
+                                    <td><code>cache_embeddings</code> (pgvector)</td>
+                                </tr>
+                                <tr>
+                                    <td>Swarm Automation</td>
+                                    <td><code>tasks_queue</code>, <code>conversation_state</code>, <code>log_eventos</code></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="note-block">
+                        <strong>Enum novo:</strong> <code>task_status_t</code> (todo, processing, done, retry, erro, blocked).
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção 3: Swarm de Agentes -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">3 ▪ Swarm de Agentes (10 especialistas + 1 Writer)</h2>
+                </div>
+                <div class="card-content">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Ordem típica</th>
+                                    <th>Agente</th>
+                                    <th>Propósito</th>
+                                    <th>Exemplo de <code>writer_brief</code></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td><strong>apresentador</strong></td>
+                                    <td>Boas-vindas, tour inicial</td>
+                                    <td>mission:"Saudar, perguntar se quer conhecer nossa clínica." tone:"friendly"</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td><strong>sdr</strong></td>
+                                    <td>Qualificação SPIN, quebra objeção</td>
+                                    <td>mission:"Explorar dor sobre aparelho, mostrar implicações e necessidade."</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td><strong>infos_servicos</strong></td>
+                                    <td>Fatos sobre tratamentos/preços</td>
+                                    <td>bullets com valores, duração</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td><strong>infos_doutores</strong></td>
+                                    <td>Perfil profissional</td>
+                                    <td>lista Dr. Ana (CRO …), fotos</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td><strong>logística</strong></td>
+                                    <td>Como chegar, estacionamento</td>
+                                    <td>texto mapa + Waze link</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td><strong>faq_geral</strong></td>
+                                    <td>Respostas curtas a perguntas comuns</td>
+                                    <td>"Sim, aceitamos Amil Dental."</td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td><strong>agendar</strong></td>
+                                    <td>Propor horários</td>
+                                    <td>3 slots ISO8601</td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td><strong>remarcar</strong></td>
+                                    <td>Sugerir novos horários</td>
+                                    <td>idem</td>
+                                </tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td><strong>cancelar</strong></td>
+                                    <td>Confirmar cancelamento, política</td>
+                                    <td>mensagem desagradável + empática</td>
+                                </tr>
+                                <tr>
+                                    <td>—</td>
+                                    <td><strong>Writer (único)</strong></td>
+                                    <td>Redigir mensagem final a partir de <code>writer_brief</code></td>
+                                    <td>produz até 1024 chars, envia WA</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p><em>Qualquer fluxo usa subconjunto desses agentes em cadeia; o Orquestrador decide.</em></p>
+                </div>
+            </div>
+
+            <!-- Seção 4: Contratos JSON -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">4 ▪ Contratos JSON (padrão universal)</h2>
+                </div>
+                <div class="card-content">
+                    <h3>4.1 Linha da <code>tasks_queue</code></h3>
+                    <pre><code>{
+  "id": "UUID",
+  "paciente_id": "UUID",
+  "agent": "sdr",
+  "status": "todo",
+  "payload_json": {
+    "input": { ... },          // dado mínimo
+    "writer_brief": null,      // setado pelo agente após execução
+    "wait_for_reply": true
+  }
+}</code></pre>
+
+                    <h3>4.2 <strong>Saída</strong> de um agente especialista</h3>
+                    <pre><code>{
+  "task_id": "…",
+  "status": "done",
+  "writer_brief": {
+    "mission": "…",
+    "tone": "empático",
+    "language": "pt-BR",
+    "data_blocks": [
+      {"type":"bullet","content":"👩‍⚕️ Aparelho estético…"},
+      {"type":"cta","content":"Gostaria de agendar avaliação gratuita?"}
+    ]
+  },
+  "wait_for_reply": true
+}</code></pre>
+
+                    <h3>4.3 <strong>Saída</strong> do Writer</h3>
+                    <pre><code>{
+  "task_id": "…",
+  "status": "done",
+  "mensagem_pronta": "Olá João! 👋 …",
+  "media_urls": ["https://…"]   // opcional
+}</code></pre>
+                </div>
+            </div>
+
+            <!-- Seção 5: Fluxos de Alta -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">5 ▪ Fluxos de Alta (exemplos)</h2>
+                </div>
+                <div class="card-content">
+                    <h3>5.1 1º Contato → Agendamento</h3>
+                    <ol>
+                        <li>Webhook grava msg.</li>
+                        <li>Orquestrador gera <code>apresentador todo</code> + bloqueia <code>sdr</code>.</li>
+                        <li>apresentador → Writer → WA (saudação).</li>
+                        <li>Lead responde; flag reply OFF.</li>
+                        <li>Orquestrador solta <code>sdr</code>.</li>
+                        <li><code>sdr</code> cria brief SPIN → Writer envia texto de convencimento.</li>
+                        <li>Lead "quero marcar"; Orquestrador gera <code>agendar todo</code>.</li>
+                        <li><code>agendar</code> → Writer com 3 slots.</li>
+                        <li>Lead escolhe slot; Orquestrador cria <code>agendar confirmação</code> → Writer.</li>
+                        <li><code>conversation_state.state = agendado</code>.</li>
+                    </ol>
+
+                    <h3>5.2 Follow-up Automático</h3>
+                    <ul>
+                        <li>worker <code>writer.followup</code> roda via cron n8n a cada 15 min.</li>
+                        <li>Consulta <code>conversation_state</code> onde <code>waiting_user_reply = TRUE</code> e <code>next_follow_up_at <= now()</code>.</li>
+                        <li>Gera brief quick → Writer envia lembrete.</li>
+                        <li>Avança <code>follow_up_stage</code> e recalcula <code>next_follow_up_at</code>.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Seção 6: Mecanismos Técnicos -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">6 ▪ Mecanismos Técnicos</h2>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        <li><strong>Leader election</strong>: Orquestrador loop só roda se <code>pg_try_advisory_lock(42)</code>.</li>
+                        <li><strong>Escalonamento</strong>: workers clonáveis; SQL <code>FOR UPDATE SKIP LOCKED</code> evita corrida.</li>
+                        <li><strong>Notificações</strong>: trigger <code>notify_new_task()</code> → <code>pg_notify</code> → n8n WebSocket, acorda workers instant.</li>
+                        <li><strong>Timeout</strong>: cada agente executa máx 60 s; se exceder grava <code>status=retry</code>.</li>
+                        <li><strong>Retries</strong>: até 3; se falhar, cria task <code>human_takeover</code>.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Seção 7: Segurança & LGPD -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">7 ▪ Segurança & LGPD</h2>
+                </div>
+                <div class="card-content">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Item</th>
+                                    <th>Medida</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Dados sensíveis</td>
+                                    <td>Nunca vão pro LLM; só resumo anonimizado</td>
+                                </tr>
+                                <tr>
+                                    <td>RLS</td>
+                                    <td>OFF para <code>service_role</code>; dashboards via <code>anon_view</code> read-only</td>
+                                </tr>
+                                <tr>
+                                    <td>Criptografia</td>
+                                    <td>TLS WA ↔ n8n; Supabase Storage privado, URL assinada 10 min</td>
+                                </tr>
+                                <tr>
+                                    <td>Expurgo</td>
+                                    <td>Worker diário <code>DELETE tasks_queue DONE > 30 d</code>, <code>mensagens_whatsapp</code> anonimizam palavra-chave após 2 anos</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Seção 8: Observabilidade (KPIs) -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">8 ▪ Observabilidade (KPIs)</h2>
+                </div>
+                <div class="card-content">
+                    <ul>
+                        <li><strong>t_first_response</strong> – median ≤ 5 s</li>
+                        <li><strong>queue_latency</strong> – 95p ≤ 2 s</li>
+                        <li><strong>%retry_per_agent</strong> – < 5 %</li>
+                        <li><strong>lead→agenda</strong> – ≥ 40 %</li>
+                        <li><strong>followup_recovery</strong> – + 15 % leads resgatados</li>
+                    </ul>
+                    <p>Grafana painéis: filas, erros, Postgres locks, WA throughput.</p>
+                </div>
+            </div>
+
+            <!-- Seção 9: Roadmap de Deploy -->
+            <div class="card">
+                <div class="card-header">
+                    <h2 style="color: white; margin: 0;">9 ▪ Roadmap de Deploy</h2>
+                </div>
+                <div class="card-content">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Sprint</th>
+                                    <th>Entrega</th>
+                                    <th>Detalhe técnico</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>Banco + Webhook + normalizador</td>
+                                    <td>SQL migrations, node "Set JSON"</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>Orquestrador líder + tasks_queue</td>
+                                    <td>n8n cron 5 s</td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>apresentador & Writer</td>
+                                    <td>templates WA aprovados</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>sdr + Spin prompts, blocked logic</td>
+                                    <td>chain test</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>agendar + função <code>f_proximos_horarios</code></td>
+                                    <td>integração agenda</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>mídia (media_objetos) + midia.selector</td>
+                                    <td>Supabase Storage signed URL</td>
+                                </tr>
+                                <tr>
+                                    <td>7</td>
+                                    <td>followup daemon + conversation_state flags</td>
+                                    <td>cron 15 min</td>
+                                </tr>
+                                <tr>
+                                    <td>8</td>
+                                    <td>remarcar, cancelar, logística, faq_geral</td>
+                                    <td>preencher</td>
+                                </tr>
+                                <tr>
+                                    <td>9</td>
+                                    <td>Observabilidade + fail-over drills</td>
+                                    <td>kill leader container</td>
+                                </tr>
+                                <tr>
+                                    <td>10</td>
+                                    <td>Documentação + hand-off</td>
+                                    <td>README, ERD Mermaid, runbooks</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>© 2023 Documento Interno</p>
+        </footer>
+    </div>
+
+    <button class="print-button" onclick="window.print()">
+        <span class="print-tooltip">Imprimir documento</span>
+        <svg class="print-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+        </svg>
+    </button>
+</body>
+</html> 
