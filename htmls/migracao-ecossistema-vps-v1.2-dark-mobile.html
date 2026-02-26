@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Migração para Ecossistema Self-Hosted + IA (VPS) — v1.2 Mobile-Ready</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-primary: #0f0f0f;
+      --bg-secondary: #171515;
+      --panel: rgba(255, 255, 255, 0.048);
+      --panel-border: rgba(232, 228, 223, 0.2);
+      --text-primary: #e8e4df;
+      --text-secondary: #cdc4bb;
+      --accent: #d4a574;
+      --accent-2: #e8b4b8;
+      --ok: #8ed091;
+      --warn: #f0c278;
+
+      --font-display: 'Cormorant', serif;
+      --font-body: 'IBM Plex Sans', sans-serif;
+
+      --title-size: clamp(1.45rem, 4.9vw, 3.8rem);
+      --h2-size: clamp(1.1rem, 3.1vw, 2.25rem);
+      --h3-size: clamp(0.9rem, 1.85vw, 1.26rem);
+      --body-size: clamp(0.72rem, 1.14vw, 0.97rem);
+      --small-size: clamp(0.65rem, 0.98vw, 0.82rem);
+
+      --slide-padding: clamp(0.85rem, 3.5vw, 3rem);
+      --content-gap: clamp(0.48rem, 1.45vw, 1rem);
+      --radius: clamp(0.48rem, 0.95vw, 0.9rem);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body { height: 100%; overflow-x: hidden; }
+
+    html {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 85% 10%, rgba(212,165,116,0.14), transparent 34%),
+        radial-gradient(circle at 8% 90%, rgba(232,180,184,0.11), transparent 30%),
+        linear-gradient(160deg, var(--bg-primary), var(--bg-secondary));
+    }
+
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      scroll-snap-align: start;
+      display: flex;
+      position: relative;
+    }
+
+    .slide-content {
+      flex: 1;
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: var(--slide-padding);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--content-gap);
+      max-height: 100%;
+      overflow: hidden;
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      letter-spacing: -0.015em;
+      line-height: 1.08;
+      color: var(--text-primary);
+    }
+
+    h1 { font-size: var(--title-size); }
+    h2 { font-size: var(--h2-size); }
+    h3 { font-size: var(--h3-size); }
+
+    p, li {
+      font-size: var(--body-size);
+      line-height: 1.38;
+      color: var(--text-secondary);
+    }
+
+    strong { color: #efe6dc; }
+
+    .eyebrow {
+      font-size: var(--small-size);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .muted { color: #b5aa9e; }
+    .accent { color: var(--accent); }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius);
+      padding: clamp(0.52rem, 1.04vw, 0.92rem);
+      overflow: hidden;
+    }
+
+    .panel h3 { margin-bottom: 0.24rem; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(0.5rem, 1.1vw, 0.9rem);
+      min-height: 0;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(0.45rem, 1vw, 0.82rem);
+      min-height: 0;
+    }
+
+    .four-col {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(0.45rem, 0.95vw, 0.78rem);
+      min-height: 0;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.34rem;
+    }
+
+    .chip {
+      border: 1px solid rgba(212,165,116,0.35);
+      background: rgba(212,165,116,0.08);
+      color: #f2e4d2;
+      border-radius: 999px;
+      padding: 0.2rem 0.5rem;
+      font-size: clamp(0.62rem, 0.93vw, 0.76rem);
+    }
+
+    ul.tight {
+      display: grid;
+      gap: 0.25rem;
+      padding-left: 1rem;
+    }
+
+    .flow {
+      font-size: clamp(0.78rem, 1.21vw, 0.98rem);
+      line-height: 1.45;
+      color: #ece3d8;
+    }
+
+    .flow strong { color: var(--accent); }
+
+    .kpi {
+      font-size: clamp(0.66rem, 0.98vw, 0.84rem);
+      color: #d8cfc4;
+    }
+
+    .phase-tag {
+      border-left: 3px solid var(--accent);
+      padding-left: 0.5rem;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: clamp(0.6rem, 0.9vw, 0.75rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #f0e8df;
+      opacity: 0.9;
+    }
+
+    .dot {
+      width: 0.42rem;
+      height: 0.42rem;
+      border-radius: 50%;
+      background: var(--ok);
+      box-shadow: 0 0 10px rgba(142,208,145,0.42);
+    }
+
+    .progress-wrap {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      z-index: 300;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .progress {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 220ms ease;
+    }
+
+    .nav-dots {
+      position: fixed;
+      right: clamp(0.4rem, 1.15vw, 0.85rem);
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 190;
+      display: flex;
+      flex-direction: column;
+      gap: 0.37rem;
+    }
+
+    .nav-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.45);
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .nav-dot.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: scale(1.1);
+    }
+
+    .slide-index {
+      position: absolute;
+      right: clamp(0.72rem, 1.2vw, 1rem);
+      bottom: clamp(0.58rem, 1vw, 0.9rem);
+      font-size: clamp(0.56rem, 0.84vw, 0.72rem);
+      color: rgba(232,228,223,0.55);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    img, .image-container {
+      max-width: 100%;
+      max-height: min(50vh, 380px);
+      object-fit: contain;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 430ms ease, transform 430ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.visible .reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide.visible .reveal:nth-child(2) { transition-delay: 60ms; }
+    .slide.visible .reveal:nth-child(3) { transition-delay: 120ms; }
+    .slide.visible .reveal:nth-child(4) { transition-delay: 180ms; }
+
+    @media (max-height: 700px) {
+      :root {
+        --slide-padding: clamp(0.68rem, 2.8vw, 1.9rem);
+        --title-size: clamp(1.2rem, 4.2vw, 2.7rem);
+        --body-size: clamp(0.68rem, 1.03vw, 0.88rem);
+      }
+      .panel { padding: 0.42rem 0.56rem; }
+    }
+
+    @media (max-height: 600px) {
+      :root {
+        --slide-padding: clamp(0.5rem, 2.1vw, 1.2rem);
+      }
+      .nav-dots { display: none; }
+      .chip { padding: 0.16rem 0.42rem; }
+    }
+
+    @media (max-height: 500px) {
+      :root {
+        --slide-padding: clamp(0.42rem, 1.8vw, 0.95rem);
+        --title-size: clamp(1.02rem, 3.5vw, 1.7rem);
+      }
+    }
+
+    @media (max-width: 960px) {
+      .two-col, .three-col, .four-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+      }
+      html { scroll-behavior: auto; }
+      .reveal { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-wrap" aria-hidden="true"><div class="progress" id="progress"></div></div>
+  <nav class="nav-dots" id="navDots" aria-label="Navegação dos slides"></nav>
+
+  <section class="slide">
+    <div class="slide-content">
+      <p class="eyebrow reveal">v1.2 · Completo, fiel e ajustado para mobile</p>
+      <h1 class="reveal">Migração para Ecossistema <span class="accent">Self-Hosted</span> + Automação + Agentes de IA (VPS)</h1>
+      <p class="reveal">Versão detalhada para proposta técnica/comercial, com expansão por entregáveis, artefatos e critérios de aceite.</p>
+      <p class="status reveal"><span class="dot"></span> Preset dark · deck detalhado</p>
+    </div>
+    <span class="slide-index">01</span>
+  </section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Visão geral</p>
+    <h2 class="reveal">Estrutura da apresentação</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Contexto</h3><p>Resumo executivo, objetivos, escopo e fora de escopo.</p></article>
+      <article class="panel"><h3>Governança</h3><p>Metodologia por fases, aceite e modelo comercial 50/50.</p></article>
+      <article class="panel"><h3>Execução</h3><p>Roadmap completo 6 fases com critérios claros.</p></article>
+    </div>
+    <div class="chips reveal">
+      <span class="chip">Entregáveis</span><span class="chip">KPIs</span><span class="chip">Riscos</span><span class="chip">Responsabilidades</span><span class="chip">Tabela comercial</span>
+    </div>
+  </div><span class="slide-index">02</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">1) Resumo executivo</p>
+    <h2 class="reveal">Fluxo integrado fim a fim da operação</h2>
+    <p class="flow reveal"><strong>Meta/Google</strong> → Leads → <strong>NocoDB</strong> → <strong>n8n</strong> → Mautic + Evolution/WhatsApp + Chatwoot → Agentes IA (Vendas/Suporte) → Checkout → Área de Membros → BI (Metabase/Superset) → Otimização contínua.</p>
+    <div class="chips reveal">
+      <span class="chip">Arquitetura proprietária</span><span class="chip">Dados centralizados</span><span class="chip">Escala operacional</span><span class="chip">Governança técnica</span>
+    </div>
+  </div><span class="slide-index">03</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Objetivos principais</p>
+    <h2 class="reveal">Resultados estratégicos esperados</h2>
+    <div class="four-col reveal">
+      <article class="panel"><h3>Redução de custo</h3><p>Menos SaaS recorrente e sem cobrança por task/execução.</p></article>
+      <article class="panel"><h3>Rastreabilidade</h3><p>Leads, interações, compras, alunos e campanhas na mesma base.</p></article>
+      <article class="panel"><h3>Conversão</h3><p>Automação + IA para velocidade comercial e cobertura 24/7.</p></article>
+      <article class="panel"><h3>Governança</h3><p>Segurança, backup, logs, documentação e rotina de operação.</p></article>
+    </div>
+  </div><span class="slide-index">04</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">2) Escopo — o que será construído (parte 1)</p>
+    <h2 class="reveal">Base técnica e núcleo operacional</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Infra VPS</h3><p>Orion Setup e/ou Docker, hardening, SSL, backup e observabilidade.</p></article>
+      <article class="panel"><h3>NocoDB</h3><p>Base central para Leads, Alunos, Campanhas, Interações e Compras.</p></article>
+      <article class="panel"><h3>n8n</h3><p>Cérebro de automações: webhooks, integrações, réguas e alertas.</p></article>
+    </div>
+  </div><span class="slide-index">05</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">2) Escopo — o que será construído (parte 2)</p>
+    <h2 class="reveal">Comunicação, membresia, IA e BI</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Mautic</h3><p>DNS, entregabilidade, tags, segmentos, templates e réguas.</p></article>
+      <article class="panel"><h3>WhatsApp + Chatwoot</h3><p>Evolution API + atendimento omnichannel integrado ao CRM.</p></article>
+      <article class="panel"><h3>Área de membros</h3><p>WordPress/TutorLMS, Ghost ou Moodle com provisionamento via n8n.</p></article>
+      <article class="panel"><h3>Agentes IA</h3><p>Closer (vendas) e CS (suporte) com handoff humano.</p></article>
+      <article class="panel"><h3>Monetização</h3><p>Recuperação de abandono, follow-up e scoring.</p></article>
+      <article class="panel"><h3>Governança BI</h3><p>Dashboards, acesso, rotina operacional e documentação final.</p></article>
+    </div>
+  </div><span class="slide-index">06</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">2.2 Fora de escopo</p>
+    <h2 class="reveal">Limites para proteger prazo, foco e contrato</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight">
+        <li>Gestão diária de tráfego e otimização contínua de mídia.</li>
+        <li>Produção de conteúdo/aulas do curso.</li>
+        <li>Copywriting ilimitado (na Fase 5 entrega-se motor/processo).</li>
+      </ul></article>
+      <article class="panel"><ul class="tight">
+        <li>Responsabilidade por banimentos/limitações de plataforma.</li>
+        <li>WhatsApp e e-mail possuem risco próprio (mitigável, não controlável).</li>
+        <li>Escopo aberto sem critérios formais de aceite.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">07</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">3) Metodologia e governança</p>
+    <h2 class="reveal">Modelo operacional por fases (padrão repetível)</h2>
+    <div class="three-col reveal">
+      <article class="panel phase-tag"><h3>1) Kickoff</h3><p>Alinhamento + checklist de pré-requisitos.</p></article>
+      <article class="panel phase-tag"><h3>2) Implementação</h3><p>Infra, integrações, automações e configuração.</p></article>
+      <article class="panel phase-tag"><h3>3) QA</h3><p>Testes guiados, evidências e correções.</p></article>
+      <article class="panel phase-tag"><h3>4) Homologação</h3><p>Validação do cliente com checklist de aceite.</p></article>
+      <article class="panel phase-tag"><h3>5) Entrega formal</h3><p>Documentação, acessos e handover.</p></article>
+      <article class="panel phase-tag"><h3>SLA recomendado</h3><p>3–5 dias úteis para homologação por fase.</p></article>
+    </div>
+  </div><span class="slide-index">08</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">3.2 Regras de aceite</p>
+    <h2 class="reveal">Critérios objetivos de aprovação da fase</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight">
+        <li>Checklist da fase em 100% (ou pendências classificadas como melhoria).</li>
+        <li>Entregáveis documentais e acessos formalmente entregues.</li>
+        <li>Testes mínimos executados (fluxo real/simulado conforme fase).</li>
+      </ul></article>
+      <article class="panel"><ul class="tight">
+        <li>Prazo de homologação sugerido: 3 a 5 dias úteis.</li>
+        <li>Sem retorno no prazo: aceite operacional para não travar cronograma.</li>
+        <li>Registro de decisão por fase em ata/checklist.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">09</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">4) Condição comercial</p>
+    <h2 class="reveal">Modelo 50/50 por fase (o solicitado)</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Regra por fase</h3><ul class="tight">
+        <li>50% na entrada: reserva de agenda + início técnico.</li>
+        <li>50% na entrega/aprovação: após homologação formal.</li>
+        <li>Fase seguinte inicia com novo 50% de entrada.</li>
+      </ul></article>
+      <article class="panel"><h3>Exemplo prático</h3><ul class="tight">
+        <li>Inicia F1: paga 50% F1.</li>
+        <li>Entrega/aprova F1: paga 50% F1.</li>
+        <li>Inicia F2: paga 50% F2.</li>
+        <li>…repete até F6.</li>
+      </ul></article>
+    </div>
+    <p class="kpi reveal">Valores em R$ preenchidos na tabela comercial da seção 9.</p>
+  </div><span class="slide-index">10</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">5) Roadmap completo</p>
+    <h2 class="reveal">Pipeline final em 6 fases</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Fase 1</h3><p>Fundação self-hosted + migração da base.</p></article>
+      <article class="panel"><h3>Fase 2</h3><p>Comunicação oficial + CRM operacional.</p></article>
+      <article class="panel"><h3>Fase 3</h3><p>Força de trabalho IA: Vendas + Suporte.</p></article>
+      <article class="panel"><h3>Fase 4</h3><p>Automação e recuperação de receita.</p></article>
+      <article class="panel"><h3>Fase 5</h3><p>Criação e otimização com IA (opcional).</p></article>
+      <article class="panel"><h3>Fase 6</h3><p>BI, governança e escala operacional.</p></article>
+    </div>
+  </div><span class="slide-index">11</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">FASE 1 · visão</p>
+    <h2 class="reveal">Fundação self-hosted + migração da base</h2>
+    <p class="reveal">Objetivo: preparar VPS para operar com segurança, estabilidade e base de dados central unificada.</p>
+    <div class="chips reveal">
+      <span class="chip">1.1 Infra</span><span class="chip">1.2 Backup/DR</span><span class="chip">1.3 Gestão</span><span class="chip">1.4 NocoDB</span><span class="chip">1.5 n8n</span><span class="chip">1.6 Área de membros</span>
+    </div>
+  </div><span class="slide-index">12</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 1.1 · Infra Base</p>
+    <h2 class="reveal">Segurança, rede e HTTPS</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>O que será feito</h3><ul class="tight">
+        <li>Configuração do ambiente (Orion Setup e/ou Docker).</li>
+        <li>Reverse proxy (Traefik/Nginx/Caddy), SSL Let’s Encrypt, domínios/subdomínios.</li>
+        <li>Hardening: firewall, SSH por chave, fail2ban, atualização, roles.</li>
+        <li>Padronização de portas e serviços internos.</li>
+      </ul></article>
+      <article class="panel"><h3>Artefatos + aceite</h3><ul class="tight">
+        <li>Mapa de serviços e URLs publicadas.</li>
+        <li>Checklist de hardening aplicado.</li>
+        <li>Documento de acessos/credenciais (sem senha em texto).</li>
+        <li>Aceite: HTTPS válido, acesso restrito, admin funcional.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">13</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 1.2 · Backup + DR</p>
+    <h2 class="reveal">Rotina de recuperação básica obrigatória</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Implementação</h3><ul class="tight">
+        <li>Backup automatizado de banco e volumes.</li>
+        <li>Política de retenção 7/14/30 (ajustável).</li>
+        <li>Teste de restore com evidência de recuperação.</li>
+      </ul></article>
+      <article class="panel"><h3>Entrega e aceite</h3><ul class="tight">
+        <li>Runbook backup/restore.</li>
+        <li>Evidência de restore (print/log + checklist).</li>
+        <li>Aceite: backup rodando + restore validado.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">14</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 1.3 · Gestão de Tarefas</p>
+    <h2 class="reveal">Projeto e operação com quadro self-hosted</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Ferramenta</h3><p>Plane, Focalboard ou Kanboard, conforme aderência do time.</p></article>
+      <article class="panel"><h3>Fluxo</h3><p>Backlog → Doing → Review → Done + permissões por equipe.</p></article>
+      <article class="panel"><h3>Aceite</h3><p>Board Implantação + Board Operação ativos e em uso real.</p></article>
+    </div>
+  </div><span class="slide-index">15</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 1.4 · NocoDB (parte 1)</p>
+    <h2 class="reveal">Modelagem da base central</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Leads</h3><p>Contato, origem, UTM, status no funil e score.</p></article>
+      <article class="panel"><h3>Campanhas</h3><p>Plataforma, criativo, métricas e relacionamento com leads.</p></article>
+      <article class="panel"><h3>Interações</h3><p>Tipo, data, resultado, responsável e contexto.</p></article>
+      <article class="panel"><h3>Clientes/Alunos</h3><p>Produto, status, login e datas de ciclo.</p></article>
+      <article class="panel"><h3>Pedidos</h3><p>Status de pagamento, valor, produto e evento de checkout.</p></article>
+      <article class="panel"><h3>Views</h3><p>Filtros por etapa, origem e responsável.</p></article>
+    </div>
+  </div><span class="slide-index">16</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 1.4 · NocoDB (parte 2)</p>
+    <h2 class="reveal">Artefatos e critérios de aceite da base</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Artefatos</h3><ul class="tight">
+        <li>Dicionário de dados (campos, padrões e regras).</li>
+        <li>Views operacionais para vendas, suporte e marketing.</li>
+        <li>Padrão de preenchimento de campos críticos.</li>
+      </ul></article>
+      <article class="panel"><h3>Aceite</h3><ul class="tight">
+        <li>Criar lead manual e visualizar no funil/views.</li>
+        <li>Importar base antiga (se existir) com amostra validada.</li>
+        <li>Integridade mínima de dados após importação.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">17</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 1.5 · n8n</p>
+    <h2 class="reveal">Hub de integração pronto para produção</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>O que será feito</h3><ul class="tight">
+        <li>Instalação e proteção de credenciais.</li>
+        <li>Webhook de lead/checkout com escrita e leitura no NocoDB.</li>
+        <li>Logs de execução + alerta de falha (e-mail/Whats interno).</li>
+      </ul></article>
+      <article class="panel"><h3>Entrega e aceite</h3><ul class="tight">
+        <li>Pasta “Workflows Base” com export de fluxos.</li>
+        <li>Padrão de naming + versionamento de workflows.</li>
+        <li>Aceite: webhook teste grava no NocoDB + monitoramento ativo.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">18</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 1.6 · Área de Membros</p>
+    <h2 class="reveal">Provisionamento automático de acesso</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Implementação</h3><ul class="tight">
+        <li>Setup WordPress+TutorLMS / Ghost / Moodle simplificado.</li>
+        <li>Domínios, SSL, usuários e papéis.</li>
+        <li>n8n: compra aprovada cria usuário e envia login.</li>
+        <li>n8n: cancelamento/reembolso revoga acesso (se aplicável).</li>
+      </ul></article>
+      <article class="panel"><h3>Entrega e aceite</h3><ul class="tight">
+        <li>Estrutura inicial da área e modelo de curso.</li>
+        <li>Workflow “Provisionamento de Acesso”.</li>
+        <li>Aceite: compra simulada/real gera acesso funcional.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">19</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">FASE 2 · visão</p>
+    <h2 class="reveal">Comunicação oficial + CRM operacional</h2>
+    <p class="reveal">Objetivo: e-mail e WhatsApp em operação com rastreabilidade, funil e rotina do time.</p>
+    <div class="chips reveal"><span class="chip">2.1 Mautic</span><span class="chip">2.2 Evolution + Chatwoot</span><span class="chip">2.3 Pipeline comercial</span></div>
+  </div><span class="slide-index">20</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 2.1 · Mautic</p>
+    <h2 class="reveal">Entregabilidade e estrutura comercial de e-mail</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Implementação</h3><ul class="tight">
+        <li>Revisão/instalação Mautic.</li>
+        <li>DNS e reputação: SPF, DKIM, DMARC + aquecimento.</li>
+        <li>Envio SMTP/transacional conforme estratégia.</li>
+        <li>Tags, segmentos, templates e webhooks n8n/NocoDB.</li>
+      </ul></article>
+      <article class="panel"><h3>Entrega e aceite</h3><ul class="tight">
+        <li>Checklist de entregabilidade e recomendações.</li>
+        <li>Templates base publicados (boas-vindas, nutrição, carrinho, suporte).</li>
+        <li>Aceite: envio teste validado + lead capturado tagueado.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">21</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 2.2 · WhatsApp + Chatwoot</p>
+    <h2 class="reveal">Atendimento omnichannel com registro de interação</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Implementação</h3><ul class="tight">
+        <li>Evolution API com boas práticas de risco operacional.</li>
+        <li>Chatwoot: inboxes (Vendas/Suporte), usuários, etiquetas e macros.</li>
+        <li>Integração Chatwoot ↔ n8n ↔ NocoDB para eventos e histórico.</li>
+      </ul></article>
+      <article class="panel"><h3>Entrega e aceite</h3><ul class="tight">
+        <li>Workflow “mensagem recebida → registrar no NocoDB”.</li>
+        <li>SOP de atendimento e handoff.</li>
+        <li>Aceite: mensagem em tempo real + histórico mínimo + classificação por tags.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">22</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 2.3 · Pipeline comercial (parte 1)</p>
+    <h2 class="reveal">Etapas do funil recomendado</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>1. Novo Lead</h3><p>Entrada inicial com origem e UTM.</p></article>
+      <article class="panel"><h3>2. Contato Iniciado</h3><p>Primeira abordagem validada.</p></article>
+      <article class="panel"><h3>3. Qualificação</h3><p>Diagnóstico de fit e prioridade.</p></article>
+      <article class="panel"><h3>4. Proposta/Oferta</h3><p>Argumentação e condições.</p></article>
+      <article class="panel"><h3>5. Follow-up</h3><p>Retomada ativa com contexto.</p></article>
+      <article class="panel"><h3>6–8. Venda/Perdido/Pós-venda</h3><p>Fechamento, motivo de perda e onboarding.</p></article>
+    </div>
+  </div><span class="slide-index">23</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 2.3 · Pipeline comercial (parte 2)</p>
+    <h2 class="reveal">Regras de operação e aceite</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Regras</h3><ul class="tight">
+        <li>Lead parado por X dias gera alerta automático.</li>
+        <li>Mudança de etapa cria tarefa/lembrete.</li>
+        <li>Sem resposta ativa régua leve (Whats + e-mail).</li>
+      </ul></article>
+      <article class="panel"><h3>Entrega e aceite</h3><ul class="tight">
+        <li>Documento de regras e motivos de perda.</li>
+        <li>Dashboard básico de conversão por etapa.</li>
+        <li>Aceite: lead trafega no funil e alertas funcionam em teste.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">24</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">FASE 3 · visão</p>
+    <h2 class="reveal">Força de trabalho IA: vendas + suporte</h2>
+    <p class="reveal">Objetivo: agentes em produção com guardrails, base de conhecimento e handoff humano seguro.</p>
+    <div class="chips reveal"><span class="chip">3.1 Closer</span><span class="chip">3.2 CS</span><span class="chip">3.3 QA segurança</span></div>
+  </div><span class="slide-index">25</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 3.1 · Agente de Vendas (Closer)</p>
+    <h2 class="reveal">Qualificação, condução e handoff humano</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Implementação</h3><ul class="tight">
+        <li>Definir persona, tom, limites e regras “pode/não pode”.</li>
+        <li>Base com script comercial, objeções, diferenciais e links oficiais.</li>
+        <li>Integração com Evolution/Chatwoot para resposta e transferência.</li>
+      </ul></article>
+      <article class="panel"><h3>Entrega e aceite</h3><ul class="tight">
+        <li>Prompt/config versionado + base organizada.</li>
+        <li>Fluxo de handoff documentado.</li>
+        <li>Aceite: 10 cenários de teste + transferência correta + registro NocoDB.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">26</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 3.2 · Agente de Suporte (CS)</p>
+    <h2 class="reveal">Onboarding, FAQ e recuperação de acesso</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Implementação</h3><ul class="tight">
+        <li>Treino com FAQs, tutoriais, regras e onboarding.</li>
+        <li>Integração WhatsApp Suporte (Chatwoot) e opcional widget membros.</li>
+        <li>Workflows: recuperar senha, reenvio de link e status aluno/pedido.</li>
+      </ul></article>
+      <article class="panel"><h3>Entrega e aceite</h3><ul class="tight">
+        <li>Base de conhecimento + SOP de escalonamento.</li>
+        <li>Workflows “Reenvio de acesso” e “Status do aluno”.</li>
+        <li>Aceite: consistência em cenários combinados + escalonamento sem travar.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">27</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 3.3 · QA de alucinação e segurança</p>
+    <h2 class="reveal">Blindagem conversacional e limites de promessa</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Testes</h3><ul class="tight">
+        <li>Stress com perguntas fora de escopo.</li>
+        <li>Tentativas de prompt injection.</li>
+        <li>Checagem de comportamento sob ambiguidade.</li>
+      </ul></article>
+      <article class="panel"><h3>Entrega + aceite</h3><ul class="tight">
+        <li>Relatório de ajustes aplicados.</li>
+        <li>Lista de frases proibidas e regras de segurança.</li>
+        <li>Aceite: agente recusa limites críticos e não inventa política/condição.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">28</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">FASE 4 · visão</p>
+    <h2 class="reveal">Motor de automação e recuperação de receita</h2>
+    <p class="reveal">Objetivo: impedir vazamento de caixa com régua omnichannel e scoring acionável.</p>
+    <div class="chips reveal"><span class="chip">4.1 Recuperação</span><span class="chip">4.2 Scoring + nutrição</span></div>
+  </div><span class="slide-index">29</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 4.1 · Recuperação de carrinho</p>
+    <h2 class="reveal">Fluxo omnichannel padrão</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Sequência operacional</h3><ul class="tight">
+        <li>Checkout → webhook → n8n → evento no NocoDB.</li>
+        <li>T+30min: Whats (agente/mensagem guiada).</li>
+        <li>T+4h: e-mail Mautic.</li>
+        <li>T+24h e T+48h: reforço e última chamada.</li>
+      </ul></article>
+      <article class="panel"><h3>Entrega + aceite</h3><ul class="tight">
+        <li>Workflows n8n (abandono/pendência/PIX/boleto).</li>
+        <li>Templates/campanhas Mautic da sequência.</li>
+        <li>Aceite: evento simulado dispara sequência com logs e registro de resultado.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">30</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 4.2 · Lead Scoring</p>
+    <h2 class="reveal">Nutrição inteligente por gatilho de intenção</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Regras-base</h3><p>Abriu e-mail +10 · clicou +20 · respondeu Whats +30 · visitou página-chave +15.</p></article>
+      <article class="panel"><h3>Gatilho de ação</h3><p>Score ≥ X dispara alerta para time ou abordagem automática do agente.</p></article>
+      <article class="panel"><h3>Aceite</h3><p>Score evolui corretamente + alerta/abordagem executa no gatilho.</p></article>
+    </div>
+    <p class="kpi reveal">Entrega inclui documento de scoring e views “Leads Quentes” / “Em aquecimento”.</p>
+  </div><span class="slide-index">31</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">FASE 5 · visão (opcional)</p>
+    <h2 class="reveal">Motor de criação e otimização com IA</h2>
+    <p class="reveal">Objetivo: transformar dados em hipóteses de criativo e recomendações práticas.</p>
+    <div class="chips reveal"><span class="chip">5.1 Biblioteca</span><span class="chip">5.2 Agente de copy</span><span class="chip">5.3 Agente de otimização</span></div>
+  </div><span class="slide-index">32</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 5.1 · Biblioteca de criativos</p>
+    <h2 class="reveal">Inteligência de persuasão estruturada</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Estrutura da biblioteca</h3><ul class="tight">
+        <li>Ganchos vencedores.</li>
+        <li>Headlines e promessas.</li>
+        <li>Objeções recorrentes.</li>
+        <li>Matriz ângulo × avatar × oferta.</li>
+      </ul></article>
+      <article class="panel"><h3>Entrega e aceite</h3><ul class="tight">
+        <li>Repositório/taxonomia (NocoDB ou equivalente).</li>
+        <li>Template de análise semanal.</li>
+        <li>Aceite: biblioteca consultável + seed inicial cadastrado.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">33</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 5.2 · Agente de copy</p>
+    <h2 class="reveal">Processo padronizado de produção sob demanda</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Entradas</h3><ul class="tight">
+        <li>Avatar, produto, oferta, objeções.</li>
+        <li>Dados de performance.</li>
+        <li>Brand voice + compliance.</li>
+      </ul></article>
+      <article class="panel"><h3>Saídas e aceite</h3><ul class="tight">
+        <li>5 headlines · 3 estruturas · 10 variações · 2 roteiros curtos.</li>
+        <li>Prompt/agent versionado + checklist de qualidade.</li>
+        <li>Aceite: consistência de voz e variações publicáveis com pouca edição.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">34</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 5.3 · Agente de otimização de tráfego</p>
+    <h2 class="reveal">Regras explícitas para recomendação acionável</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Exemplos de regras</h3><ul class="tight">
+        <li>CTR &lt; 1% → problema provável de criativo.</li>
+        <li>CTR &gt; 2% + CPL alto → provável LP/público.</li>
+        <li>Rotina: importar métricas (API/export) e gerar ações.</li>
+      </ul></article>
+      <article class="panel"><h3>Entrega e aceite</h3><ul class="tight">
+        <li>Playbook de otimização orientado a regra.</li>
+        <li>Modelo de relatório semanal.</li>
+        <li>Aceite: recomendações coerentes em cenários simulados.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">35</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">FASE 6 · visão</p>
+    <h2 class="reveal">BI + governança + escala operacional</h2>
+    <p class="reveal">Objetivo: visibilidade executiva e rotina sustentável sem dependência de memória individual.</p>
+    <div class="chips reveal"><span class="chip">6.1 Dashboard BI</span><span class="chip">6.2 Governança LGPD/Segurança</span></div>
+  </div><span class="slide-index">36</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 6.1 · Dashboard unificado</p>
+    <h2 class="reveal">Métricas mínimas para gestão do ecossistema</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Aquisição</h3><p>Leads/dia, origem e qualidade de entrada.</p></article>
+      <article class="panel"><h3>Comercial</h3><p>Conversão por etapa e tempo médio até venda.</p></article>
+      <article class="panel"><h3>Receita</h3><p>Recuperação de carrinho (taxa e valor recuperado).</p></article>
+      <article class="panel"><h3>Suporte</h3><p>Volume, TMA e taxa de resolução pela IA.</p></article>
+      <article class="panel"><h3>Infra</h3><p>Uptime, erros de workflow e filas.</p></article>
+      <article class="panel"><h3>Aceite</h3><p>Dashboards atualizam com dados reais + permissões corretas.</p></article>
+    </div>
+  </div><span class="slide-index">37</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 6.2 · Governança operacional</p>
+    <h2 class="reveal">LGPD, segurança e rotina de manutenção</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Implementação</h3><ul class="tight">
+        <li>Matriz de acessos (quem vê o quê).</li>
+        <li>Updates planejados + saúde do Mautic e auditoria n8n.</li>
+        <li>Política de retenção mínima operacional.</li>
+        <li>Registro de incidentes e changelog.</li>
+      </ul></article>
+      <article class="panel"><h3>Entrega e aceite</h3><ul class="tight">
+        <li>Runbook semanal/mensal.</li>
+        <li>Plano de manutenção e checklist.</li>
+        <li>Documentação final da arquitetura e fluxos.</li>
+        <li>Aceite: documentação validada e rotina executável internamente.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">38</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">6) Entregáveis transversais</p>
+    <h2 class="reveal">Itens entregues em todas as fases</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Checklist de aceite</h3><p>Critérios objetivos da fase e status formal.</p></article>
+      <article class="panel"><h3>Documentação técnica</h3><p>Instalações, configurações e parâmetros relevantes.</p></article>
+      <article class="panel"><h3>Export de fluxos</h3><p>Backup dos workflows n8n da fase.</p></article>
+      <article class="panel"><h3>Mapa de integrações</h3><p>Quem conversa com quem e para quê.</p></article>
+      <article class="panel"><h3>Handover</h3><p>Treinamento rápido + orientação operacional.</p></article>
+      <article class="panel"><h3>Rastreabilidade</h3><p>Registro claro do que foi alterado e entregue.</p></article>
+    </div>
+  </div><span class="slide-index">39</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">7) KPIs de sucesso</p>
+    <h2 class="reveal">Métricas por camada de operação</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Infra</h3><ul class="tight"><li>Uptime VPS/serviços.</li><li>Taxa de falha n8n.</li></ul></article>
+      <article class="panel"><h3>Aquisição & dados</h3><ul class="tight"><li>% leads com UTM correto.</li><li>Tempo lead → CRM/Whats.</li></ul></article>
+      <article class="panel"><h3>Comercial</h3><ul class="tight"><li>Taxa de contato.</li><li>Conversão por etapa.</li><li>Tempo médio até venda.</li><li>IA vs humano.</li></ul></article>
+      <article class="panel"><h3>Automação</h3><ul class="tight"><li>% recuperação de carrinho.</li><li>Receita recuperada.</li></ul></article>
+      <article class="panel"><h3>Suporte</h3><ul class="tight"><li>TMA de resolução.</li><li>% tickets resolvidos pela IA.</li></ul></article>
+      <article class="panel"><h3>Leitura executiva</h3><p>Métricas para decisão semanal e correção de rota.</p></article>
+    </div>
+  </div><span class="slide-index">40</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">8) Dependências e responsabilidades</p>
+    <h2 class="reveal">Cliente vs execução</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Responsabilidades do cliente</h3><ul class="tight">
+        <li>VPS + acesso SSH/root.</li>
+        <li>Domínio e acesso DNS.</li>
+        <li>Acesso checkout/pagamento para webhooks.</li>
+        <li>Scripts, FAQs, materiais e regras internas.</li>
+        <li>Homologação dentro do prazo acordado.</li>
+      </ul></article>
+      <article class="panel"><h3>Responsabilidades da execução</h3><ul class="tight">
+        <li>Implantação técnica, integrações e automações.</li>
+        <li>Documentação e handover.</li>
+        <li>Correções de bugs relativos ao escopo entregue.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">41</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">9) Tabela de investimento (modelo)</p>
+    <h2 class="reveal">Preenchimento por fase com regra 50/50 — Parte 1</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Fase 1</h3><p>Fundação Self-Hosted<br/>R$ ______<br/>50% início: R$ ______<br/>50% aceite: R$ ______</p></article>
+      <article class="panel"><h3>Fase 2</h3><p>Comunicação + CRM<br/>R$ ______<br/>50% início: R$ ______<br/>50% aceite: R$ ______</p></article>
+      <article class="panel"><h3>Fase 3</h3><p>Agentes IA<br/>R$ ______<br/>50% início: R$ ______<br/>50% aceite: R$ ______</p></article>
+    </div>
+    <p class="kpi reveal">Modelo por fase: valor total + entrada (50%) + entrega/aceite (50%).</p>
+  </div><span class="slide-index">42</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">9) Tabela de investimento (modelo)</p>
+    <h2 class="reveal">Preenchimento por fase com regra 50/50 — Parte 2</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Fase 4</h3><p>Automação + Recuperação<br/>R$ ______<br/>50% início: R$ ______<br/>50% aceite: R$ ______</p></article>
+      <article class="panel"><h3>Fase 5</h3><p>IA Criativos/Otimização (opcional)<br/>R$ ______<br/>50% início: R$ ______<br/>50% aceite: R$ ______</p></article>
+      <article class="panel"><h3>Fase 6</h3><p>BI + Governança<br/>R$ ______<br/>50% início: R$ ______<br/>50% aceite: R$ ______</p></article>
+    </div>
+    <p class="kpi reveal">Recomendação: anexar essa tabela no contrato para amarrar liberação de fases.</p>
+  </div><span class="slide-index">43</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">10) Observações críticas</p>
+    <h2 class="reveal">Blindagem da proposta: WhatsApp e e-mail</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>WhatsApp (Evolution vs API Oficial)</h3><ul class="tight">
+        <li>Evolution API (web stack): eficiente, porém com risco de instabilidade/banimento.</li>
+        <li>API Oficial: menor risco, mas exige aprovação e compliance Meta.</li>
+        <li>Recomendação: arquitetura preparada para alternar/migrar.</li>
+      </ul></article>
+      <article class="panel"><h3>E-mail (Mautic + entregabilidade)</h3><ul class="tight">
+        <li>Entrega depende de DNS, reputação domínio/IP e aquecimento.</li>
+        <li>Em cenários críticos, usar SMTP/transacional com reputação consolidada.</li>
+        <li>Governança contínua de listas, bounces e qualidade de base.</li>
+      </ul></article>
+    </div>
+  </div><span class="slide-index">44</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">11) Versão contratável (cláusula curta)</p>
+    <h2 class="reveal">Síntese jurídica-operacional</h2>
+    <div class="panel reveal"><ul class="tight">
+      <li><strong>Pagamento:</strong> 50% no início de cada fase + 50% na entrega/aprovação.</li>
+      <li><strong>Aceite:</strong> fase aprovada mediante checklist concluído e documentação entregue.</li>
+      <li><strong>Fase seguinte:</strong> condicionada ao pagamento de 50% de entrada da próxima fase.</li>
+    </ul></div>
+    <p class="kpi reveal">Esta cláusula fecha alinhamento comercial sem abrir brecha de interpretação.</p>
+  </div><span class="slide-index">45</span></section>
+
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Encerramento</p>
+    <h2 class="reveal">v1.2 entregue: fiel ao base + ajustada para mobile</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Escopo expandido</h3><p>Todos os blocos do documento base convertidos em slides.</p></article>
+      <article class="panel"><h3>Granularidade</h3><p>Entregáveis + artefatos + critérios de aceite por tema.</p></article>
+      <article class="panel"><h3>Próximo passo</h3><p>Aplicar branding Avicenna e preencher valores da tabela por fase.</p></article>
+    </div>
+  </div><span class="slide-index">46</span></section>
+
+  <script>
+    class SlidePresentation {
+      constructor() {
+        this.slides = [...document.querySelectorAll('.slide')];
+        this.progress = document.getElementById('progress');
+        this.navDots = document.getElementById('navDots');
+        this.index = 0;
+
+        this.makeDots();
+        this.observeSlides();
+        this.bindKeys();
+        this.bindWheel();
+        this.updateProgress();
+      }
+
+      makeDots() {
+        this.slides.forEach((_, i) => {
+          const btn = document.createElement('button');
+          btn.className = 'nav-dot';
+          btn.setAttribute('aria-label', `Ir para slide ${i + 1}`);
+          btn.addEventListener('click', () => this.goTo(i));
+          this.navDots.appendChild(btn);
+        });
+      }
+
+      goTo(i) {
+        const clamped = Math.max(0, Math.min(i, this.slides.length - 1));
+        this.index = clamped;
+        this.slides[clamped].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        this.updateProgress();
+      }
+
+      bindKeys() {
+        window.addEventListener('keydown', (e) => {
+          if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)) {
+            e.preventDefault();
+            this.goTo(this.index + 1);
+          }
+          if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) {
+            e.preventDefault();
+            this.goTo(this.index - 1);
+          }
+        });
+      }
+
+      bindWheel() {
+        let lock = false;
+        window.addEventListener('wheel', (e) => {
+          if (lock) return;
+          if (Math.abs(e.deltaY) < 20) return;
+          lock = true;
+          this.goTo(this.index + (e.deltaY > 0 ? 1 : -1));
+          setTimeout(() => { lock = false; }, 380);
+        }, { passive: true });
+      }
+
+      observeSlides() {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const i = this.slides.indexOf(entry.target);
+            if (i !== -1) {
+              this.index = i;
+              this.updateProgress();
+            }
+            entry.target.classList.add('visible');
+          });
+        }, { threshold: 0.6 });
+
+        this.slides.forEach((slide) => observer.observe(slide));
+      }
+
+      updateProgress() {
+        const pct = ((this.index + 1) / this.slides.length) * 100;
+        this.progress.style.width = `${pct}%`;
+        [...this.navDots.children].forEach((dot, i) => {
+          dot.classList.toggle('active', i === this.index);
+        });
+      }
+    }
+
+    new SlidePresentation();
+  </script>
+</body>
+</html>
