@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Migração para Ecossistema Self-Hosted + IA (VPS) — v1.3 FULL</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg-primary: #0f0f0f;
+      --bg-secondary: #171515;
+      --panel: rgba(255, 255, 255, 0.048);
+      --panel-border: rgba(232, 228, 223, 0.20);
+      --text-primary: #e8e4df;
+      --text-secondary: #cdc4bb;
+      --accent: #d4a574;
+      --accent-2: #e8b4b8;
+      --ok: #8ed091;
+
+      --font-display: 'Cormorant', serif;
+      --font-body: 'IBM Plex Sans', sans-serif;
+
+      --title-size: clamp(1.45rem, 4.9vw, 3.8rem);
+      --h2-size: clamp(1.08rem, 3vw, 2.2rem);
+      --h3-size: clamp(0.9rem, 1.85vw, 1.24rem);
+      --body-size: clamp(0.72rem, 1.12vw, 0.96rem);
+      --small-size: clamp(0.63rem, 0.95vw, 0.78rem);
+
+      --slide-padding: clamp(0.85rem, 3.3vw, 2.9rem);
+      --content-gap: clamp(0.45rem, 1.35vw, 0.95rem);
+      --radius: clamp(0.48rem, 0.9vw, 0.86rem);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow-x: hidden; }
+
+    html {
+      scroll-snap-type: y mandatory;
+      scroll-behavior: smooth;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 84% 10%, rgba(212,165,116,0.15), transparent 35%),
+        radial-gradient(circle at 10% 90%, rgba(232,180,184,0.12), transparent 32%),
+        linear-gradient(160deg, var(--bg-primary), var(--bg-secondary));
+    }
+
+    .slide {
+      width: 100vw;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+      scroll-snap-align: start;
+      display: flex;
+      position: relative;
+    }
+
+    .slide-content {
+      flex: 1;
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: var(--slide-padding);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: var(--content-gap);
+      max-height: 100%;
+      overflow: hidden;
+    }
+
+    h1, h2, h3 {
+      font-family: var(--font-display);
+      letter-spacing: -0.015em;
+      line-height: 1.08;
+      color: var(--text-primary);
+    }
+
+    h1 { font-size: var(--title-size); }
+    h2 { font-size: var(--h2-size); }
+    h3 { font-size: var(--h3-size); }
+
+    p, li {
+      font-size: var(--body-size);
+      line-height: 1.38;
+      color: var(--text-secondary);
+    }
+
+    strong { color: #efe6dc; }
+
+    .eyebrow {
+      font-size: var(--small-size);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .accent { color: var(--accent); }
+    .muted { color: #b5aa9e; }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--panel-border);
+      border-radius: var(--radius);
+      padding: clamp(0.5rem, 1vw, 0.86rem);
+      overflow: hidden;
+    }
+
+    .panel h3 { margin-bottom: 0.2rem; }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(0.46rem, 1vw, 0.82rem);
+      min-height: 0;
+    }
+
+    .three-col {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: clamp(0.42rem, 0.95vw, 0.78rem);
+      min-height: 0;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.32rem;
+    }
+
+    .chip {
+      border: 1px solid rgba(212,165,116,0.35);
+      background: rgba(212,165,116,0.08);
+      color: #f2e4d2;
+      border-radius: 999px;
+      padding: 0.16rem 0.44rem;
+      font-size: clamp(0.6rem, 0.9vw, 0.74rem);
+    }
+
+    ul.tight {
+      display: grid;
+      gap: 0.22rem;
+      padding-left: 0.95rem;
+    }
+
+    .kpi { font-size: clamp(0.64rem, 0.95vw, 0.82rem); color: #d8cfc4; }
+
+    .flow {
+      font-size: clamp(0.76rem, 1.2vw, 0.98rem);
+      line-height: 1.42;
+      color: #ece3d8;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: clamp(0.58rem, 0.88vw, 0.74rem);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #f0e8df;
+      opacity: 0.9;
+    }
+
+    .dot {
+      width: 0.42rem;
+      height: 0.42rem;
+      border-radius: 50%;
+      background: var(--ok);
+      box-shadow: 0 0 10px rgba(142,208,145,0.42);
+    }
+
+    .progress-wrap {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      z-index: 300;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .progress {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width 220ms ease;
+    }
+
+    .nav-dots {
+      position: fixed;
+      right: clamp(0.38rem, 1.1vw, 0.82rem);
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 190;
+      display: flex;
+      flex-direction: column;
+      gap: 0.34rem;
+    }
+
+    .nav-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      border: 1px solid rgba(255,255,255,0.45);
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+    }
+
+    .nav-dot.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      transform: scale(1.1);
+    }
+
+    .slide-index {
+      position: absolute;
+      right: clamp(0.72rem, 1.2vw, 1rem);
+      bottom: clamp(0.58rem, 1vw, 0.9rem);
+      font-size: clamp(0.56rem, 0.84vw, 0.72rem);
+      color: rgba(232,228,223,0.55);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    img, .image-container {
+      max-width: 100%;
+      max-height: min(50vh, 380px);
+      object-fit: contain;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 430ms ease, transform 430ms cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .slide.visible .reveal {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide.visible .reveal:nth-child(2) { transition-delay: 60ms; }
+    .slide.visible .reveal:nth-child(3) { transition-delay: 120ms; }
+    .slide.visible .reveal:nth-child(4) { transition-delay: 180ms; }
+
+    @media (max-height: 700px) {
+      :root {
+        --slide-padding: clamp(0.66rem, 2.7vw, 1.85rem);
+        --title-size: clamp(1.16rem, 4.2vw, 2.65rem);
+        --body-size: clamp(0.67rem, 1vw, 0.87rem);
+      }
+      .panel { padding: 0.4rem 0.54rem; }
+    }
+
+    @media (max-height: 600px) {
+      :root {
+        --slide-padding: clamp(0.48rem, 2vw, 1.1rem);
+      }
+      .nav-dots { display: none; }
+      .chip { padding: 0.14rem 0.4rem; }
+    }
+
+    @media (max-height: 500px) {
+      :root {
+        --slide-padding: clamp(0.4rem, 1.8vw, 0.9rem);
+        --title-size: clamp(1rem, 3.4vw, 1.65rem);
+      }
+    }
+
+    @media (max-width: 960px) {
+      .two-col, .three-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+      }
+      html { scroll-behavior: auto; }
+      .reveal { transform: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="progress-wrap" aria-hidden="true"><div class="progress" id="progress"></div></div>
+  <nav class="nav-dots" id="navDots" aria-label="Navegação dos slides"></nav>
+
+  <!-- 1 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">v1.3 full · proposta completa</p>
+    <h1 class="reveal">Migração para Ecossistema <span class="accent">Self-Hosted</span> + Automação + Agentes de IA (VPS)</h1>
+    <p class="reveal">Versão integral: detalhamento técnico + correções do feedback + comercial fechado em 7 fases.</p>
+    <p class="status reveal"><span class="dot"></span> Agentes IA obrigatórios · Assistida + Delegada</p>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 2 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Resumo da correção</p>
+    <h2 class="reveal">O que mudou da v1.2 para v1.3 FULL</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Pipeline novo</h3><p>Reordenação para 7 fases conforme pedido do cliente.</p></article>
+      <article class="panel"><h3>Escopo ajustado</h3><p>Agentes de IA permanecem no escopo oficial (não opcional).</p></article>
+      <article class="panel"><h3>Comercial pronto</h3><p>Duas modalidades com preços por fase e regra 50/50.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 3 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Contexto</p>
+    <h2 class="reveal">Feedback recebido do decisor</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Riscos percebidos</h3><ul class="tight"><li>Dependência de manutenção infinita em IA.</li><li>Incerteza sobre multi-projeto/RAG por cliente.</li><li>Dúvida em entregabilidade Mautic/SMTP.</li></ul></article>
+      <article class="panel"><h3>Demandas diretas</h3><ul class="tight"><li>Reordenar fases em 7 blocos.</li><li>Preço + prazo por fase para sócios.</li><li>Modelo mentoria (assistida) e modelo delegada.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 4 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Resumo executivo</p>
+    <h2 class="reveal">Fluxo integrado alvo da operação</h2>
+    <p class="flow reveal"><strong>Meta/Google</strong> → Leads → <strong>NocoDB</strong> → <strong>n8n</strong> → Mautic + Evolution/WhatsApp + Chatwoot → IA (Criativos, Vendas, Suporte) → Checkout → Área de Membros → BI → otimização contínua.</p>
+    <div class="chips reveal"><span class="chip">dados centralizados</span><span class="chip">menos SaaS</span><span class="chip">escala operacional</span><span class="chip">rastreabilidade</span></div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 5 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Objetivos do projeto</p>
+    <h2 class="reveal">Resultados estratégicos esperados</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Eficiência</h3><p>Reduzir custo fixo de ferramentas e retrabalho operacional.</p></article>
+      <article class="panel"><h3>Conversão</h3><p>Elevar resposta e recuperação de receita via automação.</p></article>
+      <article class="panel"><h3>Autonomia</h3><p>Capacitar equipe para operar sem dependência eterna.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 6 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Escopo geral</p>
+    <h2 class="reveal">O que será implantado</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Infra</h3><p>Stack self-hosted segura com backup e observabilidade.</p></article>
+      <article class="panel"><h3>Dados</h3><p>NocoDB como fonte única de operação comercial.</p></article>
+      <article class="panel"><h3>Orquestração</h3><p>n8n como barramento de integração e regras.</p></article>
+      <article class="panel"><h3>Comunicação</h3><p>Mautic + Whats/Chatwoot com rastreabilidade.</p></article>
+      <article class="panel"><h3>IA</h3><p>Criativos, otimização, vendas e suporte.</p></article>
+      <article class="panel"><h3>Governança</h3><p>BI, segurança, documentação e rotina contínua.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 7 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fora de escopo</p>
+    <h2 class="reveal">Limites para preservar prazo e previsibilidade</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight"><li>Gestão diária de tráfego pago.</li><li>Produção de aulas/conteúdo do curso.</li><li>Copywriting ilimitado sem processo.</li></ul></article>
+      <article class="panel"><ul class="tight"><li>Garantia sobre bloqueios externos de plataforma.</li><li>Escopo aberto sem aceite formal.</li><li>Mudanças não previstas sem aditivo.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 8 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Método de execução</p>
+    <h2 class="reveal">Ciclo padrão por fase</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>1) Kickoff</h3><p>Checklist de pré-requisitos e alinhamento.</p></article>
+      <article class="panel"><h3>2) Implantação</h3><p>Configuração técnica + integração.</p></article>
+      <article class="panel"><h3>3) QA</h3><p>Testes guiados + correções.</p></article>
+      <article class="panel"><h3>4) Homologação</h3><p>Validação do cliente por checklist.</p></article>
+      <article class="panel"><h3>5) Entrega</h3><p>Documentação, acesso e handover.</p></article>
+      <article class="panel"><h3>SLA</h3><p>Homologação sugerida de 3–5 dias úteis.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 9 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Aceite e governança</p>
+    <h2 class="reveal">Critérios para aprovar cada fase</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight"><li>Checklist técnico 100% concluído.</li><li>Pendências só classificadas como melhoria.</li><li>Testes mínimos com evidência executados.</li></ul></article>
+      <article class="panel"><ul class="tight"><li>Documentação e acessos entregues.</li><li>Sem resposta no SLA: aceite operacional.</li><li>Fase seguinte inicia com novo 50%.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 10 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Condição comercial</p>
+    <h2 class="reveal">Modelo 50/50 por fase (fixo)</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Entrada</h3><p>50% no início de cada fase para reserva e execução técnica.</p></article>
+      <article class="panel"><h3>Entrega</h3><p>50% na homologação/aprovação formal da fase.</p></article>
+    </div>
+    <p class="kpi reveal">Regras iguais em Assistida e Delegada; muda apenas valor e prazo.</p>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 11 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Pipeline v1.3</p>
+    <h2 class="reveal">Roadmap oficial em 7 fases</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>F1</h3><p>Fundação Self-Hosted.</p></article>
+      <article class="panel"><h3>F2</h3><p>Comunicação + CRM.</p></article>
+      <article class="panel"><h3>F3</h3><p>IA Criativos/Otimização.</p></article>
+      <article class="panel"><h3>F4</h3><p>Automação + Recuperação.</p></article>
+      <article class="panel"><h3>F5</h3><p>BI + Governança.</p></article>
+      <article class="panel"><h3>F6</h3><p>Agentes IA (obrigatória).</p></article>
+      <article class="panel"><h3>F7</h3><p>Gestão de Tarefas + Área de Membros.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 12 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 1 · visão</p>
+    <h2 class="reveal">Fundação Self-Hosted (sem membros/tarefas)</h2>
+    <div class="chips reveal"><span class="chip">infra</span><span class="chip">backup</span><span class="chip">NocoDB</span><span class="chip">n8n base</span></div>
+    <p class="kpi reveal">Objetivo: preparar base técnica estável antes da camada de comunicação/comercial.</p>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 13 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F1.1</p>
+    <h2 class="reveal">Infra base, segurança e HTTPS</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight"><li>Orion Setup e/ou Docker padronizado.</li><li>Reverse proxy + SSL + domínios/subdomínios.</li><li>Hardening: firewall, SSH key, fail2ban, patching.</li></ul></article>
+      <article class="panel"><ul class="tight"><li>Mapa de serviços e portas internas.</li><li>Checklist de hardening aplicado.</li><li>Aceite: acesso restrito e login admin validado.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 14 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F1.2</p>
+    <h2 class="reveal">Backup + DR básico com prova de restore</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight"><li>Backup automático de banco e volumes.</li><li>Retenção 7/14/30 (ajustável).</li><li>Restore testado com evidência.</li></ul></article>
+      <article class="panel"><ul class="tight"><li>Runbook backup/restore entregue.</li><li>Checklist de restauração validado.</li><li>Aceite: rotina ativa e restore bem-sucedido.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 15 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F1.3</p>
+    <h2 class="reveal">NocoDB: modelagem da base central</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Leads</h3><p>Contato, origem, UTM, etapa e score.</p></article>
+      <article class="panel"><h3>Campanhas</h3><p>Plataforma, criativo, métricas, vínculo de resultado.</p></article>
+      <article class="panel"><h3>Interações</h3><p>Canal, data, resultado e responsável.</p></article>
+      <article class="panel"><h3>Alunos</h3><p>Status, produto, datas, acesso.</p></article>
+      <article class="panel"><h3>Pedidos</h3><p>Pagamento, valor, produto e evento.</p></article>
+      <article class="panel"><h3>Aceite</h3><p>Importação piloto + views operacionais funcionando.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 16 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F1.4</p>
+    <h2 class="reveal">n8n como hub de integração em produção</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight"><li>Credenciais e segurança de execução.</li><li>Webhook lead/checkout com gravação no NocoDB.</li><li>Alerta de falha operacional (interno).</li></ul></article>
+      <article class="panel"><ul class="tight"><li>Pasta de workflows base exportados.</li><li>Padrão de naming/versionamento.</li><li>Aceite: fluxo ponta a ponta com logs.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 17 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 2 · visão</p>
+    <h2 class="reveal">Comunicação oficial + CRM operacional</h2>
+    <div class="chips reveal"><span class="chip">Mautic</span><span class="chip">SMTP</span><span class="chip">Chatwoot</span><span class="chip">Funil</span></div>
+    <p class="kpi reveal">Objetivo: transformar aquisição em operação comercial rastreável e mensurável.</p>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 18 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F2.1</p>
+    <h2 class="reveal">Mautic: estrutura comercial e entregabilidade</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight"><li>Tags, segmentos e templates base.</li><li>Formulários/webhooks integrados ao n8n/NocoDB.</li><li>Estratégia de envio alinhada ao funil.</li></ul></article>
+      <article class="panel"><ul class="tight"><li>Checklist de entregabilidade entregue.</li><li>Teste para contas internas validado.</li><li>Aceite: lead segmentado corretamente.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 19 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F2.2 (anexo técnico)</p>
+    <h2 class="reveal">SMTP transacional: passo a passo obrigatório</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>DNS</h3><p>SPF, DKIM, DMARC por domínio/subdomínio de envio.</p></article>
+      <article class="panel"><h3>Configuração</h3><p>SMTP transacional + bounce/complaint handling.</p></article>
+      <article class="panel"><h3>Aquecimento</h3><p>Rampa controlada de volume e monitoração de reputação.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 20 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F2.3</p>
+    <h2 class="reveal">WhatsApp + Chatwoot com histórico operacional</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight"><li>Evolution API configurada com boas práticas.</li><li>Inboxes Vendas/Suporte, permissões e macros.</li><li>Registro de interação no NocoDB por evento.</li></ul></article>
+      <article class="panel"><ul class="tight"><li>SOP de atendimento e handoff.</li><li>Tags/motivos padronizados por conversa.</li><li>Aceite: operação em tempo real funcionando.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 21 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F2.4</p>
+    <h2 class="reveal">Pipeline comercial com regras de operação</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Etapas</h3><p>Novo lead → contato → qualificação → proposta → follow-up → venda/perdido.</p></article>
+      <article class="panel"><h3>Automação</h3><p>Lead parado gera alerta; mudança de etapa gera tarefa.</p></article>
+      <article class="panel"><h3>Aceite</h3><p>Conversão por etapa e motivos de perda reportáveis.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 22 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 3 · visão</p>
+    <h2 class="reveal">IA Criativos/Otimização (paralela)</h2>
+    <p class="reveal">Fase desenhada para rodar em paralelo, acelerando resultado sem travar o núcleo operacional.</p>
+    <div class="chips reveal"><span class="chip">biblioteca</span><span class="chip">agente copy</span><span class="chip">otimização</span><span class="chip">higgsfield/heygen</span></div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 23 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F3.1</p>
+    <h2 class="reveal">Biblioteca de criativos e inteligência de persuasão</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight"><li>Taxonomia: ganchos, headlines, objeções, promessas.</li><li>Matriz ângulo × avatar × oferta.</li><li>Seed inicial de criativos catalogados.</li></ul></article>
+      <article class="panel"><ul class="tight"><li>Repositório consultável por time.</li><li>Template de análise semanal.</li><li>Aceite: estrutura padronizada em uso.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 24 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F3.2</p>
+    <h2 class="reveal">Agente de copy com saída padronizada</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Entradas</h3><p>Avatar, oferta, objeções, dados de performance.</p></article>
+      <article class="panel"><h3>Saídas</h3><p>5 headlines, 3 estruturas, 10 variações, 2 roteiros curtos.</p></article>
+      <article class="panel"><h3>Aceite</h3><p>Conteúdo publicável com baixa necessidade de edição.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 25 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F3.3</p>
+    <h2 class="reveal">Agente de otimização de tráfego por regra</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight"><li>CTR &lt; 1%: alerta de criativo.</li><li>CTR alto + CPL alto: alerta de LP/público.</li><li>Recomendações acionáveis por cenário.</li></ul></article>
+      <article class="panel"><ul class="tight"><li>Playbook de decisão entregue.</li><li>Relatório semanal padrão.</li><li>Aceite: recomendações coerentes em teste.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 26 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F3.4</p>
+    <h2 class="reveal">Integração com stack externa de criação</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Higgsfield</h3><p>Fluxo para assets e variações de criativo.</p></article>
+      <article class="panel"><h3>Heygen</h3><p>Pipeline para vídeo curto com padrão operacional.</p></article>
+      <article class="panel"><h3>Governança</h3><p>Naming, versionamento e aprovação antes de publicar.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 27 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 4 · visão</p>
+    <h2 class="reveal">Automação + Recuperação de receita</h2>
+    <p class="reveal">Objetivo: impedir vazamento no checkout com régua omnichannel e scoring orientado por intenção.</p>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 28 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F4.1</p>
+    <h2 class="reveal">Régua de recuperação de carrinho</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight"><li>Checkout → n8n → evento no NocoDB.</li><li>T+30m Whats, T+4h e-mail.</li><li>T+24h e T+48h reforços finais.</li></ul></article>
+      <article class="panel"><ul class="tight"><li>Templates e campanhas versionados.</li><li>Logs de cada disparo por canal.</li><li>Aceite: sequência completa em simulação.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 29 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F4.2</p>
+    <h2 class="reveal">Lead scoring + nutrição inteligente</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Regras</h3><p>Abriu +10, clicou +20, respondeu +30, visitou página-chave +15.</p></article>
+      <article class="panel"><h3>Gatilho</h3><p>Score ≥ X aciona time comercial ou abordagem automática.</p></article>
+      <article class="panel"><h3>Aceite</h3><p>Evolução de score consistente e ação no gatilho.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 30 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F4.3</p>
+    <h2 class="reveal">KPIs da fase de recuperação</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Taxa de recuperação</h3><p>% carrinhos recuperados por período.</p></article>
+      <article class="panel"><h3>Receita recuperada</h3><p>Valor absoluto e contribuição no caixa.</p></article>
+      <article class="panel"><h3>Tempo de resposta</h3><p>Lead até contato efetivo por canal.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 31 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 5 · visão</p>
+    <h2 class="reveal">BI + Governança operacional</h2>
+    <p class="reveal">Objetivo: dar visão executiva e rotina estável, sem depender de memória individual.</p>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 32 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F5.1</p>
+    <h2 class="reveal">Dashboard unificado de negócio e operação</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Aquisição</h3><p>Leads/dia, origem, qualidade de entrada.</p></article>
+      <article class="panel"><h3>Comercial</h3><p>Conversão por etapa e tempo até venda.</p></article>
+      <article class="panel"><h3>Suporte/Infra</h3><p>TMA, resolução IA, uptime, falhas n8n.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 33 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F5.2</p>
+    <h2 class="reveal">Governança LGPD, acesso e manutenção</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight"><li>Matriz de acesso por papel.</li><li>Política de retenção de dados.</li><li>Changelog de incidentes e mudanças.</li></ul></article>
+      <article class="panel"><ul class="tight"><li>Plano de atualização planejada.</li><li>Higiene de base no Mautic.</li><li>Auditoria periódica de automações.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 34 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F5.3</p>
+    <h2 class="reveal">Runbook operacional para equipe interna</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Semanal</h3><p>Saúde de fluxos, filas, bounces e alertas críticos.</p></article>
+      <article class="panel"><h3>Mensal</h3><p>Revisão de métricas, custo e ajustes estruturais.</p></article>
+      <article class="panel"><h3>Aceite</h3><p>Equipe interna executa rotina sem depender do fornecedor.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 35 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 6 · obrigatória</p>
+    <h2 class="reveal">Agentes de IA (Vendas + Suporte) em produção</h2>
+    <p class="reveal">Correção crítica: esta fase não é opcional e faz parte do escopo oficial.</p>
+    <div class="chips reveal"><span class="chip">closer</span><span class="chip">CS</span><span class="chip">guardrails</span><span class="chip">handoff</span></div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 36 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F6.1</p>
+    <h2 class="reveal">Agente de Vendas (Closer)</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight"><li>Persona, tom e limites de atuação.</li><li>Script de objeções e condução para checkout.</li><li>Handoff para humano com critério objetivo.</li></ul></article>
+      <article class="panel"><ul class="tight"><li>Registro de resultado no NocoDB.</li><li>Prompt/versionamento documentado.</li><li>Aceite: 10 cenários com consistência.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 37 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F6.2</p>
+    <h2 class="reveal">Agente de Suporte (CS)</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight"><li>FAQ, onboarding e resolução recorrente.</li><li>Recuperação de acesso e status do aluno.</li><li>Integração com canal de suporte.</li></ul></article>
+      <article class="panel"><ul class="tight"><li>SOP de escalonamento IA → humano.</li><li>Workflows de suporte automatizado.</li><li>Aceite: resolução consistente em cenário real.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 38 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F6.3</p>
+    <h2 class="reveal">QA de alucinação e segurança conversacional</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Stress tests</h3><p>Prompt injection, fora de escopo e ambiguidade.</p></article>
+      <article class="panel"><h3>Guardrails</h3><p>Lista de frases proibidas e limites de promessa.</p></article>
+      <article class="panel"><h3>Aceite</h3><p>Agente recusa com segurança sem inventar regra.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 39 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F6.4 · anti-refém</p>
+    <h2 class="reveal">Governança de IA para manutenção sustentável</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight"><li>Versionamento de prompt, KB e fluxo.</li><li>Checklist de release e rollback.</li><li>Métricas IA vs humano.</li></ul></article>
+      <article class="panel"><ul class="tight"><li>Runbook de incidentes de IA.</li><li>Revisão quinzenal de performance.</li><li>Plano de autonomia da equipe.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 40 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Arquitetura transversal</p>
+    <h2 class="reveal">Multi-projeto: RAG por cliente/projeto</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Isolamento de conhecimento</h3><p>Base vetorial separada por tenant/projeto.</p></article>
+      <article class="panel"><h3>Isolamento de execução</h3><p>Credenciais, automações e logs segregados.</p></article>
+      <article class="panel"><h3>Governança</h3><p>RBAC, auditoria e política de retenção por cliente.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 41 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Fase 7 · visão</p>
+    <h2 class="reveal">Gestão de Tarefas + Área de Membros no final</h2>
+    <p class="reveal">Fase deslocada para o fim do roadmap para priorizar resultado comercial antes da operação de conteúdo.</p>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 42 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F7.1</p>
+    <h2 class="reveal">Gestão de tarefas self-hosted</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight"><li>Ferramenta: Plane/Focalboard/Kanboard.</li><li>Fluxo padrão: backlog → doing → review → done.</li><li>Permissões por equipe e operação.</li></ul></article>
+      <article class="panel"><ul class="tight"><li>Board Implantação + Board Operação.</li><li>Ritmo semanal/mensal definido.</li><li>Aceite: equipe usando quadro em rotina real.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 43 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F7.2</p>
+    <h2 class="reveal">Área de membros com provisionamento automático</h2>
+    <div class="two-col reveal">
+      <article class="panel"><ul class="tight"><li>Setup de plataforma (WP/TutorLMS ou similar).</li><li>Domínio, SSL, usuários e papéis.</li><li>Integração compra aprovada → cria acesso.</li></ul></article>
+      <article class="panel"><ul class="tight"><li>Cancelamento/reembolso → revoga acesso.</li><li>Workflow versionado no n8n.</li><li>Aceite: fluxo compra → login comprovado.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 44 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">F7.3</p>
+    <h2 class="reveal">Aceite da fase final e handover completo</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Documentação</h3><p>Arquitetura final, acessos e runbooks.</p></article>
+      <article class="panel"><h3>Treinamento</h3><p>Operação assistida da rotina pós-projeto.</p></article>
+      <article class="panel"><h3>Encerramento</h3><p>Entrega formal e plano de continuidade interno.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 45 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Entregáveis transversais</p>
+    <h2 class="reveal">O que é entregue em todas as fases</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Checklist de aceite</h3><p>Status e pendências classificadas.</p></article>
+      <article class="panel"><h3>Documentação técnica</h3><p>Configurações, parâmetros e decisões.</p></article>
+      <article class="panel"><h3>Export de fluxos</h3><p>Backups dos workflows alterados.</p></article>
+      <article class="panel"><h3>Mapa de integrações</h3><p>Quem fala com quem e por quê.</p></article>
+      <article class="panel"><h3>Handover</h3><p>Treinamento e orientação operacional.</p></article>
+      <article class="panel"><h3>Rastreabilidade</h3><p>Registro claro de mudanças por fase.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 46 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Dependências do cliente</p>
+    <h2 class="reveal">Pré-requisitos para não travar cronograma</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Infra</h3><p>VPS, SSH/root, domínio e DNS ativos.</p></article>
+      <article class="panel"><h3>Integrações</h3><p>Acesso a checkout/pagamentos e canais.</p></article>
+      <article class="panel"><h3>Conteúdo</h3><p>FAQs, scripts e regras para treinar IA.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 47 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Modelo de execução</p>
+    <h2 class="reveal">Assistida (mentoria) vs Delegada (execução)</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Assistida</h3><ul class="tight"><li>Cliente executa.</li><li>Especialista revisa/corrige/valida.</li><li>Foco em formação e autonomia.</li></ul></article>
+      <article class="panel"><h3>Delegada</h3><ul class="tight"><li>Especialista executa a maior parte.</li><li>Cliente acompanha checkpoints.</li><li>Foco em velocidade de implantação.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 48 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Cadência de trabalho</p>
+    <h2 class="reveal">Formato semanal proposto</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>Reunião fixa</h3><p>1 reunião semanal de alinhamento e destrave.</p></article>
+      <article class="panel"><h3>Assíncrono</h3><p>Troca diária para dúvidas e evidências.</p></article>
+      <article class="panel"><h3>SLA revisão</h3><p>Até 48h úteis na modalidade assistida.</p></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 49 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Comercial 30%</p>
+    <h2 class="reveal">Tabela por fase — Assistida</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>F1</h3><p>R$ 2.400</p></article>
+      <article class="panel"><h3>F2</h3><p>R$ 3.000</p></article>
+      <article class="panel"><h3>F3</h3><p>R$ 2.100</p></article>
+      <article class="panel"><h3>F4</h3><p>R$ 2.700</p></article>
+      <article class="panel"><h3>F5</h3><p>R$ 2.100</p></article>
+      <article class="panel"><h3>F6</h3><p>R$ 3.300</p></article>
+      <article class="panel"><h3>F7</h3><p>R$ 2.400</p></article>
+    </div>
+    <p class="kpi reveal"><strong>Total Assistida:</strong> R$ 18.000</p>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 50 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Comercial 30%</p>
+    <h2 class="reveal">Tabela por fase — Delegada</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>F1</h3><p>R$ 4.800</p></article>
+      <article class="panel"><h3>F2</h3><p>R$ 6.600</p></article>
+      <article class="panel"><h3>F3</h3><p>R$ 4.200</p></article>
+      <article class="panel"><h3>F4</h3><p>R$ 6.000</p></article>
+      <article class="panel"><h3>F5</h3><p>R$ 4.200</p></article>
+      <article class="panel"><h3>F6</h3><p>R$ 7.800</p></article>
+      <article class="panel"><h3>F7</h3><p>R$ 5.400</p></article>
+    </div>
+    <p class="kpi reveal"><strong>Total Delegada:</strong> R$ 39.000</p>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 51 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">50/50 por fase</p>
+    <h2 class="reveal">Entrada e entrega por modalidade</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Assistida</h3><ul class="tight"><li>Total: R$ 18.000</li><li>Entrada acumulada: R$ 9.000</li><li>Entrega acumulada: R$ 9.000</li></ul></article>
+      <article class="panel"><h3>Delegada</h3><ul class="tight"><li>Total: R$ 39.000</li><li>Entrada acumulada: R$ 19.500</li><li>Entrega acumulada: R$ 19.500</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 52 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Prazo estimado</p>
+    <h2 class="reveal">Assistida: janela de execução</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>F1–F2</h3><p>5 semanas</p></article>
+      <article class="panel"><h3>F3–F5</h3><p>6 semanas (F3 paralela)</p></article>
+      <article class="panel"><h3>F6–F7</h3><p>5 semanas</p></article>
+    </div>
+    <p class="kpi reveal">Janela total estimada: 15–20 semanas (incluindo homologações).</p>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 53 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Prazo estimado</p>
+    <h2 class="reveal">Delegada: janela de execução</h2>
+    <div class="three-col reveal">
+      <article class="panel"><h3>F1–F2</h3><p>3.5 semanas</p></article>
+      <article class="panel"><h3>F3–F5</h3><p>4.5 semanas (F3 paralela)</p></article>
+      <article class="panel"><h3>F6–F7</h3><p>4 semanas</p></article>
+    </div>
+    <p class="kpi reveal">Janela total estimada: 11–14 semanas.</p>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 54 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Comparativo final</p>
+    <h2 class="reveal">Como escolher a modalidade</h2>
+    <div class="two-col reveal">
+      <article class="panel"><h3>Escolha Assistida se:</h3><ul class="tight"><li>Objetivo principal é capacitação interna.</li><li>Orçamento mais enxuto.</li><li>Equipe disponível para executar.</li></ul></article>
+      <article class="panel"><h3>Escolha Delegada se:</h3><ul class="tight"><li>Objetivo principal é velocidade.</li><li>Menor disponibilidade interna.</li><li>Aceita ticket maior para acelerar.</li></ul></article>
+    </div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 55 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Cláusula contratável</p>
+    <h2 class="reveal">Pagamento, aceite e avanço de fase</h2>
+    <div class="panel reveal"><ul class="tight">
+      <li><strong>Pagamento:</strong> 50% no início e 50% na entrega/aprovação de cada fase.</li>
+      <li><strong>Aceite:</strong> checklist concluído + documentação + evidência de teste.</li>
+      <li><strong>Fase seguinte:</strong> condicionada à entrada de 50% da próxima fase.</li>
+    </ul></div>
+  </div><span class="slide-index"></span></section>
+
+  <!-- 56 -->
+  <section class="slide"><div class="slide-content">
+    <p class="eyebrow reveal">Encerramento</p>
+    <h2 class="reveal">v1.3 FULL pronta para decisão com sócios</h2>
+    <p class="reveal">Deck completo, fiel ao escopo técnico e comercial: 7 fases, IA obrigatória, mentoria/delegada, valores aplicados e governança anti-refém.</p>
+    <div class="chips reveal"><span class="chip">56 slides</span><span class="chip">mobile-ready</span><span class="chip">0 warnings target</span><span class="chip">apresentação executiva+técnica</span></div>
+  </div><span class="slide-index"></span></section>
+
+  <script>
+    class SlidePresentation {
+      constructor() {
+        this.slides = [...document.querySelectorAll('.slide')];
+        this.progress = document.getElementById('progress');
+        this.navDots = document.getElementById('navDots');
+        this.index = 0;
+
+        this.numberSlides();
+        this.makeDots();
+        this.observeSlides();
+        this.bindKeys();
+        this.bindWheel();
+        this.updateProgress();
+      }
+
+      numberSlides() {
+        this.slides.forEach((slide, i) => {
+          const idx = slide.querySelector('.slide-index');
+          if (idx) idx.textContent = String(i + 1).padStart(2, '0');
+        });
+      }
+
+      makeDots() {
+        this.slides.forEach((_, i) => {
+          const btn = document.createElement('button');
+          btn.className = 'nav-dot';
+          btn.setAttribute('aria-label', `Ir para slide ${i + 1}`);
+          btn.addEventListener('click', () => this.goTo(i));
+          this.navDots.appendChild(btn);
+        });
+      }
+
+      goTo(i) {
+        const clamped = Math.max(0, Math.min(i, this.slides.length - 1));
+        this.index = clamped;
+        this.slides[clamped].scrollIntoView({ behavior: 'smooth', block: 'start' });
+        this.updateProgress();
+      }
+
+      bindKeys() {
+        window.addEventListener('keydown', (e) => {
+          if (['ArrowRight', 'ArrowDown', 'PageDown', ' '].includes(e.key)) {
+            e.preventDefault();
+            this.goTo(this.index + 1);
+          }
+          if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(e.key)) {
+            e.preventDefault();
+            this.goTo(this.index - 1);
+          }
+        });
+      }
+
+      bindWheel() {
+        let lock = false;
+        window.addEventListener('wheel', (e) => {
+          if (lock) return;
+          if (Math.abs(e.deltaY) < 20) return;
+          lock = true;
+          this.goTo(this.index + (e.deltaY > 0 ? 1 : -1));
+          setTimeout(() => { lock = false; }, 360);
+        }, { passive: true });
+      }
+
+      observeSlides() {
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            const i = this.slides.indexOf(entry.target);
+            if (i !== -1) {
+              this.index = i;
+              this.updateProgress();
+            }
+            entry.target.classList.add('visible');
+          });
+        }, { threshold: 0.6 });
+
+        this.slides.forEach((slide) => observer.observe(slide));
+      }
+
+      updateProgress() {
+        const pct = ((this.index + 1) / this.slides.length) * 100;
+        this.progress.style.width = `${pct}%`;
+        [...this.navDots.children].forEach((dot, i) => {
+          dot.classList.toggle('active', i === this.index);
+        });
+      }
+    }
+
+    new SlidePresentation();
+  </script>
+</body>
+</html>
