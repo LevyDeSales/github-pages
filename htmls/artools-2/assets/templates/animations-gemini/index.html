@@ -1,0 +1,564 @@
+<html lang="en"><head><meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Gemini 3 Animation Guide - Monotone V2</title>
+<!-- Scripts -->
+<script src="assets/resource_3fa48481346f.js"></script>
+<script src="assets/iconify-icon_e19829e7f0e8.js"></script>
+<link href="assets/css2_d532a689d235.css" rel="stylesheet"/>
+<style>
+/* Base Setup */
+:root {
+--bg-deep: #050505;
+}
+body {
+font-family: 'Inter', sans-serif;
+background-color: var(--bg-deep);
+color: #e5e5e5;
+scrollbar-width: none;
+-ms-overflow-style: none;
+}
+body::-webkit-scrollbar {
+display: none;
+}
+html {
+scroll-behavior: smooth;
+}
+/* Animations */
+@keyframes animationIn {
+0% { opacity: 0; transform: translateY(30px); filter: blur(10px); }
+100% { opacity: 1; transform: translateY(0); filter: blur(0px); }
+}
+@keyframes marquee {
+0% { transform: translateX(0); }
+100% { transform: translateX(-50%); }
+}
+.animate-marquee { animation: marquee 40s linear infinite; }
+@keyframes shimmer {
+from { transform: translateX(-100%) skewX(-15deg); }
+to { transform: translateX(200%) skewX(-15deg); }
+}
+@keyframes textSlide {
+0% { transform: translateY(110%); opacity: 0; }
+100% { transform: translateY(0); opacity: 1; }
+}
+.text-clip-anim span {
+display: inline-block;
+animation: textSlide 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+opacity: 0;
+}
+/* Flashlight Effect */
+.flashlight-card { background: rgba(255, 255, 255, 0.01); }
+.flashlight-card::before {
+content: "";
+position: absolute;
+inset: 0px;
+background: radial-gradient(
+800px circle at var(--mouse-x) var(--mouse-y),
+rgba(255, 255, 255, 0.08),
+transparent 40%
+);
+opacity: 0;
+transition: opacity 0.5s;
+pointer-events: none;
+z-index: 2;
+}
+.flashlight-card:hover::before { opacity: 1; }
+/* Utility */
+.glass-panel {
+background: rgba(23, 23, 23, 0.6);
+backdrop-filter: blur(20px);
+}
+</style>
+<link href="assets/css2_86e10c4bcbd4.css" id="all-fonts-link-font-geist" rel="stylesheet"/><style id="all-fonts-style-font-geist">.font-geist { font-family: 'Geist', sans-serif !important; }</style><link href="assets/css2_0fc20595ebff.css" id="all-fonts-link-font-roboto" rel="stylesheet"/><style id="all-fonts-style-font-roboto">.font-roboto { font-family: 'Roboto', sans-serif !important; }</style><link href="assets/css2_23afcbef9bdd.css" id="all-fonts-link-font-montserrat" rel="stylesheet"/><style id="all-fonts-style-font-montserrat">.font-montserrat { font-family: 'Montserrat', sans-serif !important; }</style><link href="assets/css2_82ced711bf49.css" id="all-fonts-link-font-poppins" rel="stylesheet"/><style id="all-fonts-style-font-poppins">.font-poppins { font-family: 'Poppins', sans-serif !important; }</style><link href="assets/css2_fa22aa91016e.css" id="all-fonts-link-font-playfair" rel="stylesheet"/><style id="all-fonts-style-font-playfair">.font-playfair { font-family: 'Playfair Display', serif !important; }</style><link href="assets/css2_2b2d87bc82d8.css" id="all-fonts-link-font-instrument-serif" rel="stylesheet"/><style id="all-fonts-style-font-instrument-serif">.font-instrument-serif { font-family: 'Instrument Serif', serif !important; }</style><link href="assets/css2_4fef849c83da.css" id="all-fonts-link-font-merriweather" rel="stylesheet"/><style id="all-fonts-style-font-merriweather">.font-merriweather { font-family: 'Merriweather', serif !important; }</style><link href="assets/css2_a7b22b336fe1.css" id="all-fonts-link-font-bricolage" rel="stylesheet"/><style id="all-fonts-style-font-bricolage">.font-bricolage { font-family: 'Bricolage Grotesque', sans-serif !important; }</style><link href="assets/css2_0b2072b66163.css" id="all-fonts-link-font-jakarta" rel="stylesheet"/><style id="all-fonts-style-font-jakarta">.font-jakarta { font-family: 'Plus Jakarta Sans', sans-serif !important; }</style><link href="assets/css2_9b8bf743d4a8.css" id="all-fonts-link-font-manrope" rel="stylesheet"/><style id="all-fonts-style-font-manrope">.font-manrope { font-family: 'Manrope', sans-serif !important; }</style><link href="assets/css2_8e191ef32247.css" id="all-fonts-link-font-space-grotesk" rel="stylesheet"/><style id="all-fonts-style-font-space-grotesk">.font-space-grotesk { font-family: 'Space Grotesk', sans-serif !important; }</style><link href="assets/css2_70fd47a02eed.css" id="all-fonts-link-font-work-sans" rel="stylesheet"/><style id="all-fonts-style-font-work-sans">.font-work-sans { font-family: 'Work Sans', sans-serif !important; }</style><link href="assets/css2_b52fc18295f8.css" id="all-fonts-link-font-pt-serif" rel="stylesheet"/><style id="all-fonts-style-font-pt-serif">.font-pt-serif { font-family: 'PT Serif', serif !important; }</style><link href="assets/css2_62759cd015bd.css" id="all-fonts-link-font-geist-mono" rel="stylesheet"/><style id="all-fonts-style-font-geist-mono">.font-geist-mono { font-family: 'Geist Mono', monospace !important; }</style><link href="assets/css2_f495c2faa2a6.css" id="all-fonts-link-font-space-mono" rel="stylesheet"/><style id="all-fonts-style-font-space-mono">.font-space-mono { font-family: 'Space Mono', monospace !important; }</style><link href="assets/css2_6f16cdd6fd9f.css" id="all-fonts-link-font-quicksand" rel="stylesheet"/><style id="all-fonts-style-font-quicksand">.font-quicksand { font-family: 'Quicksand', sans-serif !important; }</style><link href="assets/css2_94cb6f0c406a.css" id="all-fonts-link-font-nunito" rel="stylesheet"/><style id="all-fonts-style-font-nunito">.font-nunito { font-family: 'Nunito', sans-serif !important; }</style><style id="border-gradient-shared-style">
+[style*="--border-gradient"]::before {
+content: "";
+position: absolute;
+inset: 0;
+padding: 1px;
+border-radius: var(--border-radius-before, inherit);
+-webkit-mask: linear-gradient(#fff 0 0) content-box,
+linear-gradient(#fff 0 0);
+-webkit-mask-composite: xor;
+mask-composite: exclude;
+background: var(--border-gradient);
+pointer-events: none;
+}</style> <style>
+/* 3D Transform utilities */
+</style>
+<script>
+// Configure Tailwind to include our custom 3D transform utilities
+tailwind.config = {
+theme: {
+extend: {
+// Add any custom theme extensions here if needed
+}
+},
+plugins: [
+function({ addUtilities }) {
+const rotateXUtilities = {};
+const rotateYUtilities = {};
+const rotateZUtilities = {};
+const rotateValues = [0, 5, 10, 15, 20, 30, 45, 75];
+// Generate rotate-x utilities
+rotateValues.forEach((value) => {
+rotateXUtilities[`.rotate-x-${value}`] = {
+'--tw-rotate-x': `${value}deg`,
+transform: `
+translate3d(var(--tw-translate-x, 0), var(--tw-translate-y, 0), var(--tw-translate-z, 0))
+rotateX(var(--tw-rotate-x, 0))
+rotateY(var(--tw-rotate-y, 0))
+rotateZ(var(--tw-rotate-z, 0))
+skewX(var(--tw-skew-x, 0))
+skewY(var(--tw-skew-y, 0))
+scaleX(var(--tw-scale-x, 1))
+scaleY(var(--tw-scale-y, 1))
+`.replace(/\\s+/g, ' ').trim(),
+};
+if (value !== 0) {
+rotateXUtilities[`.-rotate-x-${value}`] = {
+'--tw-rotate-x': `-${value}deg`,
+transform: `
+translate3d(var(--tw-translate-x, 0), var(--tw-translate-y, 0), var(--tw-translate-z, 0))
+rotateX(var(--tw-rotate-x, 0))
+rotateY(var(--tw-rotate-y, 0))
+rotateZ(var(--tw-rotate-z, 0))
+skewX(var(--tw-skew-x, 0))
+skewY(var(--tw-skew-y, 0))
+scaleX(var(--tw-scale-x, 1))
+scaleY(var(--tw-scale-y, 1))
+`.replace(/\\s+/g, ' ').trim(),
+};
+}
+});
+// Generate rotate-y utilities
+rotateValues.forEach((value) => {
+rotateYUtilities[`.rotate-y-${value}`] = {
+'--tw-rotate-y': `${value}deg`,
+transform: `
+translate3d(var(--tw-translate-x, 0), var(--tw-translate-y, 0), var(--tw-translate-z, 0))
+rotateX(var(--tw-rotate-x, 0))
+rotateY(var(--tw-rotate-y, 0))
+rotateZ(var(--tw-rotate-z, 0))
+skewX(var(--tw-skew-x, 0))
+skewY(var(--tw-skew-y, 0))
+scaleX(var(--tw-scale-x, 1))
+scaleY(var(--tw-scale-y, 1))
+`.replace(/\\s+/g, ' ').trim(),
+};
+if (value !== 0) {
+rotateYUtilities[`.-rotate-y-${value}`] = {
+'--tw-rotate-y': `-${value}deg`,
+transform: `
+translate3d(var(--tw-translate-x, 0), var(--tw-translate-y, 0), var(--tw-translate-z, 0))
+rotateX(var(--tw-rotate-x, 0))
+rotateY(var(--tw-rotate-y, 0))
+rotateZ(var(--tw-rotate-z, 0))
+skewX(var(--tw-skew-x, 0))
+skewY(var(--tw-skew-y, 0))
+scaleX(var(--tw-scale-x, 1))
+scaleY(var(--tw-scale-y, 1))
+`.replace(/\\s+/g, ' ').trim(),
+};
+}
+});
+// Generate rotate-z utilities
+rotateValues.forEach((value) => {
+rotateZUtilities[`.rotate-z-${value}`] = {
+'--tw-rotate-z': `${value}deg`,
+transform: `
+translate3d(var(--tw-translate-x, 0), var(--tw-translate-y, 0), var(--tw-translate-z, 0))
+rotateX(var(--tw-rotate-x, 0))
+rotateY(var(--tw-rotate-y, 0))
+rotateZ(var(--tw-rotate-z, 0))
+skewX(var(--tw-skew-x, 0))
+skewY(var(--tw-skew-y, 0))
+scaleX(var(--tw-scale-x, 1))
+scaleY(var(--tw-scale-y, 1))
+`.replace(/\\s+/g, ' ').trim(),
+};
+if (value !== 0) {
+rotateZUtilities[`.-rotate-z-${value}`] = {
+'--tw-rotate-z': `-${value}deg`,
+transform: `
+translate3d(var(--tw-translate-x, 0), var(--tw-translate-y, 0), var(--tw-translate-z, 0))
+rotateX(var(--tw-rotate-x, 0))
+rotateY(var(--tw-rotate-y, 0))
+rotateZ(var(--tw-rotate-z, 0))
+skewX(var(--tw-skew-x, 0))
+skewY(var(--tw-skew-y, 0))
+scaleX(var(--tw-scale-x, 1))
+scaleY(var(--tw-scale-y, 1))
+`.replace(/\\s+/g, ' ').trim(),
+};
+}
+});
+// Perspective utilities
+const perspectiveUtilities = {
+".perspective-none": { perspective: "none" },
+".perspective-dramatic": { perspective: "100px" },
+".perspective-near": { perspective: "300px" },
+".perspective-normal": { perspective: "500px" },
+".perspective-midrange": { perspective: "800px" },
+".perspective-distant": { perspective: "1200px" },
+};
+// Transform style utilities
+const transformStyleUtilities = {
+".transform-style-preserve-3d": { "transform-style": "preserve-3d" },
+".transform-style-flat": { "transform-style": "flat" },
+};
+addUtilities({
+...rotateXUtilities,
+...rotateYUtilities,
+...rotateZUtilities,
+...perspectiveUtilities,
+...transformStyleUtilities,
+});
+}
+]
+};
+</script></head>
+<body class="antialiased selection:bg-white/20 selection:text-white relative bg-neutral-950 overflow-hidden">
+<!-- Fixed Header -->
+<header class="fixed top-0 left-0 right-0 z-[60] px-4 md:px-8 py-4 md:py-6 flex justify-between items-center pointer-events-none">
+<div class="pointer-events-auto">
+<h1 class="text-xs md:text-sm font-semibold tracking-tight text-white uppercase opacity-90 backdrop-blur-md px-3 md:px-4 py-2 rounded-none bg-black/40">
+                Instagram Slides
+            </h1>
+</div>
+<div class="pointer-events-auto flex items-center gap-2 backdrop-blur-md p-2 rounded-full bg-black/40">
+<button class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors text-white/70 hover:text-white" onclick="navigateSlide(-1)">
+<iconify-icon class="md:w-6 md:h-6" icon="solar:alt-arrow-up-bold-duotone" width="20"></iconify-icon>
+</button>
+<div class="w-[1px] h-4 md:h-5 bg-white/10"></div>
+<button class="w-8 h-8 md:w-10 md:h-10 flex items-center justify-center rounded-full hover:bg-white/10 transition-colors text-white/70 hover:text-white" onclick="navigateSlide(1)">
+<iconify-icon class="md:w-6 md:h-6" icon="solar:alt-arrow-down-bold-duotone" width="20"></iconify-icon>
+</button>
+</div>
+</header>
+<!-- Navigation Dots (Hidden on Mobile) -->
+<div class="fixed right-8 top-1/2 -translate-y-1/2 z-[60] hidden md:flex flex-col gap-5" id="nav-dots">
+<a aria-label="Go to slide 1" class="nav-dot w-2 h-2 rounded-full hover:bg-white transition-all duration-300" href="#section-1"></a>
+<a aria-label="Go to slide 2" class="nav-dot w-2 h-2 rounded-full hover:bg-white transition-all duration-300" href="#section-2"></a>
+<a aria-label="Go to slide 3" class="nav-dot w-2 h-2 rounded-full hover:bg-white transition-all duration-300" href="#section-3"></a>
+<a aria-label="Go to slide 4" class="nav-dot w-2 h-2 rounded-full hover:bg-white transition-all duration-300" href="#section-4"></a>
+<a aria-label="Go to slide 5" class="nav-dot w-2 h-2 rounded-full hover:bg-white transition-all duration-300" href="#section-5"></a>
+<a aria-label="Go to slide 6" class="nav-dot w-2 h-2 rounded-full hover:bg-white transition-all duration-300" href="#section-6"></a>
+<a aria-label="Go to slide 7" class="nav-dot w-2 h-2 rounded-full hover:bg-white transition-all duration-300" href="#section-7"></a>
+<a aria-label="Go to slide 8" class="nav-dot w-2 h-2 rounded-full hover:bg-white transition-all duration-300" href="#section-8"></a>
+</div>
+<!-- Scroll Container -->
+<main class="overflow-y-scroll snap-y snap-mandatory scroll-smooth w-full h-screen relative" id="main-scroll">
+<!-- Slide 1: Cover -->
+<section class="snap-start shrink-0 flex w-full h-screen pt-0 pr-0 pb-0 pl-0 relative items-center justify-center" data-index="0" id="section-1">
+<div class="h-full md:h-auto md:aspect-[3/4] glass-panel overflow-hidden flex flex-col group bg-center w-full max-w-none md:max-w-xl bg-cover rounded-none pt-20 md:pt-12 pr-6 md:pr-12 pb-12 pl-6 md:pl-12 relative shadow-2xl justify-between bg-[url(https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/53970266-f8db-425c-8883-5535f3e41c4d_1600w.webp)]" style="transition: outline 0.1s ease-in-out;">
+<div class="flex justify-between items-center opacity-70 animate-on-scroll [animation:animationIn_0.8s_ease-out_0.1s_both] animate">
+<span class="text-xs uppercase tracking-[0.25em] font-mono text-neutral-300">Mono V3.0</span>
+<span class="text-xs font-mono text-neutral-400">01 / 08</span>
+</div>
+<div class="relative z-10 space-y-6 md:space-y-10">
+<div class="flex animate-on-scroll [animation:animationIn_0.8s_ease-out_0.2s_both] animate bg-gradient-to-br from-white/10 to-white/0 w-12 h-12 md:w-14 md:h-14 rounded-lg mb-4 md:mb-6 backdrop-blur-md items-center justify-center" style="position: relative; --border-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0)); --border-radius-before: 8px">
+<!-- Solar Icon -->
+<iconify-icon class="text-2xl md:text-3xl text-white" icon="solar:stars-minimalistic-bold-duotone"></iconify-icon>
+</div>
+<h1 class="leading-[0.9] animate-on-scroll [animation:animationIn_0.8s_ease-out_0.3s_both] animate text-6xl md:text-8xl font-semibold text-white tracking-tighter">
+          Gemini 3<br/>
+<span class="font-light text-neutral-500">Motion</span>
+</h1>
+<p class="leading-relaxed animate-on-scroll [animation:animationIn_0.8s_ease-out_0.4s_both] animate text-sm md:text-base font-light text-neutral-300 max-w-[90%]">
+          Monotone architecture. Precise physics. Pure neutral palette.
+        </p>
+</div>
+<div class="space-y-6 animate-on-scroll [animation:animationIn_0.8s_ease-out_0.6s_both] animate">
+<div class="h-[1px] w-full bg-white/20"></div>
+<div class="flex justify-between items-end">
+<div class="flex items-center gap-3 text-xs text-neutral-400 font-mono uppercase tracking-widest">
+<span class="w-1.5 h-1.5 bg-white rounded-full animate-pulse"></span>
+            Ready
+          </div>
+<iconify-icon class="text-2xl text-white animate-bounce" icon="solar:arrow-down-bold-duotone"></iconify-icon>
+</div>
+</div>
+</div>
+</section>
+<!-- Slide 2: Intro -->
+<section class="snap-start shrink-0 flex w-full h-screen pt-0 pr-0 pb-0 pl-0 relative items-center justify-center" data-index="1" id="section-2">
+<div class="h-full md:h-auto md:aspect-[3/4] glass-panel overflow-hidden flex flex-col bg-center w-full bg-[url(https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/d1e715c0-e250-4e7f-a4f5-433e96d81f31_1600w.webp)] max-w-none md:max-w-xl bg-cover rounded-none pt-20 md:pt-12 pr-6 md:pr-12 pb-12 pl-6 md:pl-12 relative">
+<span class="text-xs uppercase tracking-[0.25em] font-mono text-neutral-400 mb-6 md:mb-10 block animate-on-scroll [animation:animationIn_0.8s_ease-out_0.1s_both]">02 — Intro</span>
+<h2 class="animate-on-scroll [animation:animationIn_0.8s_ease-out_0.2s_both] text-4xl md:text-6xl font-medium text-white tracking-tight mb-4 md:mb-6">
+        Enhance with<br/><span class="text-neutral-500">Motion</span></h2>
+<p class="text-sm md:text-base text-neutral-400 mb-8 md:mb-12 leading-relaxed max-w-md animate-on-scroll [animation:animationIn_0.8s_ease-out_0.3s_both]">
+        Structure: Hero intro, hover interactions, reveal.
+      </p>
+<div class="flex-1 bg-neutral-900/60 rounded-none p-4 md:p-6 relative overflow-hidden group animate-on-scroll [animation:animationIn_0.8s_ease-out_0.4s_both]">
+<div class="bg-center bg-gradient-to-br from-black/10 to-black/0 opacity-100 absolute top-0 right-0 bottom-0 left-0 backdrop-blur-lg">
+</div>
+<div class="z-10 mt-2 relative space-y-4">
+<div class="animate-on-scroll [animation:animationIn_0.8s_ease-out_0.5s_both] bg-gradient-to-br from-white/10 to-white/0 w-2/3 h-8 rounded-none backdrop-blur">
+</div>
+<div class="animate-on-scroll [animation:animationIn_0.8s_ease-out_0.6s_both] bg-gradient-to-br from-white/10 to-white/0 w-full h-16 md:h-24 rounded-none backdrop-blur">
+</div>
+<div class="flex gap-3">
+<div class="animate-on-scroll [animation:animationIn_0.8s_ease-out_0.7s_both] bg-gradient-to-br from-white/10 to-white/0 w-1/2 h-16 md:h-20 rounded-none backdrop-blur">
+</div>
+<div class="animate-on-scroll [animation:animationIn_0.8s_ease-out_0.8s_both] bg-gradient-to-br from-white/10 to-white/0 w-1/2 h-16 md:h-20 rounded-none backdrop-blur">
+</div>
+</div>
+</div>
+<div class="absolute bottom-6 left-6 right-6 bg-black/80 backdrop-blur-md p-4 rounded-none animate-on-scroll [animation:animationIn_0.8s_ease-out_1s_both]">
+<p class="leading-tight text-xs md:text-base text-neutral-300 font-mono">
+            "Animate when in view: fade in, slide in, blur in..."
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- Slide 3: Buttons -->
+<section class="snap-start shrink-0 flex w-full h-screen pt-0 pr-0 pb-0 pl-0 relative items-center justify-center" data-index="2" id="section-3">
+<div class="h-full md:h-auto md:aspect-[3/4] glass-panel overflow-hidden flex flex-col bg-center w-full bg-[url(https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/6ea6d66c-a7a6-4548-9b3f-680a206078c3_1600w.webp)] max-w-none md:max-w-xl bg-cover rounded-none pt-20 md:pt-12 pr-6 md:pr-12 pb-12 pl-6 md:pl-12 relative items-center justify-center">
+<div class="absolute top-20 md:top-12 left-6 md:left-12 right-6 md:right-12">
+<span class="text-xs uppercase tracking-[0.25em] font-mono text-neutral-400">03 — Buttons</span>
+<h2 class="text-4xl md:text-5xl font-medium text-white tracking-tight mt-4">Beam Animation</h2>
+</div>
+<div class="group animate-on-scroll [animation:animationIn_0.8s_ease-out_0.3s_both] mt-20 md:mt-80 relative scale-110 md:scale-125">
+<div class="-inset-2 group-hover:opacity-100 transition duration-500 bg-neutral-600/30 opacity-0 rounded-full absolute blur-xl">
+</div>
+<!-- Shimmer Beam Animation Layer -->
+<div class="absolute -inset-[1px] rounded-full overflow-hidden opacity-0 group-hover:opacity-100 transition duration-500 pointer-events-none">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300%] h-[300%] bg-[conic-gradient(from_0deg,transparent_0_340deg,white_360deg)] animate-[spin_2s_linear_infinite]"></div>
+</div>
+<button class="group relative z-10 flex items-center justify-center overflow-hidden rounded-full p-[1px] leading-none">
+<span class="absolute inset-[-1000%] animate-[spin_2s_linear_infinite] bg-[conic-gradient(from_0deg,transparent_0_340deg,white_360deg)]"></span>
+<span class="relative flex h-full w-full items-center rounded-full bg-black pt-4 pr-10 pb-4 pl-10 ring-1 ring-white/10">
+<span class="absolute inset-0 overflow-hidden rounded-full">
+<span class="absolute top-0 left-0 h-full w-full -skew-x-12 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 group-hover:animate-[shimmer_1.5s_infinite] group-hover:opacity-100"></span>
+</span>
+<span class="relative z-10 flex items-center">
+<span class="text-lg font-medium tracking-wide text-white">Get Access</span>
+</span>
+<span class="relative z-10 ml-4 flex items-center text-neutral-500 transition duration-200 group-hover:translate-x-1 group-hover:text-white">
+<iconify-icon class="text-2xl" icon="solar:arrow-right-bold-duotone"></iconify-icon>
+</span>
+</span>
+</button>
+</div>
+<div class="mt-20 p-6 border-l-2 border-white/20 rounded-none w-full animate-on-scroll [animation:animationIn_0.8s_ease-out_0.5s_both]">
+<p class="leading-relaxed text-sm md:text-base text-neutral-400 font-mono">
+<span class="text-white">Prompt:</span> "Add a 1px shimmer beam animation around the pill-shaped button on
+          hover."
+        </p>
+</div>
+</div>
+</section>
+<!-- Slide 4: Typography -->
+<section class="h-screen w-full snap-start shrink-0 flex items-center justify-center relative p-0" data-index="3" id="section-4">
+<div class="h-full md:h-auto md:aspect-[3/4] glass-panel overflow-hidden flex flex-col bg-neutral-900/50 w-full max-w-none md:max-w-xl rounded-none pt-20 md:pt-12 pr-6 md:pr-12 pb-12 pl-6 md:pl-12 relative justify-center">
+<span class="absolute top-20 md:top-12 left-6 md:left-12 text-xs uppercase tracking-[0.25em] font-mono text-neutral-500 animate-on-scroll [animation:animationIn_0.8s_ease-out_0.1s_both]">04 — Typography</span>
+<div class="space-y-1">
+<div class="flex animate-on-scroll [animation:animationIn_0.8s_ease-out_0.2s_both]">
+<h2 class="text-5xl md:text-7xl font-semibold text-white tracking-tighter" style="animation-delay: 0s">Clip-path</h2>
+</div>
+<div class="flex animate-on-scroll [animation:animationIn_0.8s_ease-out_0.3s_both]">
+<h2 class="text-5xl md:text-7xl font-semibold text-neutral-600 tracking-tighter" style="animation-delay: 0.1s">Typography</h2>
+</div>
+<div class="flex animate-on-scroll [animation:animationIn_0.8s_ease-out_0.4s_both]">
+<h2 class="text-5xl md:text-7xl font-semibold text-neutral-800 tracking-tighter" style="animation-delay: 0.2s">Animation</h2>
+</div>
+</div>
+<div class="animate-on-scroll [animation:animationIn_0.8s_ease-out_0.6s_both] text-sm md:text-base font-light text-neutral-500 border-neutral-800 border-l-2 mt-16 pl-6">
+        "Add a vertical text clip slide down animation letter by letter"
+      </div>
+</div>
+</section>
+<!-- Slide 5: Logos -->
+<section class="snap-start shrink-0 flex w-full h-screen pt-0 pr-0 pb-0 pl-0 relative items-center justify-center" data-index="4" id="section-5">
+<div class="h-full md:h-auto md:aspect-[3/4] glass-panel overflow-hidden flex flex-col w-full max-w-none md:max-w-xl rounded-none p-0 relative justify-center bg-neutral-900/40">
+<div class="p-6 md:p-12 pb-0">
+<span class="text-xs uppercase tracking-[0.25em] font-mono text-neutral-500 animate-on-scroll [animation:animationIn_0.8s_ease-out_0.1s_both]">05 — Social Proof</span>
+<h2 class="text-4xl md:text-5xl font-medium tracking-tight mt-4 mb-8 md:mb-16 text-white animate-on-scroll [animation:animationIn_0.8s_ease-out_0.2s_both]">
+          Infinite Loop</h2>
+</div>
+<div class="relative w-full py-12 md:py-16 border-y border-white/5 bg-black/40 animate-on-scroll [animation:animationIn_0.8s_ease-out_0.4s_both]">
+<div class="absolute left-0 top-0 bottom-0 w-12 md:w-24 z-10 bg-gradient-to-r from-[#0d0d0d] to-transparent"></div>
+<div class="absolute right-0 top-0 bottom-0 w-12 md:w-24 z-10 bg-gradient-to-l from-[#0d0d0d] to-transparent"></div>
+<div class="flex overflow-hidden w-full">
+<div class="flex animate-marquee whitespace-nowrap gap-8 md:gap-16 items-center">
+<!-- Brand icons -->
+<iconify-icon class="text-2xl md:text-3xl text-neutral-400" icon="simple-icons:nvidia"></iconify-icon>
+<iconify-icon class="text-2xl md:text-3xl text-neutral-400" icon="simple-icons:linear"></iconify-icon>
+<iconify-icon class="text-2xl md:text-3xl text-neutral-400" icon="simple-icons:vercel"></iconify-icon>
+<iconify-icon class="text-2xl md:text-3xl text-neutral-400" icon="simple-icons:apple"></iconify-icon>
+<iconify-icon class="text-4xl md:text-5xl text-neutral-400" icon="simple-icons:stripe"></iconify-icon>
+<iconify-icon class="text-4xl md:text-5xl text-neutral-400" icon="simple-icons:spacex"></iconify-icon>
+<iconify-icon class="text-2xl md:text-3xl text-neutral-400" icon="simple-icons:nvidia"></iconify-icon>
+<iconify-icon class="text-2xl md:text-3xl text-neutral-400" icon="simple-icons:linear"></iconify-icon>
+<iconify-icon class="text-2xl md:text-3xl text-neutral-400" icon="simple-icons:vercel"></iconify-icon>
+<iconify-icon class="text-2xl md:text-3xl text-neutral-400" icon="simple-icons:apple"></iconify-icon>
+<iconify-icon class="text-4xl md:text-5xl text-neutral-400" icon="simple-icons:stripe"></iconify-icon>
+<iconify-icon class="text-4xl md:text-5xl text-neutral-400" icon="simple-icons:spacex"></iconify-icon>
+</div>
+</div>
+</div>
+<div class="pt-8 pr-6 md:pr-12 pb-12 pl-6 md:pl-12">
+<p class="animate-on-scroll [animation:animationIn_0.8s_ease-out_0.6s_both] text-sm md:text-base text-neutral-400 font-mono">
+          "Add a marquis infinite loop slow animation using alpha mask"
+        </p>
+</div>
+</div>
+</section>
+<!-- Slide 6: Switching -->
+<section class="h-screen w-full snap-start shrink-0 flex items-center justify-center relative p-0" data-index="5" id="section-6">
+<div class="h-full md:h-auto md:aspect-[3/4] glass-panel overflow-hidden flex flex-col bg-center w-full bg-[url(https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/47ccf769-0cb4-4a95-804e-cc919fd6d449_1600w.webp)] max-w-none md:max-w-xl bg-cover rounded-none pt-20 md:pt-12 pr-6 md:pr-12 pb-12 pl-6 md:pl-12 relative items-center justify-center">
+<span class="absolute top-20 md:top-12 left-6 md:left-12 text-xs uppercase tracking-[0.25em] font-mono text-neutral-500 animate-on-scroll [animation:animationIn_0.8s_ease-out_0.1s_both]">06 — Switching</span>
+<div class="flex animate-on-scroll [animation:animationIn_0.8s_ease-out_0.3s_both] w-full h-80 relative perspective-1000 items-center justify-center">
+<div class="absolute w-[80%] h-[80%] bg-neutral-800/80 backdrop-blur rounded-none -translate-y-6 scale-95 opacity-40">
+</div>
+<div class="flex flex-col transition-all duration-500 hover:scale-[1.02] z-10 bg-stone-950 w-[85%] h-[85%] ring-white/10 ring-1 rounded-none pt-8 pr-8 pb-8 pl-8 absolute shadow-2xl">
+<div class="flex bg-gradient-to-br from-white/10 to-white/0 w-12 h-12 rounded-none mb-6 items-center justify-center">
+<iconify-icon class="text-2xl text-white" icon="solar:database-bold-duotone"></iconify-icon>
+</div>
+<div class="bg-gradient-to-br from-white/10 to-white/0 w-16 h-3 rounded-sm mb-6"></div>
+<div class="bg-gradient-to-br from-white/10 to-white/0 w-full h-3 rounded-sm mb-3"></div>
+<div class="bg-gradient-to-br from-white/10 to-white/0 w-2/3 h-3 rounded-sm"></div>
+</div>
+<div class="absolute -bottom-12 flex gap-6">
+<button class="flex hover:bg-white hover:text-black transition-colors text-neutral-400 bg-neutral-900 w-12 h-12 rounded-full items-center justify-center" style="position: relative; --border-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0)); --border-radius-before: 9999px">
+<iconify-icon class="text-xl" icon="solar:arrow-left-bold-duotone"></iconify-icon>
+</button>
+<button class="flex hover:bg-white hover:text-black transition-colors text-neutral-400 bg-neutral-900 w-12 h-12 rounded-full items-center justify-center" style="position: relative; --border-gradient: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0)); --border-radius-before: 9999px">
+<iconify-icon class="text-xl" icon="solar:arrow-right-bold-duotone"></iconify-icon>
+</button>
+</div>
+</div>
+<div class="mt-24 pt-8 pr-6 md:pr-12 pb-12 pl-6 md:pl-12">
+<p class="animate-on-scroll [animation:animationIn_0.8s_ease-out_0.6s_both] text-sm md:text-base text-neutral-400 font-mono">"Animate the cards to rotate between 3 cards in a loop. Add prev/next arrows to switch between cards."</p>
+</div></div>
+</section>
+<!-- Slide 7: Interaction -->
+<section class="h-screen w-full snap-start shrink-0 flex items-center justify-center relative p-0" data-index="6" id="section-7">
+<div class="h-full md:h-auto md:aspect-[3/4] glass-panel overflow-hidden flex flex-col bg-center w-full bg-[url(https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/7b8e6a1f-44f9-49ef-a26c-bf0d87724acf_1600w.webp)] max-w-none md:max-w-xl bg-cover rounded-none pt-20 md:pt-12 pr-6 md:pr-12 pb-12 pl-6 md:pl-12 relative justify-center">
+<span class="absolute top-20 md:top-12 left-6 md:left-12 text-xs uppercase tracking-[0.25em] font-mono text-neutral-500 animate-on-scroll [animation:animationIn_0.8s_ease-out_0.1s_both]">07 — Interaction</span>
+<h2 class="text-4xl md:text-5xl font-medium tracking-tight mb-8 md:mb-12 text-white animate-on-scroll [animation:animationIn_0.8s_ease-out_0.2s_both]">
+        Flashlight Reveal</h2>
+<div class="grid grid-cols-2 gap-x-4 md:gap-x-6 gap-y-4 md:gap-y-6">
+<div class="flashlight-card relative aspect-square border-0 bg-neutral-900/60 ring-1 ring-white/5 rounded-none p-4 md:p-6 flex flex-col justify-end group overflow-hidden animate-on-scroll [animation:animationIn_0.8s_ease-out_0.4s_both]" onmousemove="const rect = this.getBoundingClientRect(); this.style.setProperty('--mouse-x', `${event.clientX - rect.left}px`); this.style.setProperty('--mouse-y', `${event.clientY - rect.top}px`);">
+<iconify-icon class="text-3xl md:text-5xl text-neutral-500 mb-2 md:mb-4 group-hover:text-white transition-colors duration-500" icon="solar:layers-minimalistic-bold-duotone"></iconify-icon>
+<div class="text-xs md:text-sm text-neutral-400 font-medium tracking-wide">Hover Me</div>
+</div>
+<div class="flashlight-card aspect-square flex flex-col group overflow-hidden animate-on-scroll [animation:animationIn_0.8s_ease-out_0.6s_both] bg-neutral-900/60 border-0 ring-white/5 ring-1 rounded-none p-4 md:p-6 relative backdrop-blur justify-end" onmousemove="const rect = this.getBoundingClientRect(); this.style.setProperty('--mouse-x', `${event.clientX - rect.left}px`); this.style.setProperty('--mouse-y', `${event.clientY - rect.top}px`);" style="--mouse-x: 106.5px; --mouse-y: 219px;">
+<iconify-icon class="text-3xl md:text-5xl text-neutral-500 mb-2 md:mb-4 group-hover:text-white transition-colors duration-500" icon="solar:cpu-bold-duotone"></iconify-icon>
+<div class="text-xs md:text-sm text-neutral-400 font-medium tracking-wide">Trace Border</div>
+</div>
+</div>
+<div class="mt-8 md:mt-10 text-xs text-neutral-500 font-mono animate-on-scroll [animation:animationIn_0.8s_ease-out_0.8s_both]">
+        "Add a subtle flashlight effect on hover/mouse position to background."
+      </div>
+</div>
+</section>
+<!-- Slide 8: End -->
+<section class="h-screen w-full snap-start shrink-0 flex items-center justify-center relative p-0" data-index="7" id="section-8">
+<div class="h-full md:h-auto md:aspect-[3/4] glass-panel overflow-hidden flex flex-col bg-center w-full bg-[url(https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/67df17f7-9681-4bd3-927b-ac569042a884_1600w.webp)] max-w-none md:max-w-xl bg-cover rounded-none pt-0 pr-0 pb-0 pl-0 relative justify-between">
+<div class="p-6 md:p-12 pt-20 md:pt-12">
+<span class="text-xs uppercase tracking-[0.25em] font-mono text-neutral-500 animate-on-scroll [animation:animationIn_0.8s_ease-out_0.1s_both]">08 — End</span>
+<h1 class="animate-on-scroll [animation:animationIn_0.8s_ease-out_0.2s_both] text-5xl md:text-7xl font-medium text-white tracking-tighter mt-6 mb-4">
+          Build Better<br/>Interfaces.</h1>
+</div>
+<div class="overflow-hidden mask-image-gradient animate-on-scroll [animation:animationIn_0.8s_ease-out_0.4s_both] h-48 md:h-56 z-10 relative" style="mask-image: linear-gradient(180deg, transparent, black 20%, black 95%, transparent); -webkit-mask-image: linear-gradient(180deg, transparent, black 20%, black 95%, transparent);">
+<div class="space-y-4 p-6 md:p-8 opacity-60 grayscale hover:grayscale-0 transition-all duration-700">
+<div class="bg-gradient-to-br from-black/0 via-black/10 to-black/0 ring-white/5 ring-1 rounded-none px-4 py-4 md:px-6 md:py-6 backdrop-blur-sm">
+<p class="text-sm md:text-base text-neutral-300">"The beam effect is subtle but changes everything."</p>
+</div>
+<div class="bg-gradient-to-br from-black/0 via-black/10 to-black/0 ring-white/5 ring-1 rounded-none ml-4 md:ml-8 px-4 py-4 md:px-6 md:py-6 backdrop-blur-sm">
+<p class="text-sm md:text-base text-neutral-300">"Gemini 3 understands motion physics."</p>
+</div>
+<div class="bg-gradient-to-br from-black/0 via-black/10 to-black/0 rounded-none ring-white/5 ring-1 px-4 py-4 md:px-6 md:py-6 backdrop-blur-sm">
+<p class="text-xs md:text-sm text-neutral-300">"Cleanest implementation of glassmorphism."</p>
+</div>
+</div>
+</div>
+<div class="animate-on-scroll [animation:animationIn_0.8s_ease-out_0.6s_both] bg-gradient-to-t from-black/90 to-transparent p-6 md:p-12 pb-12">
+<button class="w-full group relative flex items-center justify-center gap-3 bg-white text-black py-4 md:py-5 rounded-none overflow-hidden hover:bg-neutral-200 transition-colors">
+<span class="text-xs md:text-sm font-bold uppercase tracking-widest z-10">Follow @mengto</span>
+<iconify-icon class="text-xl md:text-2xl z-10 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" icon="solar:arrow-right-up-bold-duotone"></iconify-icon>
+</button>
+</div>
+</div>
+</section>
+</main>
+<script>
+        // Existing Animation Observer
+        (function () {
+            const style = document.createElement("style");
+            style.textContent = `
+            .animate-on-scroll { animation-play-state: paused !important; }
+            .animate-on-scroll.animate { animation-play-state: running !important; }
+            `;
+            document.head.appendChild(style);
+
+            const once = true;
+
+            if (!window.__inViewIO) {
+            window.__inViewIO = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("animate");
+                    if (once) window.__inViewIO.unobserve(entry.target);
+                }
+                });
+            }, { threshold: 0.2 });
+            }
+
+            window.initInViewAnimations = function (selector = ".animate-on-scroll") {
+            document.querySelectorAll(selector).forEach((el) => {
+                window.__inViewIO.observe(el);
+            });
+            };
+
+            document.addEventListener("DOMContentLoaded", () => initInViewAnimations());
+        })();
+
+        // Navigation Logic
+        const sections = document.querySelectorAll('section');
+        const dots = document.querySelectorAll('.nav-dot');
+        const scroller = document.getElementById('main-scroll');
+        let currentSectionIndex = 0;
+
+        // Update Active Dot based on scroll
+        const navObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const index = parseInt(entry.target.getAttribute('data-index'));
+                    currentSectionIndex = index;
+                    
+                    // Update dots
+                    dots.forEach(d => {
+                        d.classList.remove('bg-white', 'scale-125');
+                        d.classList.add('bg-white/20');
+                    });
+                    
+                    // Highlight current dot
+                    if(dots[index]) {
+                        dots[index].classList.remove('bg-white/20');
+                        dots[index].classList.add('bg-white', 'scale-125');
+                    }
+                }
+            });
+        }, { threshold: 0.5 });
+
+        sections.forEach(section => navObserver.observe(section));
+
+        // Arrow Navigation
+        window.navigateSlide = function(direction) {
+            let nextIndex = currentSectionIndex + direction;
+            
+            // Clamp
+            if (nextIndex < 0) nextIndex = 0;
+            if (nextIndex >= sections.length) nextIndex = sections.length - 1;
+            
+            // Scroll
+            const target = sections[nextIndex];
+            if(target) {
+                target.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+<script data-img-fallback-handler="">!function(){var f=["https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/917d6f93-fb36-439a-8c48-884b67b35381_1600w.jpg","https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/4734259a-bad7-422f-981e-ce01e79184f2_1600w.jpg","https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/c543a9e1-f226-4ced-80b0-feb8445a75b9_1600w.jpg","https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/5bab247f-35d9-400d-a82b-fd87cfe913d2_1600w.webp","https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/30104e3c-5eea-4b93-93e9-5313698a7156_1600w.webp"],h=new Set;function g(s){for(var x=0,i=0;i<s.length;i++)x=(x<<5)-x+s.charCodeAt(i)|0;return f[Math.abs(x)%f.length]}function r(t){var s=t.src;if(s&&!h.has(s)){h.add(s);t.src=g(s)}}window.addEventListener("error",function(e){var t=e.target;if(t&&t.tagName==="IMG")r(t)},!0);function c(){document.querySelectorAll("img").forEach(function(i){if(i.complete&&!i.naturalWidth&&i.src)r(i)})}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",c);else c()}()</script></body></html>

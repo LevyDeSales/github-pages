@@ -1,0 +1,2088 @@
+<html class="dark antialiased" lang="en"><head><meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Combined HTML Collection</title>
+<script src="assets/resource_3fa48481346f.js"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="assets/css2_604c95cc5779.css" rel="stylesheet"/>
+<script>
+tailwind.config = {
+darkMode: 'class',
+theme: {
+extend: {
+fontFamily: {
+sans: ['Inter', 'Space Grotesk', 'sans-serif'],
+mono: ['JetBrains Mono', 'monospace'],
+},
+colors: {
+obsidian: '#09090b',
+charcoal: '#18181b',
+concrete: '#f4f4f5',
+acid: '#ccff00',
+danger: '#ff453a',
+void: '#000000',
+surface: '#0a0a0a',
+panel: '#111111',
+border: '#222222',
+accent: '#ff3300',
+success: '#00cc66',
+error: '#ff3300',
+lime: '#ccff00',
+dim: '#444444',
+muted: '#525252',
+text: '#e5e5e5',
+warning: '#ffaa00',
+},
+animation: {
+'float': 'float 8s ease-in-out infinite',
+'spin-slow': 'spin 1s linear infinite',
+'morph': 'morph 8s ease-in-out infinite',
+'draw': 'draw 0.4s ease-out forwards',
+},
+keyframes: {
+float: { '0%, 100%': { transform: 'translateY(0)' }, '50%': { transform: 'translateY(-10px)' } },
+morph: {
+'0%, 100%': { borderRadius: '60% 40% 30% 70% / 60% 30% 70% 40%' },
+'50%': { borderRadius: '30% 60% 70% 40% / 50% 60% 30% 60%' },
+},
+draw: { 'to': { strokeDashoffset: '0' } }
+}
+}
+}
+}
+</script>
+<style>
+body {
+background-color: #000;
+color: #e5e5e5;
+}
+/* Section Divider */
+.section-divider {
+width: 100%;
+height: 2px;
+background: linear-gradient(to right, transparent, #ccff00, transparent);
+margin: 4rem 0;
+}
+.section-header {
+font-family: 'JetBrains Mono', monospace;
+font-size: 0.875rem;
+color: #ccff00;
+text-transform: uppercase;
+letter-spacing: 0.2em;
+margin-bottom: 2rem;
+padding: 1rem;
+border: 1px solid #222;
+background: #0a0a0a;
+}
+/* Base Icon Styles */
+.icon-base {
+fill: none;
+stroke: currentColor;
+stroke-width: 2;
+stroke-linecap: round;
+stroke-linejoin: round;
+transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.icon-card:hover .icon-base {
+transform: scale(1.1);
+stroke: var(--hover-color, #ccff00);
+}
+@media (prefers-color-scheme: light) {
+.icon-card:hover .icon-base {
+stroke: #000000;
+}
+}
+.icon-filled {
+fill: currentColor;
+stroke: none;
+}
+.bg-grid {
+background-size: 40px 40px;
+background-image: linear-gradient(to right, rgba(128, 128, 128, 0.05) 1px, transparent 1px),
+linear-gradient(to bottom, rgba(128, 128, 128, 0.05) 1px, transparent 1px);
+}
+/* Chart Styles */
+.chart-card {
+background: #0a0a0a;
+border: 1px solid #262626;
+border-radius: 4px;
+padding: 24px;
+position: relative;
+overflow: hidden;
+transition: border-color 0.3s;
+}
+.chart-card:hover {
+border-color: #404040;
+}
+#tooltip {
+position: absolute;
+background: rgba(10, 10, 10, 0.9);
+backdrop-filter: blur(8px);
+border: 1px solid #333;
+padding: 8px 12px;
+border-radius: 4px;
+font-family: 'JetBrains Mono', monospace;
+font-size: 12px;
+color: white;
+pointer-events: none;
+opacity: 0;
+transition: opacity 0.2s, transform 0.2s;
+z-index: 100;
+box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+}
+svg { overflow: visible; }
+.grid-line { stroke: #262626; stroke-width: 1; }
+.axis-text { fill: #525252; font-family: 'JetBrains Mono'; font-size: 10px; }
+.draw-path {
+stroke-dasharray: 1000;
+stroke-dashoffset: 1000;
+animation: dash 1.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.grow-bar {
+transform-origin: bottom;
+transform: scaleY(0);
+animation: grow 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.fade-in {
+opacity: 0;
+animation: fade 1s ease forwards;
+}
+@keyframes dash { to { stroke-dashoffset: 0; } }
+@keyframes grow { to { transform: scaleY(1); } }
+@keyframes fade { to { opacity: 1; } }
+.noise {
+position: fixed;
+top: 0; left: 0; width: 100%; height: 100%;
+opacity: 0.03;
+pointer-events: none;
+z-index: 9999;
+background: url("filter_3E_3Crect_width__100_25_27f522a784f1.html")'/%3E%3C/svg%3E");
+}
+/* KINETIC Styles */
+:root {
+--ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+--ease-elastic: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.card {
+background: #111;
+border: 1px solid #222;
+border-radius: 4px;
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+height: 160px;
+position: relative;
+transition: border-color 0.3s, background-color 0.3s;
+}
+.card:hover { border-color: #444; background: #161616; }
+.label {
+position: absolute;
+bottom: 15px;
+font-size: 10px;
+color: #555;
+text-transform: uppercase;
+letter-spacing: 1px;
+font-weight: 700;
+pointer-events: none;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-5px); } }
+@keyframes radar { 0% { transform: scale(0.5); opacity: 1; border-width: 2px; } 100% { transform: scale(2.5); opacity: 0; border-width: 0px; } }
+@keyframes ring-dash { 0% { stroke-dasharray: 1, 200; stroke-dashoffset: 0; } 50% { stroke-dasharray: 90, 200; stroke-dashoffset: -35px; } 100% { stroke-dasharray: 90, 200; stroke-dashoffset: -124px; } }
+@keyframes dash-draw { 0% { stroke-dashoffset: 100; } 50% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -100; } }
+@keyframes upload-arrow { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes upload-bar { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
+@keyframes shake {
+10%, 90% { transform: translate3d(-1px, 0, 0); }
+20%, 80% { transform: translate3d(2px, 0, 0); }
+30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+@keyframes pop { 0% { transform: scale(1); } 50% { transform: scale(1.4); } 100% { transform: scale(1); } }
+.dl-arrow-group { transition: transform 0.4s var(--ease-out), opacity 0.2s; }
+.dl-progress { stroke-dasharray: 60; stroke-dashoffset: 60; transition: stroke-dashoffset 1s linear; }
+.dl-check { transform: scale(0); transform-origin: center; transition: transform 0.3s var(--ease-elastic); }
+.downloading .dl-arrow-group { transform: translateY(10px); opacity: 0; }
+.downloading .dl-progress { stroke-dashoffset: 0; opacity: 1; }
+.download-complete .dl-progress { opacity: 0; }
+.download-complete .dl-check { transform: scale(1); }
+.lid { transform-origin: 12px 5px; transition: transform 0.3s var(--ease-elastic); }
+.trash-lines { transition: opacity 0.2s; }
+.card:hover .lid { transform: translateY(-3px) rotate(-15deg); }
+.card:hover .trash-lines { opacity: 0; }
+.tooltip-box {
+transform: translateY(10px) scale(0.95);
+opacity: 0;
+transition: all 0.3s var(--ease-elastic);
+pointer-events: none;
+}
+.card:hover .tooltip-box { transform: translateY(0) scale(1); opacity: 1; }
+/* ONYX Styles */
+.section-title {
+font-family: 'JetBrains Mono', monospace;
+font-size: 0.75rem;
+color: #ccff00;
+text-transform: uppercase;
+letter-spacing: 0.2em;
+margin-bottom: 2rem;
+display: block;
+border-b: 1px solid #222;
+padding-bottom: 1rem;
+}
+.grid-box {
+background: #0a0a0a;
+border: 1px solid #222;
+padding: 1.5rem;
+position: relative;
+overflow: hidden;
+transition: border-color 0.3s;
+}
+.grid-box:hover { border-color: #444; }
+.pattern-swatch { width: 100%; height: 120px; border: 1px solid #222; margin-bottom: 0.5rem; }
+/* ONYX UI Styles */
+.svg-icon { fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.stroke-draw { stroke-dasharray: 20; stroke-dashoffset: 20; }
+.group:hover .stroke-draw { animation: draw 0.4s ease-out forwards; }
+input:checked ~ .checkbox-box { background-color: #ccff00; border-color: #ccff00; }
+input:checked ~ .checkbox-box svg { transform: scale(1); }
+.comp-card {
+border: 1px solid #222;
+background: #0a0a0a;
+padding: 2rem;
+display: flex;
+flex-direction: column;
+gap: 1.5rem;
+position: relative;
+}
+.comp-label {
+font-family: 'JetBrains Mono', monospace;
+font-size: 0.65rem;
+color: #444;
+text-transform: uppercase;
+letter-spacing: 0.1em;
+margin-bottom: 1rem;
+display: block;
+}
+</style></head>
+<body class="bg-void dark:bg-obsidian text-zinc-900 dark:text-zinc-100 min-h-screen p-8 md:p-16 bg-grid transition-colors duration-300">
+<div class="noise"></div>
+<div id="tooltip"></div>
+<!-- ========================================================================
+         SECTION 1: SaaS Icon System // Agency Grade (File 14)
+    ======================================================================== -->
+<section class="max-w-7xl mx-auto mb-32" id="section-14">
+<div class="section-header">SECTION 1: SaaS Icon System // Agency Grade (File 14)</div>
+<!-- SVG SPRITE SHEET (Hidden) -->
+<svg style="display: none;">
+<defs>
+<!-- NAVIGATION -->
+<symbol id="nav-dashboard" viewbox="0 0 24 24"><rect height="7" width="7" x="3" y="3"></rect><rect height="7" width="7" x="14" y="3"></rect><rect height="7" width="7" x="14" y="14"></rect><rect height="7" width="7" x="3" y="14"></rect></symbol>
+<symbol id="nav-projects" viewbox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></symbol>
+<symbol id="nav-tasks" viewbox="0 0 24 24"><path d="M9 11l3 3L22 4"></path><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></symbol>
+<symbol id="nav-calendar" viewbox="0 0 24 24"><rect height="18" rx="2" ry="2" width="18" x="3" y="4"></rect><line x1="16" x2="16" y1="2" y2="6"></line><line x1="8" x2="8" y1="2" y2="6"></line><line x1="3" x2="21" y1="10" y2="10"></line></symbol>
+<symbol id="nav-messages" viewbox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></symbol>
+<symbol id="nav-team" viewbox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></symbol>
+<symbol id="nav-reports" viewbox="0 0 24 24"><line x1="18" x2="18" y1="20" y2="10"></line><line x1="12" x2="12" y1="20" y2="4"></line><line x1="6" x2="6" y1="20" y2="14"></line></symbol>
+<symbol id="nav-settings" viewbox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></symbol>
+<!-- ACTIONS -->
+<symbol id="act-add" viewbox="0 0 24 24"><line x1="12" x2="12" y1="5" y2="19"></line><line x1="5" x2="19" y1="12" y2="12"></line></symbol>
+<symbol id="act-edit" viewbox="0 0 24 24"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></symbol>
+<symbol id="act-delete" viewbox="0 0 24 24"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" x2="10" y1="11" y2="17"></line><line x1="14" x2="14" y1="11" y2="17"></line></symbol>
+<symbol id="act-save" viewbox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></symbol>
+<symbol id="act-cancel" viewbox="0 0 24 24"><line x1="18" x2="6" y1="6" y2="18"></line><line x1="6" x2="18" y1="6" y2="18"></line></symbol>
+<symbol id="act-upload" viewbox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></symbol>
+<symbol id="act-download" viewbox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" x2="12" y1="15" y2="3"></line></symbol>
+<symbol id="act-share" viewbox="0 0 24 24"><circle cx="18" cy="5" r="3"></circle><circle cx="6" cy="12" r="3"></circle><circle cx="18" cy="19" r="3"></circle><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line></symbol>
+<symbol id="act-print" viewbox="0 0 24 24"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect height="8" width="12" x="6" y="14"></rect></symbol>
+<symbol id="act-export" viewbox="0 0 24 24"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"></path><polyline points="7 11 12 16 17 11"></polyline><line x1="12" x2="12" y1="16" y2="4"></line></symbol>
+<!-- STATUS -->
+<symbol id="stat-success" viewbox="0 0 24 24"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></symbol>
+<symbol id="stat-error" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="15" x2="9" y1="9" y2="15"></line><line x1="9" x2="15" y1="9" y2="15"></line></symbol>
+<symbol id="stat-warning" viewbox="0 0 24 24"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" x2="12" y1="9" y2="13"></line><line x1="12" x2="12.01" y1="17" y2="17"></line></symbol>
+<symbol id="stat-info" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="16" y2="12"></line><line x1="12" x2="12.01" y1="8" y2="8"></line></symbol>
+<symbol id="stat-loading" viewbox="0 0 24 24"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></symbol>
+<symbol id="stat-pending" viewbox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></symbol>
+<!-- COMMUNICATION -->
+<symbol id="comm-email" viewbox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></symbol>
+<symbol id="comm-phone" viewbox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path></symbol>
+<symbol id="comm-chat" viewbox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></symbol>
+<symbol id="comm-video" viewbox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect height="14" rx="2" ry="2" width="15" x="1" y="5"></rect></symbol>
+<symbol id="comm-notify" viewbox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></symbol>
+<symbol id="comm-comment" viewbox="0 0 24 24"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></symbol>
+<symbol id="comm-mention" viewbox="0 0 24 24"><circle cx="12" cy="12" r="4"></circle><path d="M16 8v5a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"></path></symbol>
+<symbol id="comm-reaction" viewbox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></symbol>
+<!-- CONTENT -->
+<symbol id="cont-doc" viewbox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" x2="8" y1="13" y2="13"></line><line x1="16" x2="8" y1="17" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></symbol>
+<symbol id="cont-image" viewbox="0 0 24 24"><rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect><circle cx="8.5" cy="8.5" r="1.5"></circle><polyline points="21 15 16 10 5 21"></polyline></symbol>
+<symbol id="cont-video" viewbox="0 0 24 24"><rect height="20" rx="2.18" ry="2.18" width="20" x="2" y="2"></rect><line x1="7" x2="7" y1="2" y2="22"></line><line x1="17" x2="17" y1="2" y2="22"></line><line x1="2" x2="22" y1="12" y2="12"></line><line x1="2" x2="7" y1="7" y2="7"></line><line x1="2" x2="7" y1="17" y2="17"></line><line x1="17" x2="22" y1="17" y2="17"></line><line x1="17" x2="22" y1="7" y2="7"></line></symbol>
+<symbol id="cont-audio" viewbox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"></path><path d="M19 10v2a7 7 0 0 1-14 0v-2"></path><line x1="12" x2="12" y1="19" y2="23"></line><line x1="8" x2="16" y1="23" y2="23"></line></symbol>
+<symbol id="cont-link" viewbox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path></symbol>
+<symbol id="cont-code" viewbox="0 0 24 24"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></symbol>
+<symbol id="cont-table" viewbox="0 0 24 24"><rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect><line x1="3" x2="21" y1="9" y2="9"></line><line x1="3" x2="21" y1="15" y2="15"></line><line x1="12" x2="12" y1="3" y2="21"></line></symbol>
+<symbol id="cont-pres" viewbox="0 0 24 24"><path d="M2 3h20"></path><path d="M21 3v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3"></path><path d="m7 21 5-5 5 5"></path></symbol>
+<!-- SYSTEM -->
+<symbol id="sys-search" viewbox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line></symbol>
+<symbol id="sys-filter" viewbox="0 0 24 24"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon></symbol>
+<symbol id="sys-sort" viewbox="0 0 24 24"><path d="M11 5h10"></path><path d="M11 9h7"></path><path d="M11 13h4"></path><path d="M3 17l3 3 3-3"></path><path d="M6 18V4"></path></symbol>
+<symbol id="sys-refresh" viewbox="0 0 24 24"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></symbol>
+<symbol id="sys-undo" viewbox="0 0 24 24"><path d="M3 7v6h6"></path><path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path></symbol>
+<symbol id="sys-redo" viewbox="0 0 24 24"><path d="M21 7v6h-6"></path><path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3l3 2.7"></path></symbol>
+<symbol id="sys-fullscreen" viewbox="0 0 24 24"><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path d="M16 3h3a2 2 0 0 1 2 2v3"></path><path d="M8 21H5a2 2 0 0 1-2-2v-3"></path><path d="M16 21h3a2 2 0 0 1 2-2v-3"></path></symbol>
+<symbol id="sys-zoomin" viewbox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line><line x1="11" x2="11" y1="8" y2="14"></line><line x1="8" x2="14" y1="11" y2="11"></line></symbol>
+<symbol id="sys-zoomout" viewbox="0 0 24 24"><circle cx="11" cy="11" r="8"></circle><line x1="21" x2="16.65" y1="21" y2="16.65"></line><line x1="8" x2="14" y1="11" y2="11"></line></symbol>
+<symbol id="sys-close" viewbox="0 0 24 24"><line x1="18" x2="6" y1="6" y2="18"></line><line x1="6" x2="18" y1="6" y2="18"></line></symbol>
+</defs>
+</svg>
+<div class="max-w-6xl mx-auto">
+<header class="mb-16 border-b border-zinc-200 dark:border-zinc-800 pb-8">
+<h1 class="text-4xl font-bold tracking-tight mb-4 font-sans">Icon System <span class="text-xs align-top bg-acid text-black px-2 py-1 rounded font-mono ml-2">v2.0</span></h1>
+<p class="text-zinc-500 dark:text-zinc-400 max-w-2xl text-lg">
+                    A high-performance SVG sprite system designed for enterprise SaaS applications.
+                    Built on a 24px grid with a consistent 2px stroke. Optimized for dark mode with high-contrast acid accents.
+                </p>
+</header>
+<script>
+                const renderSection = (title, icons) => {
+                    document.write(`
+                        <section class="mb-16">
+                            <h2 class="text-sm font-mono uppercase tracking-widest text-zinc-400 mb-6">${title}</h2>
+                            <div class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-4">
+                                ${icons.map(id => `
+                                    <div class="icon-card group flex flex-col items-center justify-center p-6 bg-white dark:bg-zinc-900/50 rounded-lg border border-zinc-200 dark:border-zinc-800 hover:border-zinc-300 dark:hover:border-zinc-700 cursor-pointer transition-all duration-200">
+                                        <svg class="w-6 h-6 icon-base mb-4 text-zinc-900 dark:text-white"><use href="#${id}"></use></svg>
+                                        <span class="text-xs font-mono text-zinc-500 dark:text-zinc-400 group-hover:text-zinc-900 dark:group-hover:text-white transition-colors">${id.split('-')[1]}</span>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </section>
+                    `);
+                };
+
+                renderSection('Navigation', [
+                    'nav-dashboard', 'nav-projects', 'nav-tasks', 'nav-calendar',
+                    'nav-messages', 'nav-team', 'nav-reports', 'nav-settings'
+                ]);
+
+                renderSection('Actions', [
+                    'act-add', 'act-edit', 'act-delete', 'act-save', 'act-cancel',
+                    'act-upload', 'act-download', 'act-share', 'act-print', 'act-export'
+                ]);
+
+                renderSection('Status', [
+                    'stat-success', 'stat-error', 'stat-warning', 'stat-info',
+                    'stat-loading', 'stat-pending'
+                ]);
+
+                renderSection('Communication', [
+                    'comm-email', 'comm-phone', 'comm-chat', 'comm-video',
+                    'comm-notify', 'comm-comment', 'comm-mention', 'comm-reaction'
+                ]);
+
+                renderSection('Content', [
+                    'cont-doc', 'cont-image', 'cont-video', 'cont-audio',
+                    'cont-link', 'cont-code', 'cont-table', 'cont-pres'
+                ]);
+
+                renderSection('System', [
+                    'sys-search', 'sys-filter', 'sys-sort', 'sys-refresh', 'sys-undo',
+                    'sys-redo', 'sys-fullscreen', 'sys-zoomin', 'sys-zoomout', 'sys-close'
+                ]);
+            </script>
+<section class="mt-20 p-8 bg-zinc-900 rounded-xl text-zinc-200 font-mono text-sm border border-zinc-800">
+<h3 class="text-acid mb-4 uppercase font-bold">Usage Guide</h3>
+<p class="mb-4 text-zinc-400">1. Include the SVG sprite sheet at the top of your <body>.</body></p>
+<p class="mb-4 text-zinc-400">2. Reference icons using the <use> tag:</use></p>
+<div class="bg-black p-4 rounded border border-zinc-700 overflow-x-auto">
+<code>
+<svg class="w-6 h-6 fill-none stroke-current"><br/>
+                          <use href="#nav-dashboard"></use><br/>
+</svg>
+</code>
+</div>
+</section>
+<footer class="py-20 text-center text-zinc-500 text-sm">
+                Designed for High Density Dashboards
+            </footer>
+</div>
+</section>
+<div class="section-divider"></div>
+<!-- ========================================================================
+         SECTION 2: AXIS // Data Visualization Library (File 15)
+    ======================================================================== -->
+<section class="max-w-7xl mx-auto mb-32" id="section-15">
+<div class="section-header">SECTION 2: AXIS // Data Visualization Library (File 15)</div>
+<div class="noise"></div>
+<!-- HEADER -->
+<header class="mb-16 border-b border-border pb-8 flex justify-between items-end">
+<div>
+<h1 class="text-4xl font-bold tracking-tighter mb-2 font-sans">AXIS<span class="text-accent">.</span>VISUAL</h1>
+<p class="text-muted font-mono text-sm">High-Fidelity SVG Data Rendering Engine v1.0</p>
+</div>
+<button class="px-4 py-2 border border-border text-xs font-mono uppercase hover:bg-white hover:text-black transition-colors" onclick="randomizeData()">
+                Regenerate Data
+            </button>
+</header>
+<!-- DASHBOARD GRID -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- 1. LINE CHART -->
+<div class="chart-card col-span-1 md:col-span-2">
+<div class="flex justify-between mb-6">
+<h3 class="text-sm font-bold uppercase tracking-widest">Revenue Stream</h3>
+<div class="flex gap-4 text-xs font-mono text-muted">
+<span class="flex items-center gap-2"><span class="w-2 h-2 bg-white rounded-full"></span> Current</span>
+<span class="flex items-center gap-2"><span class="w-2 h-2 bg-accent rounded-full"></span> Projected</span>
+</div>
+</div>
+<div class="h-64 w-full" id="line-chart"></div>
+</div>
+<!-- 2. RADIAL CHART -->
+<div class="chart-card">
+<div class="flex justify-between mb-6">
+<h3 class="text-sm font-bold uppercase tracking-widest">Performance</h3>
+</div>
+<div class="h-64 w-full flex justify-center" id="radar-chart"></div>
+</div>
+<!-- 3. BAR CHART -->
+<div class="chart-card">
+<div class="flex justify-between mb-6">
+<h3 class="text-sm font-bold uppercase tracking-widest">User Acquisition</h3>
+</div>
+<div class="h-48 w-full" id="bar-chart"></div>
+</div>
+<!-- 4. DONUT CHART -->
+<div class="chart-card">
+<div class="flex justify-between mb-6">
+<h3 class="text-sm font-bold uppercase tracking-widest">Traffic Sources</h3>
+</div>
+<div class="h-48 w-full flex justify-center" id="donut-chart"></div>
+</div>
+<!-- 5. AREA CHART -->
+<div class="chart-card">
+<div class="flex justify-between mb-6">
+<h3 class="text-sm font-bold uppercase tracking-widest">Server Load</h3>
+</div>
+<div class="h-48 w-full" id="area-chart"></div>
+</div>
+<!-- 6. PROGRESS & METERS -->
+<div class="chart-card">
+<div class="flex justify-between mb-6">
+<h3 class="text-sm font-bold uppercase tracking-widest">System Health</h3>
+</div>
+<div class="h-48 w-full flex flex-col justify-between" id="progress-chart"></div>
+</div>
+<!-- 7. GAUGE CHART -->
+<div class="chart-card">
+<div class="flex justify-between mb-6">
+<h3 class="text-sm font-bold uppercase tracking-widest">Velocity</h3>
+</div>
+<div class="h-48 w-full flex justify-center items-end pb-4" id="gauge-chart"></div>
+</div>
+<!-- 8. TREEMAP -->
+<div class="chart-card">
+<div class="flex justify-between mb-6">
+<h3 class="text-sm font-bold uppercase tracking-widest">Market Share</h3>
+</div>
+<div class="h-48 w-full" id="treemap-chart"></div>
+</div>
+</div>
+<!-- JAVASCRIPT GRAPHICS ENGINE -->
+<script>
+            const COLORS = {
+                bg: '#0a0a0a',
+                grid: '#262626',
+                white: '#ffffff',
+                grey: '#404040',
+                darkGrey: '#171717',
+                accent: '#ff3300'
+            };
+
+            const map = (val, inMin, inMax, outMin, outMax) => (val - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
+
+            const getBezierPath = (points, height) => {
+                let d = `M ${points[0].x},${points[0].y}`;
+                for (let i = 1; i < points.length; i++) {
+                    const prev = points[i - 1];
+                    const curr = points[i];
+                    const cp1x = prev.x + (curr.x - prev.x) * 0.5;
+                    const cp1y = prev.y;
+                    const cp2x = curr.x - (curr.x - prev.x) * 0.5;
+                    const cp2y = curr.y;
+                    d += ` C ${cp1x},${cp1y} ${cp2x},${cp2y} ${curr.x},${curr.y}`;
+                }
+                return d;
+            };
+
+            class ChartRenderer {
+                constructor(containerId) {
+                    this.container = document.getElementById(containerId);
+                    if (!this.container) return;
+                    this.width = this.container.offsetWidth;
+                    this.height = this.container.offsetHeight;
+                    this.ns = "http://www.w3.org/2000/svg";
+                }
+
+                clear() {
+                    if (this.container) this.container.innerHTML = '';
+                }
+
+                createSVG() {
+                    const svg = document.createElementNS(this.ns, "svg");
+                    svg.setAttribute("width", "100%");
+                    svg.setAttribute("height", "100%");
+                    svg.setAttribute("viewBox", `0 0 ${this.width} ${this.height}`);
+                    return svg;
+                }
+
+                drawLine(data1, data2) {
+                    const svg = this.createSVG();
+                    const padding = 20;
+
+                    for(let i=0; i<5; i++) {
+                        const y = map(i, 0, 4, this.height - padding, padding);
+                        const line = document.createElementNS(this.ns, "line");
+                        line.setAttribute("x1", 0);
+                        line.setAttribute("y1", y);
+                        line.setAttribute("x2", this.width);
+                        line.setAttribute("y2", y);
+                        line.setAttribute("class", "grid-line");
+                        svg.appendChild(line);
+                    }
+
+                    const drawPath = (data, color, isArea = false) => {
+                        const points = data.map((val, i) => ({
+                            x: map(i, 0, data.length - 1, 0, this.width),
+                            y: map(val, 0, 100, this.height - padding, padding)
+                        }));
+
+                        let d = getBezierPath(points);
+
+                        if(isArea) {
+                            d += ` L ${this.width},${this.height} L 0,${this.height} Z`;
+                            const path = document.createElementNS(this.ns, "path");
+                            path.setAttribute("d", d);
+                            path.setAttribute("fill", color);
+                            path.setAttribute("opacity", "0.1");
+                            path.setAttribute("class", "fade-in");
+                            svg.appendChild(path);
+                        } else {
+                            const path = document.createElementNS(this.ns, "path");
+                            path.setAttribute("d", d);
+                            path.setAttribute("fill", "none");
+                            path.setAttribute("stroke", color);
+                            path.setAttribute("stroke-width", "2");
+                            path.setAttribute("class", "draw-path");
+                            svg.appendChild(path);
+
+                            points.forEach((p, i) => {
+                                const circle = document.createElementNS(this.ns, "circle");
+                                circle.setAttribute("cx", p.x);
+                                circle.setAttribute("cy", p.y);
+                                circle.setAttribute("r", "3");
+                                circle.setAttribute("fill", "#0a0a0a");
+                                circle.setAttribute("stroke", color);
+                                circle.setAttribute("stroke-width", "2");
+                                circle.setAttribute("class", "fade-in");
+                                circle.style.animationDelay = `${0.5 + (i * 0.1)}s`;
+
+                                circle.addEventListener('mouseenter', (e) => showTooltip(e, data[i] + '%'));
+                                circle.addEventListener('mouseleave', hideTooltip);
+
+                                svg.appendChild(circle);
+                            });
+                        }
+                    };
+
+                    drawPath(data1, COLORS.white);
+                    drawPath(data2, COLORS.accent);
+
+                    this.container.appendChild(svg);
+                }
+
+                drawBar(data) {
+                    const svg = this.createSVG();
+                    const barWidth = (this.width / data.length) * 0.6;
+                    const spacing = (this.width / data.length);
+
+                    data.forEach((val, i) => {
+                        const h = map(val, 0, 100, 0, this.height);
+                        const x = (i * spacing) + (spacing/2) - (barWidth/2);
+                        const y = this.height - h;
+
+                        const rect = document.createElementNS(this.ns, "rect");
+                        rect.setAttribute("x", x);
+                        rect.setAttribute("y", y);
+                        rect.setAttribute("width", barWidth);
+                        rect.setAttribute("height", h);
+                        rect.setAttribute("fill", i === data.length - 1 ? COLORS.accent : COLORS.grey);
+                        rect.setAttribute("class", "grow-bar");
+                        rect.style.animationDelay = `${i * 0.05}s`;
+
+                        rect.addEventListener('mouseenter', (e) => {
+                            rect.setAttribute("fill", COLORS.white);
+                            showTooltip(e, val);
+                        });
+                        rect.addEventListener('mouseleave', () => {
+                            rect.setAttribute("fill", i === data.length - 1 ? COLORS.accent : COLORS.grey);
+                            hideTooltip();
+                        });
+
+                        svg.appendChild(rect);
+                    });
+                    this.container.appendChild(svg);
+                }
+
+                drawRadar(data) {
+                    const svg = this.createSVG();
+                    const cx = this.width / 2;
+                    const cy = this.height / 2;
+                    const radius = Math.min(this.width, this.height) / 2 - 20;
+                    const sides = data.length;
+
+                    [0.3, 0.6, 1].forEach(scale => {
+                        const pts = [];
+                        for(let i=0; i<sides; i++) {
+                            const angle = (Math.PI * 2 * i) / sides - (Math.PI/2);
+                            pts.push(`${cx + (radius * scale) * Math.cos(angle)},${cy + (radius * scale) * Math.sin(angle)}`);
+                        }
+                        const poly = document.createElementNS(this.ns, "polygon");
+                        poly.setAttribute("points", pts.join(" "));
+                        poly.setAttribute("fill", "none");
+                        poly.setAttribute("stroke", COLORS.grid);
+                        svg.appendChild(poly);
+                    });
+
+                    const dataPts = data.map((val, i) => {
+                        const angle = (Math.PI * 2 * i) / sides - (Math.PI/2);
+                        const r = map(val, 0, 100, 0, radius);
+                        return `${cx + r * Math.cos(angle)},${cy + r * Math.sin(angle)}`;
+                    });
+
+                    const shape = document.createElementNS(this.ns, "polygon");
+                    shape.setAttribute("points", dataPts.join(" "));
+                    shape.setAttribute("fill", COLORS.accent);
+                    shape.setAttribute("fill-opacity", "0.2");
+                    shape.setAttribute("stroke", COLORS.accent);
+                    shape.setAttribute("stroke-width", "2");
+                    shape.setAttribute("class", "fade-in");
+                    svg.appendChild(shape);
+
+                    this.container.appendChild(svg);
+                }
+
+                drawDonut(data) {
+                    const svg = this.createSVG();
+                    const total = data.reduce((a, b) => a + b, 0);
+                    let currentAngle = 0;
+                    const cx = this.width / 2;
+                    const cy = this.height / 2;
+                    const radius = Math.min(this.width, this.height) / 2 - 10;
+                    const hole = radius * 0.6;
+
+                    const colors = [COLORS.grey, COLORS.white, COLORS.accent];
+
+                    data.forEach((val, i) => {
+                        const sliceAngle = (val / total) * 2 * Math.PI;
+                        const x1 = cx + radius * Math.cos(currentAngle);
+                        const y1 = cy + radius * Math.sin(currentAngle);
+                        const x2 = cx + radius * Math.cos(currentAngle + sliceAngle);
+                        const y2 = cy + radius * Math.sin(currentAngle + sliceAngle);
+
+                        const largeArc = sliceAngle > Math.PI ? 1 : 0;
+
+                        const d = [
+                            `M ${cx} ${cy}`,
+                            `L ${x1} ${y1}`,
+                            `A ${radius} ${radius} 0 ${largeArc} 1 ${x2} ${y2}`,
+                            `Z`
+                        ].join(" ");
+
+                        const path = document.createElementNS(this.ns, "path");
+                        path.setAttribute("d", d);
+                        path.setAttribute("fill", colors[i % colors.length]);
+                        path.setAttribute("stroke", COLORS.bg);
+                        path.setAttribute("stroke-width", "2");
+
+                        path.addEventListener('mouseenter', (e) => {
+                            path.style.transform = "scale(1.05)";
+                            path.style.transformOrigin = "center";
+                            path.style.transition = "transform 0.3s";
+                            showTooltip(e, Math.round((val/total)*100) + '%');
+                        });
+                        path.addEventListener('mouseleave', () => {
+                            path.style.transform = "scale(1)";
+                            hideTooltip();
+                        });
+
+                        svg.appendChild(path);
+                        currentAngle += sliceAngle;
+                    });
+
+                    const circle = document.createElementNS(this.ns, "circle");
+                    circle.setAttribute("cx", cx);
+                    circle.setAttribute("cy", cy);
+                    circle.setAttribute("r", hole);
+                    circle.setAttribute("fill", COLORS.bg);
+                    svg.appendChild(circle);
+
+                    const text = document.createElementNS(this.ns, "text");
+                    text.setAttribute("x", cx);
+                    text.setAttribute("y", cy + 5);
+                    text.setAttribute("text-anchor", "middle");
+                    text.setAttribute("fill", COLORS.text);
+                    text.setAttribute("font-family", "JetBrains Mono");
+                    text.setAttribute("font-size", "14");
+                    text.textContent = "TOTAL";
+                    svg.appendChild(text);
+
+                    this.container.appendChild(svg);
+                }
+
+                drawArea(data) {
+                    const svg = this.createSVG();
+                    const padding = 0;
+
+                    const defs = document.createElementNS(this.ns, "defs");
+                    const grad = document.createElementNS(this.ns, "linearGradient");
+                    grad.setAttribute("id", "areaGrad");
+                    grad.setAttribute("x1", "0%");
+                    grad.setAttribute("y1", "0%");
+                    grad.setAttribute("x2", "0%");
+                    grad.setAttribute("y2", "100%");
+
+                    const stop1 = document.createElementNS(this.ns, "stop");
+                    stop1.setAttribute("offset", "0%");
+                    stop1.setAttribute("stop-color", COLORS.white);
+                    stop1.setAttribute("stop-opacity", "0.5");
+
+                    const stop2 = document.createElementNS(this.ns, "stop");
+                    stop2.setAttribute("offset", "100%");
+                    stop2.setAttribute("stop-color", COLORS.bg);
+                    stop2.setAttribute("stop-opacity", "0");
+
+                    grad.appendChild(stop1);
+                    grad.appendChild(stop2);
+                    defs.appendChild(grad);
+                    svg.appendChild(defs);
+
+                    const points = data.map((val, i) => ({
+                        x: map(i, 0, data.length - 1, 0, this.width),
+                        y: map(val, 0, 100, this.height, 20)
+                    }));
+
+                    let d = getBezierPath(points);
+                    d += ` L ${this.width},${this.height} L 0,${this.height} Z`;
+
+                    const path = document.createElementNS(this.ns, "path");
+                    path.setAttribute("d", d);
+                    path.setAttribute("fill", "url(#areaGrad)");
+                    path.setAttribute("stroke", COLORS.white);
+                    path.setAttribute("stroke-width", "2");
+                    path.setAttribute("class", "fade-in");
+
+                    svg.addEventListener('mousemove', (e) => {
+                        const rect = svg.getBoundingClientRect();
+                        const x = e.clientX - rect.left;
+                        const index = Math.round(map(x, 0, this.width, 0, data.length-1));
+                        const point = points[index];
+
+                        const old = svg.querySelector('.crosshair');
+                        if(old) old.remove();
+
+                        if(point) {
+                            const group = document.createElementNS(this.ns, "g");
+                            group.setAttribute("class", "crosshair");
+
+                            const line = document.createElementNS(this.ns, "line");
+                            line.setAttribute("x1", point.x);
+                            line.setAttribute("y1", 0);
+                            line.setAttribute("x2", point.x);
+                            line.setAttribute("y2", this.height);
+                            line.setAttribute("stroke", COLORS.accent);
+                            line.setAttribute("stroke-dasharray", "4 4");
+
+                            const circle = document.createElementNS(this.ns, "circle");
+                            circle.setAttribute("cx", point.x);
+                            circle.setAttribute("cy", point.y);
+                            circle.setAttribute("r", 4);
+                            circle.setAttribute("fill", COLORS.accent);
+
+                            group.appendChild(line);
+                            group.appendChild(circle);
+                            svg.appendChild(group);
+
+                            showTooltip(e, data[index]);
+                        }
+                    });
+
+                    svg.addEventListener('mouseleave', () => {
+                        const old = svg.querySelector('.crosshair');
+                        if(old) old.remove();
+                        hideTooltip();
+                    });
+
+                    svg.appendChild(path);
+                    this.container.appendChild(svg);
+                }
+
+                drawGauge(value) {
+                    const svg = this.createSVG();
+                    const cx = this.width / 2;
+                    const cy = this.height - 10;
+                    const r = this.height - 20;
+
+                    const bgPath = document.createElementNS(this.ns, "path");
+                    bgPath.setAttribute("d", `M ${cx-r} ${cy} A ${r} ${r} 0 0 1 ${cx+r} ${cy}`);
+                    bgPath.setAttribute("fill", "none");
+                    bgPath.setAttribute("stroke", COLORS.darkGrey);
+                    bgPath.setAttribute("stroke-width", "10");
+                    bgPath.setAttribute("stroke-linecap", "round");
+                    svg.appendChild(bgPath);
+
+                    const angle = map(value, 0, 100, Math.PI, 0);
+                    const x = cx + r * Math.cos(angle);
+                    const y = cy - r * Math.sin(angle);
+
+                    const valPath = document.createElementNS(this.ns, "path");
+                    const d = `M ${cx-r} ${cy} A ${r} ${r} 0 0 1 ${x} ${y}`;
+                    valPath.setAttribute("d", d);
+                    valPath.setAttribute("fill", "none");
+                    valPath.setAttribute("stroke", COLORS.accent);
+                    valPath.setAttribute("stroke-width", "10");
+                    valPath.setAttribute("stroke-linecap", "round");
+                    valPath.setAttribute("class", "draw-path");
+                    svg.appendChild(valPath);
+
+                    const text = document.createElementNS(this.ns, "text");
+                    text.setAttribute("x", cx);
+                    text.setAttribute("y", cy - 20);
+                    text.setAttribute("text-anchor", "middle");
+                    text.setAttribute("fill", COLORS.white);
+                    text.setAttribute("font-family", "JetBrains Mono");
+                    text.setAttribute("font-size", "24");
+                    text.textContent = value;
+                    svg.appendChild(text);
+
+                    this.container.appendChild(svg);
+                }
+
+                drawTreemap(data) {
+                    const svg = this.createSVG();
+
+                    const r1 = document.createElementNS(this.ns, "rect");
+                    r1.setAttribute("x", 0); r1.setAttribute("y", 0);
+                    r1.setAttribute("width", this.width * 0.6); r1.setAttribute("height", this.height);
+                    r1.setAttribute("fill", COLORS.darkGrey);
+                    r1.setAttribute("stroke", COLORS.bg);
+                    r1.setAttribute("stroke-width", "2");
+
+                    const r2 = document.createElementNS(this.ns, "rect");
+                    r2.setAttribute("x", this.width * 0.6); r2.setAttribute("y", 0);
+                    r2.setAttribute("width", this.width * 0.4); r2.setAttribute("height", this.height * 0.5);
+                    r2.setAttribute("fill", COLORS.grey);
+                    r2.setAttribute("stroke", COLORS.bg);
+                    r2.setAttribute("stroke-width", "2");
+
+                    const r3 = document.createElementNS(this.ns, "rect");
+                    r3.setAttribute("x", this.width * 0.6); r3.setAttribute("y", this.height * 0.5);
+                    r3.setAttribute("width", this.width * 0.4); r3.setAttribute("height", this.height * 0.5);
+                    r3.setAttribute("fill", COLORS.accent);
+                    r3.setAttribute("stroke", COLORS.bg);
+                    r3.setAttribute("stroke-width", "2");
+
+                    [r1,r2,r3].forEach((r, i) => {
+                        r.setAttribute("class", "fade-in");
+                        r.style.animationDelay = `${i*0.2}s`;
+                        r.addEventListener('mouseenter', (e) => showTooltip(e, "Category " + (i+1)));
+                        r.addEventListener('mouseleave', hideTooltip);
+                        svg.appendChild(r);
+                    });
+
+                    this.container.appendChild(svg);
+                }
+            }
+
+            function renderProgress(containerId, val) {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                container.innerHTML = `
+                    <div class="mb-4">
+                        <div class="flex justify-between text-xs font-mono text-muted mb-1">
+                            <span>CPU LOAD</span>
+                            <span>${val}%</span>
+                        </div>
+                        <div class="w-full bg-border h-1 rounded-full overflow-hidden">
+                            <div class="bg-white h-full rounded-full" style="width: ${val}%; transition: width 1s ease;"></div>
+                        </div>
+                    </div>
+                    <div class="mb-4">
+                        <div class="flex justify-between text-xs font-mono text-muted mb-1">
+                            <span>MEMORY</span>
+                            <span>${val-15}%</span>
+                        </div>
+                        <div class="w-full bg-border h-1 rounded-full overflow-hidden">
+                            <div class="bg-accent h-full rounded-full" style="width: ${val-15}%; transition: width 1s ease;"></div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            const tooltip = document.getElementById('tooltip');
+            function showTooltip(e, content) {
+                if (!tooltip) return;
+                tooltip.textContent = content;
+                tooltip.style.opacity = 1;
+                tooltip.style.left = (e.pageX + 10) + 'px';
+                tooltip.style.top = (e.pageY + 10) + 'px';
+            }
+            function hideTooltip() {
+                if (!tooltip) return;
+                tooltip.style.opacity = 0;
+            }
+
+            function randomizeData() {
+                const r = (min, max) => Math.floor(Math.random() * (max - min + 1) + min);
+                const rArr = (len) => Array.from({length: len}, () => r(20, 90));
+
+                new ChartRenderer('line-chart').clear();
+                new ChartRenderer('line-chart').drawLine(rArr(10), rArr(10));
+
+                new ChartRenderer('radar-chart').clear();
+                new ChartRenderer('radar-chart').drawRadar([r(40,100), r(40,100), r(40,100), r(40,100), r(40,100)]);
+
+                new ChartRenderer('bar-chart').clear();
+                new ChartRenderer('bar-chart').drawBar(rArr(8));
+
+                new ChartRenderer('donut-chart').clear();
+                new ChartRenderer('donut-chart').drawDonut([30, 20, 50]);
+
+                new ChartRenderer('area-chart').clear();
+                new ChartRenderer('area-chart').drawArea(rArr(15));
+
+                renderProgress('progress-chart', r(40, 90));
+
+                new ChartRenderer('gauge-chart').clear();
+                new ChartRenderer('gauge-chart').drawGauge(r(0, 100));
+
+                new ChartRenderer('treemap-chart').clear();
+                new ChartRenderer('treemap-chart').drawTreemap([]);
+            }
+
+            window.addEventListener('load', randomizeData);
+            window.addEventListener('resize', randomizeData);
+        </script>
+</section>
+<div class="section-divider"></div>
+<!-- ========================================================================
+         SECTION 3: KINETIC // Full Interaction Library (File 20)
+    ======================================================================== -->
+<section class="max-w-7xl mx-auto mb-32" id="section-20">
+<div class="section-header">SECTION 3: KINETIC // Full Interaction Library (File 20)</div>
+<header class="mb-16 border-b border-border pb-6">
+<h1 class="text-3xl font-bold tracking-tight mb-2">KINETIC <span class="text-accent">v2.0</span></h1>
+<p class="text-gray-500 text-sm">Complete Interaction Set</p>
+</header>
+<!-- PART 1: LOADING STATES (10) -->
+<h2 class="text-sm font-bold text-accent uppercase tracking-widest mb-6">01 / Loading States</h2>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-20">
+<!-- 1. SPINNER -->
+<div class="card">
+<svg class="animate-[spin_1s_linear_infinite]" height="40" viewbox="0 0 40 40" width="40">
+<circle cx="20" cy="20" fill="none" r="16" stroke="#333" stroke-width="3"></circle>
+<circle cx="20" cy="20" fill="none" r="16" stroke="#ff3300" stroke-dasharray="100" stroke-dashoffset="60" stroke-linecap="round" stroke-width="3"></circle>
+</svg>
+<span class="label">Spinner</span>
+</div>
+<!-- 2. DOTS -->
+<div class="card">
+<svg height="40" viewbox="0 0 40 40" width="40">
+<circle cx="10" cy="20" fill="white" r="3"><animate attributename="cy" dur="0.6s" repeatcount="indefinite" values="20;15;20"></animate></circle>
+<circle cx="20" cy="20" fill="white" r="3"><animate attributename="cy" begin="0.1s" dur="0.6s" repeatcount="indefinite" values="20;15;20"></animate></circle>
+<circle cx="30" cy="20" fill="white" r="3"><animate attributename="cy" begin="0.2s" dur="0.6s" repeatcount="indefinite" values="20;15;20"></animate></circle>
+</svg>
+<span class="label">Dots</span>
+</div>
+<!-- 3. PULSE (RADAR) -->
+<div class="card">
+<div class="relative flex items-center justify-center w-12 h-12">
+<span class="absolute w-3 h-3 bg-accent rounded-full z-10 shadow-[0_0_10px_#ff3300]"></span>
+<span class="absolute w-full h-full border border-accent rounded-full opacity-0 animate-[radar_2s_infinite]"></span>
+<span class="absolute w-full h-full border border-accent rounded-full opacity-0 animate-[radar_2s_0.6s_infinite]"></span>
+</div>
+<span class="label">Pulse</span>
+</div>
+<!-- 4. BARS -->
+<div class="card">
+<svg class="stroke-white stroke-2 stroke-linecap-round" height="40" viewbox="0 0 40 40" width="40">
+<line x1="12" x2="12" y1="15" y2="25"><animate attributename="y1" dur="0.6s" repeatcount="indefinite" values="15;10;15"></animate><animate attributename="y2" dur="0.6s" repeatcount="indefinite" values="25;30;25"></animate></line>
+<line x1="20" x2="20" y1="15" y2="25"><animate attributename="y1" begin="0.1s" dur="0.6s" repeatcount="indefinite" values="15;10;15"></animate><animate attributename="y2" begin="0.1s" dur="0.6s" repeatcount="indefinite" values="25;30;25"></animate></line>
+<line x1="28" x2="28" y1="15" y2="25"><animate attributename="y1" begin="0.2s" dur="0.6s" repeatcount="indefinite" values="15;10;15"></animate><animate attributename="y2" begin="0.2s" dur="0.6s" repeatcount="indefinite" values="25;30;25"></animate></line>
+</svg>
+<span class="label">Bars</span>
+</div>
+<!-- 5. RING (DASH) -->
+<div class="card">
+<svg class="w-10 h-10 animate-[spin_2s_linear_infinite]" viewbox="25 25 50 50">
+<circle cx="50" cy="50" fill="none" r="20" stroke="#333" stroke-width="4"></circle>
+<circle cx="50" cy="50" fill="none" r="20" stroke="white" stroke-linecap="round" stroke-width="4" style="animation: ring-dash 1.5s ease-in-out infinite"></circle>
+</svg>
+<span class="label">Ring</span>
+</div>
+<!-- 6. INFINITY -->
+<div class="card">
+<svg height="30" viewbox="0 0 60 30" width="60">
+<path d="M15,15 C15,5 25,5 30,15 C35,25 45,25 45,15 C45,5 35,5 30,15 C25,25 15,25 15,15 Z" fill="none" stroke="#ff3300" stroke-dasharray="100" stroke-linecap="round" stroke-width="2" style="animation: dash-draw 2s linear infinite"></path>
+</svg>
+<span class="label">Infinity</span>
+</div>
+<!-- 7. HOURGLASS -->
+<div class="card">
+<svg class="stroke-white stroke-[1.5] fill-none animate-[spin_3s_ease-in-out_infinite]" height="40" viewbox="0 0 24 24" width="40">
+<path d="M5 22h14M5 2h14M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"></path>
+</svg>
+<span class="label">Hourglass</span>
+</div>
+<!-- 8. TYPING -->
+<div class="card">
+<svg height="40" viewbox="0 0 24 24" width="40">
+<rect fill="none" height="12" rx="2" stroke="#333" stroke-width="1.5" width="20" x="2" y="6"></rect>
+<circle cx="8" cy="12" fill="white" r="1"><animate attributename="opacity" begin="0s" dur="1.5s" repeatcount="indefinite" values="0;1;0"></animate></circle>
+<circle cx="12" cy="12" fill="white" r="1"><animate attributename="opacity" begin="0.2s" dur="1.5s" repeatcount="indefinite" values="0;1;0"></animate></circle>
+<circle cx="16" cy="12" fill="white" r="1"><animate attributename="opacity" begin="0.4s" dur="1.5s" repeatcount="indefinite" values="0;1;0"></animate></circle>
+</svg>
+<span class="label">Typing</span>
+</div>
+<!-- 9. UPLOAD -->
+<div class="card">
+<svg class="stroke-white stroke-[1.5] fill-none" height="40" style="overflow: visible;" viewbox="0 0 24 24" width="40">
+<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" stroke="#555"></path>
+<g style="animation: upload-arrow 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite">
+<polyline points="17 8 12 3 7 8"></polyline>
+<line x1="12" x2="12" y1="3" y2="15"></line>
+</g>
+</svg>
+<span class="label">Upload</span>
+</div>
+<!-- 10. PROGRESS -->
+<div class="card">
+<svg height="40" style="transform: rotate(-90deg);" viewbox="0 0 40 40" width="40">
+<circle cx="20" cy="20" fill="none" r="16" stroke="#222" stroke-width="4"></circle>
+<circle cx="20" cy="20" fill="none" r="16" stroke="white" stroke-dasharray="100" stroke-dashoffset="25" stroke-width="4">
+<animate attributename="stroke-dashoffset" calcmode="spline" dur="2s" fill="freeze" keysplines="0.16 1 0.3 1" repeatcount="indefinite" values="100; 20"></animate>
+</circle>
+</svg>
+<span class="label">Percent</span>
+</div>
+</div>
+<!-- PART 2: MICRO-INTERACTIONS (15) -->
+<h2 class="text-sm font-bold text-accent uppercase tracking-widest mb-6">02 / Micro-Interactions</h2>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+<!-- 1. BUTTON HOVER -->
+<div class="card group cursor-pointer overflow-hidden">
+<button class="relative flex items-center gap-2 px-6 py-2 border border-white rounded-full group-hover:bg-white group-hover:text-black transition-colors duration-300">
+<span class="text-xs font-bold uppercase tracking-wider">Action</span>
+<svg class="stroke-current stroke-2 fill-none transition-transform duration-300 group-hover:translate-x-1" height="16" viewbox="0 0 24 24" width="16">
+<line x1="5" x2="19" y1="12" y2="12"></line>
+<polyline points="12 5 19 12 12 19"></polyline>
+</svg>
+</button>
+<span class="label">Btn Hover</span>
+</div>
+<!-- 2. FORM FOCUS -->
+<div class="card">
+<div class="relative group w-full max-w-[140px]">
+<div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+<svg class="h-4 w-4 text-gray-500 transition-colors group-focus-within:text-accent" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<input class="bg-black border border-[#333] text-white text-xs rounded-lg focus:border-accent focus:ring-1 focus:ring-accent block w-full pl-9 p-2.5 outline-none transition-all" placeholder="User" type="text"/>
+</div>
+<span class="label">Focus</span>
+</div>
+<!-- 3. CHECKBOX -->
+<div class="card">
+<label class="cursor-pointer relative flex items-center">
+<input class="peer sr-only" type="checkbox"/>
+<div class="w-6 h-6 border border-gray-500 rounded peer-checked:bg-accent peer-checked:border-accent transition-all duration-300 flex items-center justify-center">
+<svg class="w-4 h-4 text-black scale-0 peer-checked:scale-100 transition-transform duration-200" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="3"></path>
+</svg>
+</div>
+</label>
+<span class="label">Check</span>
+</div>
+<!-- 4. TOGGLE -->
+<div class="card">
+<label class="relative inline-flex items-center cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<div class="w-11 h-6 bg-[#333] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent"></div>
+</label>
+<span class="label">Toggle</span>
+</div>
+<!-- 5. SUCCESS -->
+<div class="card group">
+<div class="w-10 h-10 rounded-full bg-success/10 border border-success flex items-center justify-center text-success">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path class="opacity-0 group-hover:opacity-100 transition-opacity duration-300" d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+<animate attributename="stroke-dasharray" begin="mouseenter" dur="0.3s" fill="freeze" from="0, 100" to="100, 0"></animate>
+</path>
+</svg>
+</div>
+<span class="label">Success</span>
+</div>
+<!-- 6. ERROR (SHAKE) -->
+<div class="card group">
+<div class="w-10 h-10 rounded-full bg-error/10 border border-error flex items-center justify-center text-error group-hover:animate-[shake_0.5s_ease-in-out]">
+<svg class="w-6 h-6" fill="none" stroke="currentColor" viewbox="0 0 24 24">
+<path d="M6 18L18 6M6 6l12 12" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path>
+</svg>
+</div>
+<span class="label">Error</span>
+</div>
+<!-- 7. LIKE (POP) -->
+<div class="card">
+<label class="cursor-pointer">
+<input class="sr-only peer" type="checkbox"/>
+<svg class="w-8 h-8 text-gray-500 peer-checked:text-accent peer-checked:fill-accent transition-colors duration-300 peer-checked:animate-[pop_0.3s_ease-out]" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
+<path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+</label>
+<span class="label">Like</span>
+</div>
+<!-- 8. BOOKMARK -->
+<div class="card group cursor-pointer">
+<svg class="w-6 h-6 text-white stroke-current stroke-2 fill-transparent transition-all duration-300 group-hover:fill-white" viewbox="0 0 24 24">
+<path d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z" stroke-linecap="round" stroke-linejoin="round"></path>
+</svg>
+<span class="label">Save</span>
+</div>
+<!-- 9. SHARE -->
+<div class="card group cursor-pointer">
+<svg class="w-6 h-6 stroke-white stroke-[1.5] fill-none" viewbox="0 0 24 24">
+<circle class="transition-all duration-300 group-hover:fill-white" cx="18" cy="5" r="3"></circle>
+<circle class="transition-all duration-300 delay-75 group-hover:fill-white" cx="6" cy="12" r="3"></circle>
+<circle class="transition-all duration-300 delay-150 group-hover:fill-white" cx="18" cy="19" r="3"></circle>
+<line class="origin-left transition-transform duration-300 group-hover:scale-x-110" x1="8.59" x2="15.42" y1="13.51" y2="17.49"></line>
+<line class="origin-left transition-transform duration-300 group-hover:scale-x-110" x1="15.41" x2="8.59" y1="6.51" y2="10.49"></line>
+</svg>
+<span class="label">Share</span>
+</div>
+<!-- 10. DOWNLOAD -->
+<div class="card group cursor-pointer" id="dl-btn-20" onclick="triggerDownload20(this)">
+<div class="relative w-10 h-10 flex items-center justify-center">
+<svg class="w-6 h-6 absolute dl-arrow-group" fill="none" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewbox="0 0 24 24">
+<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+<polyline points="7 10 12 15 17 10"></polyline>
+<line x1="12" x2="12" y1="15" y2="3"></line>
+</svg>
+<svg class="w-full h-full absolute rotate-[-90deg]" viewbox="0 0 24 24">
+<circle class="opacity-0 dl-track" cx="12" cy="12" fill="none" r="10" stroke="#333" stroke-width="2"></circle>
+<circle class="dl-progress opacity-0" cx="12" cy="12" fill="none" r="10" stroke="white" stroke-width="2"></circle>
+</svg>
+<svg class="w-6 h-6 absolute dl-check text-success" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="3" viewbox="0 0 24 24">
+<polyline points="20 6 9 17 4 12"></polyline>
+</svg>
+</div>
+<span class="label">Download</span>
+</div>
+<!-- 11. DELETE -->
+<div class="card group cursor-pointer">
+<svg fill="none" height="32" stroke="white" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" style="overflow: visible" viewbox="0 0 24 24" width="32">
+<g class="lid">
+<line x1="3" x2="21" y1="6" y2="6"></line>
+<path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+</g>
+<g>
+<path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"></path>
+<g class="trash-lines">
+<line x1="10" x2="10" y1="11" y2="17"></line>
+<line x1="14" x2="14" y1="11" y2="17"></line>
+</g>
+</g>
+</svg>
+<span class="label">Delete</span>
+</div>
+<!-- 12. DRAG -->
+<div class="card group cursor-move hover:bg-[#1a1a1a]">
+<svg class="w-6 h-6 fill-gray-500 transition-colors group-hover:fill-white" viewbox="0 0 24 24">
+<circle cx="9" cy="5" r="1.5"></circle><circle cx="15" cy="5" r="1.5"></circle><circle cx="9" cy="12" r="1.5"></circle><circle cx="15" cy="12" r="1.5"></circle><circle cx="9" cy="19" r="1.5"></circle><circle cx="15" cy="19" r="1.5"></circle>
+</svg>
+<span class="label">Drag</span>
+</div>
+<!-- 13. NOTIFICATION -->
+<div class="card group cursor-pointer">
+<div class="relative">
+<svg class="w-6 h-6 stroke-white stroke-[1.5] fill-none group-hover:animate-[shake_0.5s_ease-in-out]" viewbox="0 0 24 24">
+<path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+<path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+</svg>
+<span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-accent rounded-full border border-black scale-0 group-hover:scale-100 transition-transform duration-200 ease-out"></span>
+</div>
+<span class="label">Notify</span>
+</div>
+<!-- 14. EXPAND -->
+<div class="card group cursor-pointer">
+<svg class="w-6 h-6 stroke-white stroke-[1.5] fill-none transition-transform duration-300 group-hover:rotate-180" viewbox="0 0 24 24">
+<polyline points="6 9 12 15 18 9"></polyline>
+</svg>
+<span class="label">Expand</span>
+</div>
+<!-- 15. TOOLTIP -->
+<div class="card group cursor-help">
+<div class="relative flex justify-center">
+<svg class="w-6 h-6 stroke-gray-400 group-hover:stroke-white transition-colors" fill="none" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="10"></circle>
+<path d="M12 16v-4"></path>
+<path d="M12 8h.01"></path>
+</svg>
+<div class="absolute bottom-full mb-2 tooltip-box">
+<div class="bg-white text-black px-3 py-1.5 rounded text-[11px] font-bold uppercase tracking-wide shadow-[0_5px_15px_rgba(255,255,255,0.2)] relative">
+                            Details
+                            <div class="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-t-[5px] border-t-white"></div>
+</div>
+</div>
+</div>
+<span class="label">Tooltip</span>
+</div>
+</div>
+<script>
+            function triggerDownload20(el) {
+                if (el.classList.contains('downloading')) return;
+
+                el.classList.add('downloading');
+
+                setTimeout(() => {
+                    el.classList.remove('downloading');
+                    el.classList.add('download-done');
+
+                    setTimeout(() => {
+                        el.classList.remove('download-done');
+                    }, 2500);
+                }, 1200);
+            }
+        </script>
+</section>
+<div class="section-divider"></div>
+<!-- ========================================================================
+         SECTION 4: ONYX // DECORATIVE ASSETS (File 24)
+    ======================================================================== -->
+<section class="max-w-7xl mx-auto mb-32" id="section-24">
+<div class="section-header">SECTION 4: ONYX // DECORATIVE ASSETS (File 24)</div>
+<!-- GLOBAL DEFS (Patterns & Filters) -->
+<svg class="hidden">
+<defs>
+<!-- P1: Dots -->
+<pattern height="20" id="p-dots" patternunits="userSpaceOnUse" width="20" x="0" y="0">
+<circle cx="2" cy="2" fill="#333" r="1"></circle>
+</pattern>
+<!-- P2: Mesh -->
+<pattern height="40" id="p-mesh" patternunits="userSpaceOnUse" width="40" x="0" y="0">
+<path d="M0 0L40 40M40 0L0 40" stroke="#222" stroke-width="0.5"></path>
+<circle cx="20" cy="20" fill="#111" r="2" stroke="#333"></circle>
+</pattern>
+<!-- P3: Lines -->
+<pattern height="10" id="p-lines" patternunits="userSpaceOnUse" width="10" x="0" y="0">
+<path d="M-2,2 l4,-4 M0,10 l10,-10 M8,12 l4,-4" stroke="#222" stroke-width="1"></path>
+</pattern>
+<!-- P4: Hexagons -->
+<pattern height="48" id="p-hex" patternunits="userSpaceOnUse" width="28" x="0" y="0">
+<path d="M14 0l14 8v16l-14 8L0 24V8z" fill="none" stroke="#222" stroke-width="1"></path>
+</pattern>
+<!-- P5: Circuits -->
+<pattern height="100" id="p-circuit" patternunits="userSpaceOnUse" width="100" x="0" y="0">
+<path d="M10 10h20v20h20v-20h40v80h-60" fill="none" stroke="#222" stroke-width="1"></path>
+<rect fill="#333" height="4" width="4" x="8" y="8"></rect>
+<rect fill="#333" height="4" width="4" x="88" y="8"></rect>
+</pattern>
+<!-- P6: Grid -->
+<pattern height="40" id="p-grid" patternunits="userSpaceOnUse" width="40" x="0" y="0">
+<path d="M 40 0 L 0 0 0 40" fill="none" stroke="#222" stroke-width="1"></path>
+</pattern>
+<!-- P7: Triangles -->
+<pattern height="40" id="p-tri" patternunits="userSpaceOnUse" width="40" x="0" y="0">
+<polygon fill="none" points="20,0 40,40 0,40" stroke="#222" stroke-width="1"></polygon>
+</pattern>
+</defs>
+</svg>
+<header class="mb-20 relative z-10">
+<h1 class="text-5xl md:text-7xl font-bold tracking-tighter mb-2">ONYX <span class="text-lime">ASSETS</span></h1>
+<p class="font-mono text-dim text-sm">DECORATIVE PRIMITIVES // SYSTEM READY</p>
+</header>
+<main class="relative z-10 space-y-32">
+<!-- 1. SECTION DIVIDERS -->
+<section>
+<span class="section-title">01 / SECTION DIVIDERS</span>
+<div class="grid grid-cols-1 gap-8">
+<!-- Style 1: Wave -->
+<div class="w-full border border-border bg-surface p-4">
+<div class="text-xs text-dim mb-2 font-mono">01. ORGANIC WAVE</div>
+<svg class="w-full h-16 text-white" fill="none" preserveaspectratio="none" viewbox="0 0 1200 120">
+<path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" fill="#111"></path>
+</svg>
+</div>
+<!-- Style 2: Tilt -->
+<div class="w-full border border-border bg-surface p-4">
+<div class="text-xs text-dim mb-2 font-mono">02. HARD TILT</div>
+<svg class="w-full h-16 text-white" fill="none" preserveaspectratio="none" viewbox="0 0 1200 120">
+<path d="M1200 120L0 16.48V0h1200V120z" fill="#111"></path>
+</svg>
+</div>
+<!-- Style 3: Steps -->
+<div class="w-full border border-border bg-surface p-4">
+<div class="text-xs text-dim mb-2 font-mono">03. DIGITAL STEPS</div>
+<svg class="w-full h-16 text-white" fill="none" preserveaspectratio="none" viewbox="0 0 1200 120">
+<path d="M0,0v60h200v20h200v20h200v20h200V80h200V60h200V0H0z" fill="#111"></path>
+</svg>
+</div>
+<!-- Style 4: Arrow -->
+<div class="w-full border border-border bg-surface p-4">
+<div class="text-xs text-dim mb-2 font-mono">04. POINTER</div>
+<svg class="w-full h-16 text-white" fill="none" preserveaspectratio="none" viewbox="0 0 1200 120">
+<path d="M598.97 114.72L0 0 0 120 1200 120 1200 0 598.97 114.72z" fill="#111"></path>
+</svg>
+</div>
+<!-- Style 5: Layered (Opacity) -->
+<div class="w-full border border-border bg-surface p-4">
+<div class="text-xs text-dim mb-2 font-mono">05. DATA LAYERS</div>
+<svg class="w-full h-24 text-white" fill="none" preserveaspectratio="none" viewbox="0 0 1200 120">
+<path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" fill="#222" opacity="0.5"></path>
+<path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" fill="#111"></path>
+</svg>
+</div>
+<!-- Style 6: ZigZag -->
+<div class="w-full border border-border bg-surface p-4">
+<div class="text-xs text-dim mb-2 font-mono">06. FREQUENCY</div>
+<svg class="w-full h-12 text-white" fill="none" preserveaspectratio="none" viewbox="0 0 1200 40">
+<path d="M0 0 L20 40 L40 0 L60 40 L80 0 L100 40 L120 0 L140 40 L160 0 L180 40 L200 0 L220 40 L240 0 L260 40 L280 0 L300 40 L320 0 L340 40 L360 0 L380 40 L400 0 L420 40 L440 0 L460 40 L480 0 L500 40 L520 0 L540 40 L560 0 L580 40 L600 0 L620 40 L640 0 L660 40 L680 0 L700 40 L720 0 L740 40 L760 0 L780 40 L800 0 L820 40 L840 0 L860 40 L880 0 L900 40 L920 0 L940 40 L960 0 L980 40 L1000 0 L1020 40 L1040 0 L1060 40 L1080 0 L1100 40 L1120 0 L1140 40 L1160 0 L1180 40 L1200 0" fill="#111"></path>
+</svg>
+</div>
+</div>
+</section>
+<!-- 2. BACKGROUND PATTERNS -->
+<section>
+<span class="section-title">02 / SEAMLESS PATTERNS</span>
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+<div class="grid-box">
+<svg class="pattern-swatch"><rect fill="url(#p-dots)" height="100%" width="100%"></rect></svg>
+<span class="label">Dots</span>
+</div>
+<div class="grid-box">
+<svg class="pattern-swatch"><rect fill="url(#p-grid)" height="100%" width="100%"></rect></svg>
+<span class="label">Grid</span>
+</div>
+<div class="grid-box">
+<svg class="pattern-swatch"><rect fill="url(#p-lines)" height="100%" width="100%"></rect></svg>
+<span class="label">Hatch</span>
+</div>
+<div class="grid-box">
+<svg class="pattern-swatch"><rect fill="url(#p-hex)" height="100%" width="100%"></rect></svg>
+<span class="label">Hive</span>
+</div>
+<div class="grid-box">
+<svg class="pattern-swatch"><rect fill="url(#p-circuit)" height="100%" width="100%"></rect></svg>
+<span class="label">Circuit</span>
+</div>
+</div>
+</section>
+<!-- 3. ACCENT SHAPES (STICKER SHEET) -->
+<section>
+<span class="section-title">03 / DECORATIVE ACCENTS</span>
+<div class="grid grid-cols-2 md:grid-cols-5 lg:grid-cols-6 gap-4">
+<!-- 1. Sparkle -->
+<div class="grid-box flex items-center justify-center group">
+<svg class="w-8 h-8 text-white group-hover:text-lime transition-colors duration-300" fill="currentColor" viewbox="0 0 24 24">
+<path d="M12 0L14.5 9.5L24 12L14.5 14.5L12 24L9.5 14.5L0 12L9.5 9.5L12 0Z"></path>
+</svg>
+<span class="label">Sparkle</span>
+</div>
+<!-- 2. Asterisk -->
+<div class="grid-box flex items-center justify-center">
+<svg class="w-10 h-10 text-lime animate-[spin-slow_10s_linear_infinite]" fill="none" stroke="currentColor" stroke-width="1.5" viewbox="0 0 24 24">
+<path d="M12 2V22M2 12H22M4.93 4.93L19.07 19.07M19.07 4.93L4.93 19.07"></path>
+</svg>
+<span class="label">Asterisk</span>
+</div>
+<!-- 3. Curly Arrow -->
+<div class="grid-box flex items-center justify-center">
+<svg class="w-12 h-12 text-white" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2" viewbox="0 0 100 100">
+<path d="M20 80 Q 50 10 80 50" stroke-dasharray="4 4"></path>
+<path d="M70 55 L 80 50 L 85 40"></path>
+</svg>
+<span class="label">Flow</span>
+</div>
+<!-- 4. Brackets -->
+<div class="grid-box flex items-center justify-center gap-2 group">
+<svg class="w-4 h-10 text-dim group-hover:text-white transition-colors" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 20 60">
+<path d="M15 1 L 5 10 L 5 50 L 15 59"></path>
+</svg>
+<svg class="w-4 h-10 text-dim group-hover:text-white transition-colors" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 20 60">
+<path d="M5 1 L 15 10 L 15 50 L 5 59"></path>
+</svg>
+<span class="label">Code</span>
+</div>
+<!-- 5. Marker Circle -->
+<div class="grid-box flex items-center justify-center">
+<svg class="w-12 h-12 text-lime" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 100 100">
+<path d="M50 10 C 20 10 10 40 10 50 C 10 80 30 90 50 90 C 80 90 90 60 90 50 C 90 45 88 20 55 15" stroke-dasharray="300" stroke-dashoffset="0"></path>
+</svg>
+<span class="label">Focus</span>
+</div>
+<!-- 6. Tech Crosshair -->
+<div class="grid-box flex items-center justify-center group">
+<svg class="w-10 h-10 text-dim group-hover:text-lime transition-colors" viewbox="0 0 40 40">
+<path d="M20 0v40M0 20h40" stroke="currentColor" stroke-width="1"></path>
+<circle cx="20" cy="20" fill="none" r="10" stroke="currentColor" stroke-width="1"></circle>
+<circle cx="20" cy="20" fill="currentColor" r="2"></circle>
+</svg>
+<span class="label">Target</span>
+</div>
+<!-- 7. Corner -->
+<div class="grid-box flex items-center justify-center">
+<svg class="w-10 h-10 text-white" fill="none" viewbox="0 0 40 40">
+<path d="M0 10 V0 H10" stroke="currentColor" stroke-width="3"></path>
+<path d="M30 0 H40 V10" opacity="0.5" stroke="currentColor" stroke-width="1"></path>
+<path d="M40 30 V40 H30" stroke="currentColor" stroke-width="3"></path>
+<path d="M10 40 H0 V30" opacity="0.5" stroke="currentColor" stroke-width="1"></path>
+</svg>
+<span class="label">Frame</span>
+</div>
+<!-- 8. Swoosh -->
+<div class="grid-box flex items-center justify-center">
+<svg class="w-16 h-6 text-lime" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="3" viewbox="0 0 100 20">
+<path d="M5 15 Q 50 5 95 15"></path>
+</svg>
+<span class="label">Swoosh</span>
+</div>
+<!-- 9. Quote -->
+<div class="grid-box flex items-center justify-center">
+<svg class="w-8 h-8 text-white" fill="currentColor" viewbox="0 0 24 24">
+<path d="M14.017 21L14.017 18C14.017 16.8954 14.9124 16 16.017 16H19.017C19.5693 16 20.017 15.5523 20.017 15V9C20.017 8.44772 19.5693 8 19.017 8H15.017C14.4647 8 14.017 8.44772 14.017 9V11C14.017 11.5523 13.5693 12 13.017 12H12.017V5H22.017V15C22.017 18.3137 19.3307 21 16.017 21H14.017ZM5.0166 21L5.0166 18C5.0166 16.8954 5.91203 16 7.0166 16H10.0166C10.5689 16 11.0166 15.5523 11.0166 15V9C11.0166 8.44772 10.5689 8 10.0166 8H6.0166C5.46432 8 5.0166 8.44772 5.0166 9V11C5.0166 11.5523 4.56889 12 4.0166 12H3.0166V5H13.0166V15C13.0166 18.3137 10.3303 21 7.0166 21H5.0166Z"></path>
+</svg>
+<span class="label">Quote</span>
+</div>
+<!-- 10. Tri-Points -->
+<div class="grid-box flex items-center justify-center gap-1">
+<div class="w-2 h-2 bg-lime rounded-full animate-bounce"></div>
+<div class="w-2 h-2 bg-white rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+<div class="w-2 h-2 bg-dim rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+<span class="label">Load</span>
+</div>
+</div>
+</section>
+<!-- 4. ORGANIC BLOBS (With Industrial Twist) -->
+<section>
+<span class="section-title">04 / FLUID GEOMETRY</span>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Blob 1: Solid -->
+<div class="h-64 bg-panel border border-border relative flex items-center justify-center overflow-hidden">
+<svg class="absolute inset-0 opacity-20 w-full h-full"><rect fill="url(#p-grid)" height="100%" width="100%"></rect></svg>
+<div class="w-32 h-32 bg-white rounded-full animate-morph filter blur-md"></div>
+<div class="w-32 h-32 border border-white rounded-full animate-morph absolute"></div>
+</div>
+<!-- Blob 2: Wireframe -->
+<div class="h-64 bg-panel border border-border relative flex items-center justify-center">
+<svg class="w-40 h-40 animate-morph text-lime" viewbox="0 0 100 100">
+<path d="M50 0 C 80 0 100 20 100 50 C 100 80 80 100 50 100 C 20 100 0 80 0 50 C 0 20 20 0 50 0" fill="none" stroke="currentColor" stroke-dasharray="4 2" stroke-width="1"></path>
+</svg>
+</div>
+<!-- Blob 3: Glitch/Texture -->
+<div class="h-64 bg-panel border border-border relative flex items-center justify-center overflow-hidden">
+<div class="w-40 h-40 bg-dim/20 rounded-full animate-morph flex items-center justify-center overflow-hidden border border-dim">
+<svg class="w-full h-full opacity-50"><rect fill="url(#p-circuit)" height="100%" width="100%"></rect></svg>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. FUNCTIONAL DECORATIONS -->
+<section>
+<span class="section-title">05 / FUNCTIONAL UI</span>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- CTA Arrow -->
+<div class="p-8 border border-border bg-panel flex flex-col gap-4">
+<div class="font-mono text-xs text-dim">CTA DIRECTION</div>
+<div class="flex items-center gap-4 text-white">
+<span class="text-xl font-bold">Start Project</span>
+<svg class="w-24 h-8 text-lime" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 100 20">
+<path d="M0 10 H 90 M 85 5 L 90 10 L 85 15"></path>
+</svg>
+</div>
+</div>
+<!-- Text Highlight -->
+<div class="p-8 border border-border bg-panel flex flex-col gap-4 items-start">
+<div class="font-mono text-xs text-dim">TEXT EMPHASIS</div>
+<div class="relative inline-block">
+<span class="relative z-10 font-bold text-2xl">Priority Access</span>
+<svg class="absolute -bottom-2 left-0 w-full h-3 text-lime opacity-60 z-0" preserveaspectratio="none" viewbox="0 0 100 10">
+<path d="M0 5 Q 50 12 100 5" fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="6"></path>
+</svg>
+</div>
+</div>
+<!-- Badge Ribbon -->
+<div class="p-8 border border-border bg-panel relative overflow-hidden h-40">
+<div class="font-mono text-xs text-dim">STATUS RIBBON</div>
+<div class="absolute top-6 right-[-35px] rotate-45 bg-lime text-black text-[10px] font-bold px-12 py-1 shadow-[0_5px_10px_rgba(0,0,0,0.5)] border-y border-white/20 tracking-widest">
+                            PREMIUM
+                        </div>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-border mt-20 py-12 bg-surface">
+<div class="text-center">
+<div class="font-mono text-xs text-dim">
+                    ONYX SYSTEM // SVG LIBRARY v1.0
+                </div>
+</div>
+</footer>
+</section>
+<div class="section-divider"></div>
+<!-- ========================================================================
+         SECTION 5: ONYX UI // COMPONENT LIBRARY (File 25)
+    ======================================================================== -->
+<section class="max-w-7xl mx-auto mb-32" id="section-25">
+<div class="section-header">SECTION 5: ONYX UI // COMPONENT LIBRARY (File 25)</div>
+<header class="mb-20 border-b border-border pb-6">
+<h1 class="text-4xl font-bold tracking-tighter mb-2">ONYX <span class="text-lime">UI</span></h1>
+<p class="font-mono text-dim text-xs">SVG-ENHANCED COMPONENT SYSTEM // v1.0</p>
+</header>
+<main class="space-y-24">
+<!-- 1. BUTTONS -->
+<section>
+<h2 class="text-lime font-mono text-sm mb-8 border-l-2 border-lime pl-4">01 // INTERACTIVE BUTTONS</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Arrow Button -->
+<div class="comp-card items-start">
+<span class="comp-label">KINETIC ARROW</span>
+<button class="group relative px-6 py-3 border border-white/20 bg-transparent hover:bg-white/5 transition-colors flex items-center gap-3 overflow-hidden">
+<span class="text-sm font-bold tracking-widest uppercase">Explore</span>
+<svg class="w-4 h-4 text-lime transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M5 12h14M12 5l7 7-7 7"></path>
+</svg>
+<svg class="absolute top-0 left-0 w-2 h-2 text-white" viewbox="0 0 10 10"><path d="M0 10V0H10" fill="none" stroke="currentColor"></path></svg>
+<svg class="absolute bottom-0 right-0 w-2 h-2 text-white" viewbox="0 0 10 10"><path d="M10 0V10H0" fill="none" stroke="currentColor"></path></svg>
+</button>
+</div>
+<!-- Loading Button -->
+<div class="comp-card items-start">
+<span class="comp-label">SVG LOADER STATE</span>
+<button class="flex items-center gap-3 px-6 py-3 bg-white text-black font-bold text-sm uppercase tracking-wider hover:bg-gray-200 transition-colors">
+<svg class="w-4 h-4 animate-spin-slow text-black" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="10" stroke-opacity="0.25"></circle>
+<path d="M12 2a10 10 0 0 1 10 10" stroke-linecap="round" stroke-opacity="1"></path>
+</svg>
+                            Processing
+                        </button>
+</div>
+<!-- Success Transition -->
+<div class="comp-card items-start">
+<span class="comp-label">SUCCESS MORPH</span>
+<button class="group flex items-center gap-2 px-6 py-3 border border-lime/50 text-lime hover:bg-lime hover:text-black transition-all duration-300">
+<span class="text-sm font-bold uppercase">Submit</span>
+<div class="relative w-4 h-4">
+<svg class="w-4 h-4 absolute inset-0 transition-opacity group-hover:opacity-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path></svg>
+<svg class="w-4 h-4 absolute inset-0 opacity-0 group-hover:opacity-100 scale-0 group-hover:scale-100 transition-all duration-300 delay-100" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+</div>
+</button>
+</div>
+</div>
+</section>
+<!-- 2. FORMS -->
+<section>
+<h2 class="text-lime font-mono text-sm mb-8 border-l-2 border-lime pl-4">02 // INPUT CONTROLS</h2>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Custom Checkbox -->
+<div class="comp-card">
+<span class="comp-label">SVG CHECKBOX</span>
+<label class="flex items-center gap-3 cursor-pointer group">
+<div class="relative">
+<input class="peer sr-only" type="checkbox"/>
+<div class="checkbox-box w-5 h-5 border border-dim bg-surface transition-all duration-200 flex items-center justify-center">
+<svg class="w-3.5 h-3.5 text-black transform scale-0 transition-transform duration-200" fill="none" stroke="currentColor" stroke-linecap="square" stroke-width="4" viewbox="0 0 24 24">
+<polyline points="20 6 9 17 4 12"></polyline>
+</svg>
+</div>
+</div>
+<span class="text-sm text-dim group-hover:text-white transition-colors">Enable 2FA</span>
+</label>
+</div>
+<!-- Toggle Switch -->
+<div class="comp-card">
+<span class="comp-label">MECHANICAL TOGGLE</span>
+<label class="flex items-center cursor-pointer">
+<input class="peer sr-only" type="checkbox"/>
+<div class="relative w-12 h-6 border border-dim bg-surface peer-checked:border-lime peer-checked:bg-lime/10 transition-colors">
+<div class="absolute top-0.5 left-0.5 w-4 h-4 bg-dim peer-checked:bg-lime peer-checked:translate-x-6 transition-all duration-300 flex items-center justify-center">
+<svg class="w-2 h-2 text-black opacity-0 peer-checked:opacity-100" stroke="currentColor" stroke-width="4" viewbox="0 0 24 24"><path d="M5 12h14"></path></svg>
+</div>
+</div>
+</label>
+</div>
+<!-- Search Input -->
+<div class="comp-card">
+<span class="comp-label">SEARCH FIELD</span>
+<div class="relative w-full">
+<input class="w-full bg-surface border-b border-dim p-2 pl-8 text-sm focus:outline-none focus:border-lime transition-colors placeholder-dim" placeholder="Search database..." type="text"/>
+<svg class="absolute left-0 top-2.5 w-4 h-4 text-dim" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="11" cy="11" r="8"></circle>
+<line x1="21" x2="16.65" y1="21" y2="16.65"></line>
+</svg>
+</div>
+</div>
+<!-- File Upload -->
+<div class="comp-card col-span-1 md:col-span-2">
+<span class="comp-label">DROP ZONE</span>
+<div class="w-full border border-dashed border-dim hover:border-lime p-8 flex flex-col items-center justify-center gap-3 transition-colors cursor-pointer group">
+<div class="w-10 h-10 rounded-full bg-dim/20 flex items-center justify-center group-hover:scale-110 transition-transform">
+<svg class="w-5 h-5 text-dim group-hover:text-lime" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+<polyline points="17 8 12 3 7 8"></polyline>
+<line x1="12" x2="12" y1="3" y2="15"></line>
+</svg>
+</div>
+<span class="font-mono text-xs text-dim group-hover:text-white">DROP FILE OR CLICK TO UPLOAD</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. CARDS & CONTENT -->
+<section>
+<h2 class="text-lime font-mono text-sm mb-8 border-l-2 border-lime pl-4">03 // CONTENT CONTAINERS</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Card with Corners -->
+<div class="relative bg-surface p-6 border border-border group hover:border-dim transition-colors">
+<svg class="absolute top-0 left-0 w-4 h-4 text-lime" viewbox="0 0 20 20"><path d="M1 19V1H19" fill="none" stroke="currentColor" stroke-width="2"></path></svg>
+<svg class="absolute bottom-0 right-0 w-4 h-4 text-dim group-hover:text-lime transition-colors" viewbox="0 0 20 20"><path d="M19 1V19H1" fill="none" stroke="currentColor" stroke-width="2"></path></svg>
+<div class="mb-4 w-8 h-8 bg-lime text-black flex items-center justify-center font-bold text-xs">01</div>
+<h3 class="text-lg font-bold mb-2">System Architecture</h3>
+<p class="text-sm text-dim font-mono">Scalable vector frameworks for modern web applications.</p>
+</div>
+<!-- Avatar Group -->
+<div class="comp-card">
+<span class="comp-label">SVG AVATARS</span>
+<div class="flex -space-x-2">
+<div class="w-10 h-10 rounded bg-dim flex items-center justify-center border-2 border-black">
+<svg class="w-5 h-5 text-white" fill="currentColor" viewbox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+</div>
+<div class="w-10 h-10 rounded bg-white flex items-center justify-center border-2 border-black">
+<svg class="w-5 h-5 text-black" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24"><rect height="18" rx="2" ry="2" width="18" x="3" y="3"></rect><line x1="3" x2="21" y1="9" y2="9"></line><line x1="9" x2="9" y1="21" y2="9"></line></svg>
+</div>
+<div class="w-10 h-10 rounded bg-lime flex items-center justify-center border-2 border-black font-bold text-black text-xs">
+                                JD
+                            </div>
+</div>
+</div>
+<!-- Ribbon Badge -->
+<div class="relative bg-surface border border-border h-32 overflow-hidden flex items-center justify-center">
+<div class="absolute top-3 right-[-30px] rotate-45 bg-lime text-black text-[10px] font-bold px-10 py-1 border-y border-black z-10">
+                            NEW
+                        </div>
+<span class="text-dim font-mono text-xs">FEATURED ITEM</span>
+</div>
+</div>
+</section>
+<!-- 4. NAVIGATION -->
+<section>
+<h2 class="text-lime font-mono text-sm mb-8 border-l-2 border-lime pl-4">04 // WAYFINDING</h2>
+<div class="grid grid-cols-1 gap-6">
+<!-- Breadcrumbs -->
+<div class="comp-card items-start">
+<span class="comp-label">PATH TRACE</span>
+<nav class="flex items-center text-sm font-mono">
+<a class="text-dim hover:text-white transition-colors" href="#">HOME</a>
+<svg class="w-4 h-4 text-dim mx-2" fill="none" stroke="currentColor" stroke-width="1" viewbox="0 0 24 24"><path d="M9 18l6-6-6-6"></path></svg>
+<a class="text-dim hover:text-white transition-colors" href="#">PROJECTS</a>
+<svg class="w-4 h-4 text-dim mx-2" fill="none" stroke="currentColor" stroke-width="1" viewbox="0 0 24 24"><path d="M9 18l6-6-6-6"></path></svg>
+<span class="text-lime">DASHBOARD</span>
+</nav>
+</div>
+<!-- Stepper -->
+<div class="comp-card">
+<span class="comp-label">PROGRESS TRACKER</span>
+<div class="flex items-center w-full max-w-md">
+<!-- Step 1 (Done) -->
+<div class="relative flex flex-col items-center text-lime">
+<div class="w-8 h-8 border border-lime bg-lime/10 flex items-center justify-center rounded-full z-10">
+<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="3" viewbox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>
+</div>
+<span class="absolute top-10 text-[10px] font-bold uppercase">Init</span>
+</div>
+<div class="flex-1 h-[1px] bg-lime mx-2"></div>
+<!-- Step 2 (Active) -->
+<div class="relative flex flex-col items-center text-white">
+<div class="w-8 h-8 border border-white bg-black flex items-center justify-center rounded-full z-10 shadow-[0_0_10px_rgba(255,255,255,0.3)]">
+<div class="w-2 h-2 bg-white rounded-full animate-pulse"></div>
+</div>
+<span class="absolute top-10 text-[10px] font-bold uppercase">Config</span>
+</div>
+<div class="flex-1 h-[1px] bg-dim mx-2"></div>
+<!-- Step 3 (Pending) -->
+<div class="relative flex flex-col items-center text-dim">
+<div class="w-8 h-8 border border-dim bg-black flex items-center justify-center rounded-full z-10">
+<span class="text-xs">3</span>
+</div>
+<span class="absolute top-10 text-[10px] font-bold uppercase">Deploy</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 5. FEEDBACK -->
+<section>
+<h2 class="text-lime font-mono text-sm mb-8 border-l-2 border-lime pl-4">05 // SYSTEM STATUS</h2>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Alert (Warning) -->
+<div class="bg-surface border border-l-4 border-warning p-4 flex items-start gap-4">
+<svg class="w-5 h-5 text-warning mt-0.5 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+<line x1="12" x2="12" y1="9" y2="13"></line>
+<line x1="12" x2="12.01" y1="17" y2="17"></line>
+</svg>
+<div>
+<h4 class="text-warning font-bold text-xs uppercase tracking-wide mb-1">System Alert</h4>
+<p class="text-dim text-xs font-mono">Connection latency exceeded threshold.</p>
+</div>
+</div>
+<!-- Tooltip -->
+<div class="comp-card flex items-center justify-center">
+<span class="comp-label">HOVER FOR INFO</span>
+<div class="relative group cursor-help">
+<svg class="w-6 h-6 text-dim group-hover:text-white transition-colors" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 24 24">
+<circle cx="12" cy="12" r="10"></circle>
+<path d="M12 16v-4"></path>
+<path d="M12 8h.01"></path>
+</svg>
+<div class="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
+<div class="bg-white text-black text-[10px] font-bold px-3 py-1 rounded uppercase whitespace-nowrap">
+                                    Read Only
+                                    <svg class="absolute top-full left-1/2 -translate-x-1/2 w-2 h-2 text-white fill-current" viewbox="0 0 24 24"><path d="M12 24L0 0h24L12 24z"></path></svg>
+</div>
+</div>
+</div>
+</div>
+<!-- Circular Progress -->
+<div class="comp-card">
+<span class="comp-label">SVG GAUGE</span>
+<div class="relative w-16 h-16">
+<svg class="w-full h-full rotate-[-90deg]" viewbox="0 0 36 36">
+<path class="text-dim" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-width="2"></path>
+<path class="text-lime drop-shadow-[0_0_5px_rgba(204,255,0,0.5)]" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" fill="none" stroke="currentColor" stroke-dasharray="75, 100" stroke-linecap="round" stroke-width="2"></path>
+</svg>
+<div class="absolute inset-0 flex items-center justify-center text-xs font-mono font-bold">75%</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<footer class="border-t border-border mt-24 py-12 text-center font-mono text-xs text-dim">
+            ONYX UI // PRODUCTION READY // 2024
+        </footer>
+</section>
+<div class="section-divider"></div>
+<!-- ========================================================================
+         SECTION 6: NEXUS PRO // Ultimate Fidelity (File 12)
+         Original HTML content preserved exactly as is
+    ======================================================================== -->
+<section class="max-w-7xl mx-auto mb-32" id="section-12-nexus">
+<div class="section-header">SECTION 6: NEXUS PRO // Ultimate Fidelity (File 12)</div>
+<!-- Original File 12 Content Starts Here -->
+<div style="position: relative; background-color: #050505; overflow-x: hidden; margin: 0; color: #e5e5e5;">
+<!-- TEXTURE OVERLAY -->
+<div %3e%3c="" %3e%3cfeturbulence="" %3e%3cfilter="" basefrequency="0.8" data:image="" filter="url(%23noiseFilter-sec12)" filter%3e%3crect="" height="100%25" id="noiseFilter-sec12" numoctaves="3" stitchtiles="stitch" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 50; opacity: 0.04; background-image: url(" svg%3e");"="" svg+xml,%3csvg="" type="fractalNoise" viewbox="0 0 200 200" width="100%25" xmlns="http://www.w3.org/2000/svg"></div>
+<!-- DYNAMIC FOG BACKGROUND -->
+<canvas id="fog-canvas-sec12" style="position: absolute; inset: 0; z-index: 0; opacity: 0.6;"></canvas>
+<!-- NAVIGATION -->
+<nav id="navbar-sec12" style="position: relative; width: 100%; z-index: 50; top: 0; background: rgba(10, 10, 10, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.5s;">
+<div style="max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; height: 5rem; display: flex; justify-content: space-between; align-items: center;">
+<div style="display: flex; align-items: center; gap: 0.75rem; cursor: pointer;">
+<div style="width: 2rem; height: 2rem; background: white; color: black; display: flex; align-items: center; justify-content: center; font-family: Syncopate, sans-serif; font-weight: bold; font-size: 1.125rem; border-radius: 0.125rem; transition: transform 0.3s;">N</div>
+<span style="font-family: Manrope, sans-serif; font-weight: bold; letter-spacing: 0.2em; font-size: 0.875rem; color: rgba(255, 255, 255, 0.8); transition: color 0.3s;">NEXUS PRO</span>
+</div>
+<div class="md:flex" style="display: none; align-items: center; gap: 3rem;">
+<a href="#" style="font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.15em; color: #9ca3af; text-decoration: none; position: relative; transition: color 0.3s;">Specs</a>
+<a href="#" style="font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.15em; color: #9ca3af; text-decoration: none; position: relative; transition: color 0.3s;">Design</a>
+<a href="#" style="font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.15em; color: #9ca3af; text-decoration: none; position: relative; transition: color 0.3s;">Software</a>
+</div>
+<button style="padding: 0.625rem 1.5rem; background: white; color: black; font-family: Manrope, sans-serif; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.05em; border-radius: 0.125rem; border: none; cursor: pointer; transition: background 0.3s; box-shadow: 0 0 15px rgba(255,255,255,0.1);">
+                        Pre-Order
+                    </button>
+</div>
+</nav>
+<!-- HERO SECTION -->
+<main style="position: relative; z-index: 10; display: flex; align-items: center; justify-content: center; min-height: 100vh; padding: 5rem 1.5rem; overflow: hidden;">
+<div class="lg:grid-cols-12" style="max-width: 1400px; width: 100%; display: grid; grid-template-columns: 1fr; gap: 3rem; align-items: center;">
+<!-- LEFT: TYPOGRAPHY -->
+<div class="lg:col-span-5" style="display: flex; flex-direction: column; justify-content: center; align-items: flex-start; position: relative; z-index: 20;">
+<div class="reveal-sec12 delay-100" style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.75rem;">
+<div style="height: 1px; width: 2rem; background: rgba(255, 255, 255, 0.3);"></div>
+<span style="font-size: 0.625rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.3em; color: #9ca3af;">Series X Architecture</span>
+</div>
+<h1 class="reveal-sec12 delay-200" style="font-family: Manrope, sans-serif; font-weight: 300; font-size: clamp(3rem, 8vw, 6rem); line-height: 0.95; letter-spacing: -0.025em; color: white; margin-bottom: 2rem;">
+                            Pure <br/>
+<span style="font-weight: 800; background: linear-gradient(to bottom, #ffffff 40%, #666666 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Control.</span>
+</h1>
+<p class="reveal-sec12 delay-300" style="font-family: Manrope, sans-serif; font-size: 1.125rem; color: #9ca3af; font-weight: 300; line-height: 1.625; max-width: 28rem; border-left: 1px solid rgba(255, 255, 255, 0.1); padding-left: 1.5rem; margin-bottom: 2.5rem;">
+                            Engineered for the obsession of precision. The new benchmark in haptic feedback and ergonomic latency reduction.
+                        </p>
+<div class="reveal-sec12 delay-400" style="display: flex; flex-direction: column; gap: 1rem; width: 100%;">
+<button style="position: relative; padding: 1rem 2rem; overflow: hidden; background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 0.125rem; cursor: pointer; transition: all 0.3s; color: white; font-size: 0.75rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.15em;">
+                                View Design
+                            </button>
+<div style="display: flex; align-items: center; gap: 1rem; padding: 0 1.5rem; color: #6b7280;">
+<div style="width: 0.5rem; height: 0.5rem; background: #10b981; border-radius: 9999px; animation: pulse-sec12 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;"></div>
+<span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; font-weight: bold;">In Stock</span>
+</div>
+</div>
+<!-- Technical Footer -->
+<div class="reveal-sec12 delay-500" style="margin-top: 4rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; width: 100%; max-width: 20rem; opacity: 0.6;">
+<div>
+<div style="font-size: 1.5rem; font-family: Syncopate, sans-serif; font-weight: bold; color: white;">1ms</div>
+<div style="font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin-top: 0.25rem;">Response Time</div>
+</div>
+<div>
+<div style="font-size: 1.5rem; font-family: Syncopate, sans-serif; font-weight: bold; color: white;">Tactile</div>
+<div style="font-size: 0.625rem; text-transform: uppercase; letter-spacing: 0.05em; color: #9ca3af; margin-top: 0.25rem;">Hybrid D-Pad</div>
+</div>
+</div>
+</div>
+<!-- RIGHT: CONTROLLER SHOWCASE -->
+<div class="lg:col-span-7 lg:h-80vh" style="position: relative; height: 60vh; display: flex; align-items: center; justify-content: center; perspective: 1200px;">
+<!-- Ambient Light Source -->
+<div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 800px; height: 800px; background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, rgba(0,0,0,0) 70%); mix-blend-mode: screen; border-radius: 9999px; filter: blur(100px); opacity: 0.4; animation: spotlight-sec12 10s ease-in-out infinite alternate; pointer-events: none;"></div>
+<!-- Controller Wrapper for 3D Tilt -->
+<div id="controller-wrapper-sec12" style="width: 100%; max-width: 700px; animation: hover-float-sec12 4s ease-in-out infinite; transform-style: preserve-3d; transition: transform 0.1s ease-out;">
+<!-- Realistic SVG Controller -->
+<svg style="width: 100%; height: auto; filter: grayscale(10%) contrast(110%); drop-shadow: 0 25px 25px rgba(0,0,0,0.15);" viewbox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<lineargradient id="bodyGrad-sec12" x1="0%" x2="100%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#3a3a3a;stop-opacity:1"></stop>
+<stop offset="30%" style="stop-color:#1a1a1a;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#050505;stop-opacity:1"></stop>
+</lineargradient>
+<radialgradient cx="50%" cy="50%" fx="50%" fy="50%" id="gripGrad-sec12" r="50%">
+<stop offset="70%" style="stop-color:#1a1a1a;stop-opacity:0"></stop>
+<stop offset="100%" style="stop-color:#000000;stop-opacity:0.4"></stop>
+</radialgradient>
+<lineargradient id="btnGlare-sec12" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.6"></stop>
+<stop offset="50%" style="stop-color:#ffffff;stop-opacity:0"></stop>
+</lineargradient>
+<filter height="200%" id="ledGlow-sec12" width="200%" x="-50%" y="-50%">
+<fegaussianblur in="SourceGraphic" result="blur" stddeviation="3"></fegaussianblur>
+<femerge>
+<femergenode in="blur"></femergenode>
+<femergenode in="SourceGraphic"></femergenode>
+</femerge>
+</filter>
+</defs>
+<path d="M150,80
+                                        C150,80 180,50 300,50
+                                        C420,50 450,80 450,80
+                                        C480,80 530,90 540,150
+                                        C550,210 540,300 500,350
+                                        C460,400 410,350 400,320
+                                        C380,300 350,280 300,280
+                                        C250,280 220,300 200,320
+                                        C190,350 140,400 100,350
+                                        C60,300 50,210 60,150
+                                        C70,90 120,80 150,80 Z" fill="url(#bodyGrad-sec12)" stroke="#444" stroke-width="1"></path>
+<path d="M60,150 C50,210 60,300 100,350 C140,400 190,350 200,320" fill="url(#gripGrad-sec12)"></path>
+<path d="M540,150 C550,210 540,300 500,350 C460,400 410,350 400,320" fill="url(#gripGrad-sec12)"></path>
+<path d="M160,55 L440,55" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="1"></path>
+<g transform="translate(170, 150)">
+<circle cx="0" cy="0" fill="#0a0a0a" r="35" stroke="#000" stroke-width="1"></circle>
+<circle cx="0" cy="0" fill="#1a1a1a" r="30"></circle>
+<circle cx="0" cy="0" fill="#111" r="25" stroke="#222" stroke-width="1"></circle>
+<circle cx="0" cy="-10" fill="white" opacity="0.03" r="15"></circle>
+<circle cx="0" cy="0" fill="none" r="28" stroke="#222" stroke-dasharray="2,2" stroke-width="1"></circle>
+</g>
+<g transform="translate(220, 240)">
+<circle cx="0" cy="0" fill="#111" r="45"></circle>
+<path d="M-12,-35 L12,-35 L15,-15 L35,-12 L35,12 L15,15 L12,35 L-12,35 L-15,15 L-35,12 L-35,-12 L-15,-15 Z" fill="#1a1a1a" stroke="#000" stroke-width="1"></path>
+<path d="M-12,-35 L12,-35 L15,-15 L35,-12 L35,12 L15,15 L12,35 L-12,35 L-15,15 L-35,12 L-35,-12 L-15,-15 Z" fill="url(#btnGlare-sec12)" opacity="0.1"></path>
+<path d="M0,-30 L0,30 M-30,0 L30,0" opacity="0.5" stroke="#000" stroke-width="1"></path>
+</g>
+<g transform="translate(380, 240)">
+<circle cx="0" cy="0" fill="#0a0a0a" r="35" stroke="#000" stroke-width="1"></circle>
+<circle cx="0" cy="0" fill="#1a1a1a" r="30"></circle>
+<circle cx="0" cy="0" fill="#111" r="25" stroke="#222" stroke-width="1"></circle>
+<circle cx="0" cy="-10" fill="white" opacity="0.03" r="15"></circle>
+<circle cx="0" cy="0" fill="none" r="28" stroke="#222" stroke-dasharray="2,2" stroke-width="1"></circle>
+</g>
+<g transform="translate(430, 150)">
+<g transform="translate(0, -35)">
+<circle cx="0" cy="0" fill="#000" r="16" stroke="#111" stroke-width="2"></circle>
+<text fill="#dca716" font-family="sans-serif" font-size="16" font-weight="bold" text-anchor="middle" x="0" y="5">Y</text>
+<circle cx="0" cy="0" fill="url(#btnGlare-sec12)" r="16"></circle>
+</g>
+<g transform="translate(35, 0)">
+<circle cx="0" cy="0" fill="#000" r="16" stroke="#111" stroke-width="2"></circle>
+<text fill="#cf3535" font-family="sans-serif" font-size="16" font-weight="bold" text-anchor="middle" x="0" y="5">B</text>
+<circle cx="0" cy="0" fill="url(#btnGlare-sec12)" r="16"></circle>
+</g>
+<g transform="translate(0, 35)">
+<circle cx="0" cy="0" fill="#000" r="16" stroke="#111" stroke-width="2"></circle>
+<text fill="#2ea857" font-family="sans-serif" font-size="16" font-weight="bold" text-anchor="middle" x="0" y="5">A</text>
+<circle cx="0" cy="0" fill="url(#btnGlare-sec12)" r="16"></circle>
+</g>
+<g transform="translate(-35, 0)">
+<circle cx="0" cy="0" fill="#000" r="16" stroke="#111" stroke-width="2"></circle>
+<text fill="#2e70cf" font-family="sans-serif" font-size="16" font-weight="bold" text-anchor="middle" x="0" y="5">X</text>
+<circle cx="0" cy="0" fill="url(#btnGlare-sec12)" r="16"></circle>
+</g>
+</g>
+<g transform="translate(300, 100)">
+<circle cx="0" cy="0" fill="#1a1a1a" r="20" stroke="#000" stroke-width="1"></circle>
+<circle cx="0" cy="0" fill="#fff" fill-opacity="0.9" filter="url(#ledGlow-sec12)" r="18"></circle>
+<path d="M-8,-8 L8,8 M8,-8 L-8,8" stroke="#aaa" stroke-linecap="round" stroke-width="3"></path>
+</g>
+<circle cx="260" cy="150" fill="#111" r="8" stroke="#333"></circle>
+<circle cx="340" cy="150" fill="#111" r="8" stroke="#333"></circle>
+<rect fill="#444" height="8" rx="1" width="8" x="256" y="146"></rect>
+<rect fill="#444" height="8" rx="1" width="8" x="336" y="146"></rect>
+<g transform="translate(300, 180)">
+<path d="M-8,0 Q0,5 8,0 Q0,12 -8,0" fill="#111" stroke="#333"></path>
+</g>
+</svg>
+</div>
+<!-- Floating Glass Card: Feature -->
+<div class="reveal-sec12 delay-700" style="position: absolute; bottom: 2.5rem; left: -2.5rem; background: linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, rgba(255, 255, 255, 0.0) 100%); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); padding: 1.5rem; border-radius: 1rem; max-width: 240px; display: none;">
+<div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.5rem;">
+<div style="width: 0.5rem; height: 0.5rem; background: white; border-radius: 9999px;"></div>
+<span style="font-size: 0.625rem; font-weight: bold; text-transform: uppercase; letter-spacing: 0.15em; color: #d1d5db;">Haptic Engine</span>
+</div>
+<p style="font-size: 0.75rem; color: #6b7280; line-height: 1.625;">
+                                Adaptive triggers with dynamic resistance levels for immersive gameplay feedback.
+                            </p>
+</div>
+</div>
+</div>
+</main>
+<style>
+                /* Section 12 Specific Styles */
+                @keyframes hover-float-sec12 {
+                    0%, 100% { transform: translateY(0); }
+                    50% { transform: translateY(-15px); }
+                }
+                @keyframes spotlight-sec12 {
+                    0% { opacity: 0.3; transform: scale(0.9); }
+                    100% { opacity: 0.6; transform: scale(1.1); }
+                }
+                @keyframes pulse-sec12 {
+                    0%, 100% { opacity: 1; }
+                    50% { opacity: 0.5; }
+                }
+
+                .reveal-sec12 {
+                    opacity: 0;
+                    transform: translateY(30px);
+                    transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+                }
+                .reveal-sec12.active {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+                .delay-100 { transition-delay: 0.1s; }
+                .delay-200 { transition-delay: 0.2s; }
+                .delay-300 { transition-delay: 0.3s; }
+                .delay-400 { transition-delay: 0.4s; }
+                .delay-500 { transition-delay: 0.5s; }
+                .delay-700 { transition-delay: 0.7s; }
+
+                @media (min-width: 1024px) {
+                    .lg\:grid-cols-12 { grid-template-columns: repeat(12, minmax(0, 1fr)); }
+                    .lg\:col-span-5 { grid-column: span 5 / span 5; }
+                    .lg\:col-span-7 { grid-column: span 7 / span 7; }
+                    .lg\:h-80vh { height: 80vh; }
+                    .lg\:block { display: block; }
+                }
+            </style>
+<script>
+                (function() {
+                    // --- 1. FOG / ATMOSPHERE CANVAS ---
+                    const canvas = document.getElementById('fog-canvas-sec12');
+                    const ctx = canvas.getContext('2d');
+                    let width, height;
+
+                    function resize() {
+                        width = canvas.width = window.innerWidth;
+                        height = canvas.height = window.innerHeight;
+                    }
+                    window.addEventListener('resize', resize);
+                    resize();
+
+                    const blobs = [
+                        { x: 0, y: 0, r: 0, vx: 0.3, vy: 0.2, color: 'rgba(255, 255, 255, 0.03)' },
+                        { x: 0, y: 0, r: 0, vx: -0.2, vy: 0.3, color: 'rgba(100, 100, 100, 0.05)' },
+                        { x: 0, y: 0, r: 0, vx: 0.4, vy: -0.2, color: 'rgba(50, 50, 50, 0.05)' }
+                    ];
+
+                    function initBlobs() {
+                        blobs.forEach(b => {
+                            b.x = Math.random() * width;
+                            b.y = Math.random() * height;
+                            b.r = Math.min(width, height) * 0.5;
+                        });
+                    }
+                    initBlobs();
+
+                    function animateFog() {
+                        ctx.clearRect(0, 0, width, height);
+                        ctx.fillStyle = '#050505';
+                        ctx.fillRect(0, 0, width, height);
+
+                        blobs.forEach(b => {
+                            b.x += b.vx;
+                            b.y += b.vy;
+
+                            if(b.x < -b.r || b.x > width + b.r) b.vx *= -1;
+                            if(b.y < -b.r || b.y > height + b.r) b.vy *= -1;
+
+                            const gradient = ctx.createRadialGradient(b.x, b.y, 0, b.x, b.y, b.r);
+                            gradient.addColorStop(0, b.color);
+                            gradient.addColorStop(1, 'rgba(0,0,0,0)');
+
+                            ctx.fillStyle = gradient;
+                            ctx.beginPath();
+                            ctx.arc(b.x, b.y, b.r, 0, Math.PI * 2);
+                            ctx.fill();
+                        });
+
+                        requestAnimationFrame(animateFog);
+                    }
+                    animateFog();
+
+                    // --- 2. INTERACTIVE PARALLAX ---
+                    const wrapper = document.getElementById('controller-wrapper-sec12');
+
+                    document.addEventListener('mousemove', (e) => {
+                        const x = (window.innerWidth / 2 - e.pageX) / 30;
+                        const y = (window.innerHeight / 2 - e.pageY) / 30;
+                        wrapper.style.transform = `rotateY(${x}deg) rotateX(${y}deg)`;
+                    });
+
+                    document.addEventListener('mouseleave', () => {
+                        wrapper.style.transform = `rotateY(0deg) rotateX(0deg)`;
+                    });
+
+                    // --- 3. REVEAL ANIMATIONS ---
+                    const observer = new IntersectionObserver((entries) => {
+                        entries.forEach(entry => {
+                            if (entry.isIntersecting) {
+                                entry.target.classList.add('active');
+                            }
+                        });
+                    }, { threshold: 0.1 });
+
+                    document.querySelectorAll('.reveal-sec12').forEach(el => observer.observe(el));
+                })();
+            </script>
+</div>
+</section>
+<!-- FINAL FOOTER -->
+<footer class="max-w-7xl mx-auto mt-32 pt-12 border-t border-zinc-200 dark:border-zinc-800 text-center">
+<p class="text-zinc-500 dark:text-zinc-400 text-sm font-mono">
+            Combined HTML Collection // 6 Files in 1 Document
+        </p>
+</footer>
+<script data-img-fallback-handler="">!function(){var f=["https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/917d6f93-fb36-439a-8c48-884b67b35381_1600w.jpg","https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/4734259a-bad7-422f-981e-ce01e79184f2_1600w.jpg","https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/c543a9e1-f226-4ced-80b0-feb8445a75b9_1600w.jpg","https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/5bab247f-35d9-400d-a82b-fd87cfe913d2_1600w.webp","https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/30104e3c-5eea-4b93-93e9-5313698a7156_1600w.webp"],h=new Set;function g(s){for(var x=0,i=0;i<s.length;i++)x=(x<<5)-x+s.charCodeAt(i)|0;return f[Math.abs(x)%f.length]}function r(t){var s=t.src;if(s&&!h.has(s)){h.add(s);t.src=g(s)}}window.addEventListener("error",function(e){var t=e.target;if(t&&t.tagName==="IMG")r(t)},!0);function c(){document.querySelectorAll("img").forEach(function(i){if(i.complete&&!i.naturalWidth&&i.src)r(i)})}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",c);else c()}()</script></body></html>

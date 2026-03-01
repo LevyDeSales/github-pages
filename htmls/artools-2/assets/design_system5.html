@@ -1,0 +1,839 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>S Y S T E M // 0 2</title>
+
+    <!-- External Resources -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+
+    <!-- Design System Assets -->
+    <script src="templates/digital-architect.aura.build/assets/resource_3fa48481346f.js"></script>
+    <script src="templates/digital-architect.aura.build/assets/iconify-icon_d39ffc6e4c56.js"></script>
+    <link href="templates/digital-architect.aura.build/assets/css2_19fd9cc6b396.css" rel="stylesheet" />
+
+    <style>
+        /* =========================================
+           1. TOKENS & VARIABLES
+           ========================================= */
+        :root {
+            /* Colors - White Aesthetic */
+            --bg-body: #ffffff;
+            --bg-surface: #fafafa;
+            --bg-surface-2: #f4f4f5;
+
+            --text-primary: #09090b;
+            --text-secondary: #71717a;
+            --text-tertiary: #a1a1aa;
+
+            --border-light: #e4e4e7;
+            --border-hover: #d4d4d8;
+
+            --brand-primary: #000000;
+            --brand-inverse: #ffffff;
+
+            --status-success: #10b981;
+            --status-warning: #f59e0b;
+            --status-error: #ef4444;
+
+            /* Typography */
+            --font-sans: 'Inter', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+
+            /* Motion */
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-body);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            margin: 0;
+            padding: 0;
+            line-height: 1.5;
+        }
+
+        /* =========================================
+           2. ANIMATIONS & KEYFRAMES
+           ========================================= */
+
+        /* Entrance */
+        @keyframes fadeUp {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.98);
+                filter: blur(10px);
+            }
+
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                filter: blur(0);
+            }
+        }
+
+        .animate-in {
+            opacity: 0;
+            animation-fill-mode: forwards;
+        }
+
+        .animate-in.active {
+            animation: fadeUp 1s var(--ease-out-expo) forwards;
+        }
+
+        /* Stagger Delays */
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+
+        .delay-400 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-500 {
+            animation-delay: 0.5s;
+        }
+
+        /* Beam Spin */
+        @keyframes beam-spin {
+            from {
+                transform: rotate(0deg);
+            }
+
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Shimmer */
+        @keyframes shimmer {
+            0% {
+                transform: translateX(-150%) skewX(-15deg);
+            }
+
+            100% {
+                transform: translateX(150%) skewX(-15deg);
+            }
+        }
+
+        /* Aurora Float */
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translate(0, 0);
+            }
+
+            33% {
+                transform: translate(30px, -50px);
+            }
+
+            66% {
+                transform: translate(-20px, 20px);
+            }
+        }
+
+        /* Marquee */
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* =========================================
+           3. CORE UTILITIES
+           ========================================= */
+        .font-mono {
+            font-family: var(--font-mono);
+        }
+
+        .text-gradient {
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            background-image: linear-gradient(to right, #000, #666);
+        }
+
+        .text-stroke-transparent {
+            color: transparent;
+            -webkit-text-stroke: 1px rgba(0, 0, 0, 0.15);
+            transition: all 0.5s ease;
+        }
+
+        .hover-stroke-fill:hover .text-stroke-transparent {
+            -webkit-text-stroke: 1px #000;
+            color: transparent;
+        }
+
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        /* =========================================
+           4. COMPONENT CLASSES
+           ========================================= */
+
+        /* --- Buttons --- */
+        .btn-base {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s var(--ease-out-expo);
+            cursor: pointer;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .btn-primary {
+            background: var(--brand-primary);
+            color: var(--brand-inverse);
+            border: 1px solid var(--brand-primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-light);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--text-primary);
+            background: var(--bg-surface);
+        }
+
+        /* Beam Button */
+        .btn-beam-wrapper {
+            position: relative;
+            display: inline-flex;
+            padding: 2px;
+            /* Border thickness */
+            border-radius: 9999px;
+            overflow: hidden;
+            cursor: pointer;
+            transform: translateZ(0);
+            /* GPU */
+            transition: transform 0.3s;
+        }
+
+        .btn-beam-wrapper:hover {
+            transform: scale(1.02);
+        }
+
+        .btn-beam-border {
+            position: absolute;
+            inset: -200%;
+            background: conic-gradient(from 0deg, transparent 0 320deg, var(--text-primary) 360deg);
+            animation: beam-spin 3s linear infinite;
+        }
+
+        .btn-beam-inner {
+            position: relative;
+            background: var(--bg-body);
+            color: var(--text-primary);
+            border-radius: 9999px;
+            padding: 0.75rem 2rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 1;
+        }
+
+        /* --- Cards --- */
+        .flashlight-card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-light);
+            border-radius: 1rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .flashlight-card::before {
+            content: "";
+            position: absolute;
+            inset: 0px;
+            background: radial-gradient(600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 0, 0, 0.04), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.5s;
+            pointer-events: none;
+            z-index: 2;
+        }
+
+        .flashlight-card:hover::before {
+            opacity: 1;
+        }
+
+        .flashlight-card:hover {
+            border-color: var(--text-tertiary);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05);
+        }
+
+        /* --- Inputs --- */
+        .input-group {
+            position: relative;
+        }
+
+        .input-animated {
+            width: 100%;
+            padding: 1rem;
+            background: var(--bg-surface-2);
+            border: none;
+            border-bottom: 1px solid var(--border-light);
+            border-radius: 0.5rem 0.5rem 0 0;
+            outline: none;
+            transition: background 0.3s;
+        }
+
+        .input-animated:focus {
+            background: #fff;
+        }
+
+        .input-border-bottom {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 1px;
+            width: 0%;
+            background: var(--brand-primary);
+            transition: width 0.4s var(--ease-out-expo);
+        }
+
+        .input-animated:focus+.input-border-bottom {
+            width: 100%;
+        }
+
+        /* --- Layout --- */
+        .container-xl {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-padding {
+            padding: 6rem 0;
+        }
+
+        .grid-guide {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.2;
+            display: flex;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .grid-line {
+            width: 1px;
+            height: 100%;
+            background: var(--border-light);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Grid Guide Background -->
+    <div class="grid-guide">
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+        <div class="grid-line"></div>
+    </div>
+
+    <!-- Navigation -->
+    <header class="fixed top-0 left-0 width-full w-full z-50 glass transition-all duration-300 animate-in">
+        <div class="container-xl h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-black text-white rounded-md flex items-center justify-center">
+                    <iconify-icon icon="solar:layers-minimalistic-bold-duotone"></iconify-icon>
+                </div>
+                <span class="font-bold tracking-tight">DESIGN 02</span>
+            </div>
+            <nav class="hidden md:flex gap-8">
+                <a href="#typography"
+                    class="text-xs font-mono font-medium uppercase tracking-widest text-secondary hover:text-black transition-colors">Type</a>
+                <a href="#colors"
+                    class="text-xs font-mono font-medium uppercase tracking-widest text-secondary hover:text-black transition-colors">Color</a>
+                <a href="#components"
+                    class="text-xs font-mono font-medium uppercase tracking-widest text-secondary hover:text-black transition-colors">Components</a>
+            </nav>
+            <button class="btn-beam-wrapper" style="transform: scale(0.8);">
+                <span class="btn-beam-border"></span>
+                <span class="btn-beam-inner py-2 px-4 text-xs uppercase tracking-widest">
+                    Download Kit
+                </span>
+            </button>
+        </div>
+    </header>
+
+    <main class="relative z-10 w-full overflow-hidden">
+
+        <!-- =========================================
+             1. HERO SHOWCASE
+             ========================================= -->
+        <section class="relative min-h-screen flex items-center pt-20 overflow-hidden">
+
+            <!-- Abstract Background Decorations -->
+            <div
+                class="absolute top-1/4 left-1/4 w-96 h-96 bg-purple-100 rounded-full blur-3xl opacity-30 animate-[float_10s_infinite_ease-in-out]">
+            </div>
+            <div
+                class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-blue-100 rounded-full blur-3xl opacity-30 animate-[float_12s_infinite_ease-in-out_reverse]">
+            </div>
+
+            <div class="container-xl relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+
+                <!-- Left: Text Content -->
+                <div class="space-y-8">
+                    <div class="flex items-center gap-4 animate-in delay-100">
+                        <span class="h-px w-12 bg-black"></span>
+                        <span class="font-mono text-xs uppercase tracking-[0.2em] text-neutral-500">System v.2.0</span>
+                    </div>
+
+                    <h1
+                        class="text-6xl md:text-8xl font-bold tracking-tighter leading-[0.9] text-black animate-in delay-200">
+                        Pure <br>
+                        <span class="text-stroke-transparent text-black">Aesthetic</span>
+                    </h1>
+
+                    <p class="text-xl text-neutral-500 font-light max-w-md animate-in delay-300">
+                        A focused design system emphasizing whitespace, refined typography, and micro-interactions.
+                    </p>
+
+                    <div class="flex gap-4 pt-4 animate-in delay-400">
+                        <div class="btn-beam-wrapper">
+                            <span class="btn-beam-border"></span>
+                            <span class="btn-beam-inner">
+                                Explore Components
+                                <iconify-icon icon="solar:arrow-right-linear" class="text-lg"></iconify-icon>
+                            </span>
+                        </div>
+                        <button class="btn-outline rounded-full px-8">Documentation</button>
+                    </div>
+                </div>
+
+                <!-- Right: Visual Playground (Flashlight Cards) -->
+                <div class="grid grid-cols-2 gap-4 animate-in delay-500 perspective-1000">
+                    <!-- Card 1 -->
+                    <div
+                        class="flashlight-card p-6 aspect-square flex flex-col justify-between group cursor-pointer hover:rotate-1 transition-transform">
+                        <iconify-icon icon="solar:palette-bold-duotone"
+                            class="text-4xl text-neutral-300 group-hover:text-black transition-colors"></iconify-icon>
+                        <div>
+                            <span class="text-xs font-mono uppercase text-neutral-400">01</span>
+                            <h3 class="font-bold mt-1">Foundations</h3>
+                        </div>
+                    </div>
+                    <!-- Card 2 -->
+                    <div
+                        class="flashlight-card p-6 aspect-square flex flex-col justify-between group cursor-pointer mt-12 hover:-rotate-1 transition-transform">
+                        <iconify-icon icon="solar:cube-bold-duotone"
+                            class="text-4xl text-neutral-300 group-hover:text-black transition-colors"></iconify-icon>
+                        <div>
+                            <span class="text-xs font-mono uppercase text-neutral-400">02</span>
+                            <h3 class="font-bold mt-1">Components</h3>
+                        </div>
+                    </div>
+                    <!-- Card 3 -->
+                    <div
+                        class="flashlight-card p-6 aspect-square flex flex-col justify-between group cursor-pointer hover:-rotate-1 transition-transform">
+                        <iconify-icon icon="solar:magic-stick-3-bold-duotone"
+                            class="text-4xl text-neutral-300 group-hover:text-black transition-colors"></iconify-icon>
+                        <div>
+                            <span class="text-xs font-mono uppercase text-neutral-400">03</span>
+                            <h3 class="font-bold mt-1">Effects</h3>
+                        </div>
+                    </div>
+                    <!-- Card 4 -->
+                    <div
+                        class="flashlight-card p-6 aspect-square flex flex-col justify-between group cursor-pointer mt-12 hover:rotate-1 transition-transform">
+                        <iconify-icon icon="solar:code-square-bold-duotone"
+                            class="text-4xl text-neutral-300 group-hover:text-black transition-colors"></iconify-icon>
+                        <div>
+                            <span class="text-xs font-mono uppercase text-neutral-400">04</span>
+                            <h3 class="font-bold mt-1">Export</h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="absolute bottom-10 left-0 right-0 text-center animate-in delay-500">
+                <iconify-icon icon="solar:mouse-minimalistic-linear"
+                    class="text-2xl animate-bounce opacity-40"></iconify-icon>
+            </div>
+        </section>
+
+
+        <!-- =========================================
+             2. TYPOGRAPHY
+             ========================================= -->
+        <section id="typography" class="section-padding border-t border-gray-100 bg-white">
+            <div class="container-xl">
+                <div class="mb-16">
+                    <span class="font-mono text-xs uppercase tracking-widest text-neutral-400">02 // Typography</span>
+                    <h2 class="text-4xl font-bold mt-2">Type Scale</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+                    <!-- Left: Headings -->
+                    <div class="lg:col-span-8 space-y-12">
+                        <div class="group hover-stroke-fill">
+                            <span class="text-xs font-mono text-neutral-400 block mb-2">Display H1 (Inter Tight)</span>
+                            <h1
+                                class="text-7xl md:text-9xl font-bold tracking-tighter text-stroke-transparent text-black transition-colors duration-500">
+                                Aa<span class="text-neutral-200">Bb</span>
+                            </h1>
+                        </div>
+
+                        <div class="space-y-8">
+                            <div class="flex items-baseline border-b border-gray-100 pb-4">
+                                <span class="w-24 text-xs font-mono text-neutral-400">H1</span>
+                                <h1 class="text-5xl font-bold tracking-tight">The quick brown fox</h1>
+                            </div>
+                            <div class="flex items-baseline border-b border-gray-100 pb-4">
+                                <span class="w-24 text-xs font-mono text-neutral-400">H2</span>
+                                <h2 class="text-4xl font-semibold tracking-tight">The quick brown fox</h2>
+                            </div>
+                            <div class="flex items-baseline border-b border-gray-100 pb-4">
+                                <span class="w-24 text-xs font-mono text-neutral-400">H3</span>
+                                <h3 class="text-3xl font-medium tracking-tight">The quick brown fox</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right: Body & Specs -->
+                    <div class="lg:col-span-4 bg-surface-2 p-8 rounded-2xl border border-gray-100">
+                        <h4 class="font-mono text-sm uppercase mb-6">Font Families</h4>
+
+                        <div class="mb-8">
+                            <p class="text-4xl font-serif mb-2">Ag</p>
+                            <p class="font-bold">Inter</p>
+                            <p class="text-sm text-neutral-500">Primary Sans-Serif</p>
+                        </div>
+
+                        <div class="mb-8">
+                            <p class="text-4xl font-mono mb-2">Ag</p>
+                            <p class="font-mono">JetBrains Mono</p>
+                            <p class="text-sm text-neutral-500">Monospace / Code</p>
+                        </div>
+
+                        <div class="space-y-4 pt-8 border-t border-gray-200">
+                            <p class="text-lg leading-relaxed">
+                                Body Large. Design is intelligence made visible. <span class="text-neutral-400">Use for
+                                    lead paragraphs.</span>
+                            </p>
+                            <p class="text-base leading-relaxed text-neutral-600">
+                                Body Default. Good design is obvious. Great design is transparent. This is the standard
+                                size for long form reading.
+                            </p>
+                            <p class="text-sm leading-relaxed text-neutral-500">
+                                Caption / Label. Details matter, it's worth waiting to get it right.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================
+             3. COLOR SYSTEM
+             ========================================= -->
+        <section id="colors" class="section-padding bg-zinc-50 relative overflow-hidden">
+            <!-- Looped Marquee Background -->
+            <div
+                class="absolute top-10 opacity-[0.03] text-[10rem] font-bold whitespace-nowrap select-none overflow-hidden w-full">
+                <div style="animation: marquee 20s linear infinite; display: inline-block;">
+                    COLOR PALETTE SYSTEM COLOR PALETTE SYSTEM COLOR PALETTE SYSTEM
+                </div>
+            </div>
+
+            <div class="container-xl relative z-10">
+                <div class="mb-16">
+                    <span class="font-mono text-xs uppercase tracking-widest text-neutral-400">03 // Colors</span>
+                    <h2 class="text-4xl font-bold mt-2">Palette & Roles</h2>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                    <!-- Primary -->
+                    <div class="group cursor-pointer">
+                        <div
+                            class="aspect-[3/4] bg-black rounded-xl mb-3 shadow-xl group-hover:scale-105 transition-transform">
+                        </div>
+                        <p class="font-mono text-xs font-bold">Primary</p>
+                        <p class="font-mono text-xs text-neutral-400">#000000</p>
+                    </div>
+                    <!-- Surface -->
+                    <div class="group cursor-pointer">
+                        <div
+                            class="aspect-[3/4] bg-white border border-gray-200 rounded-xl mb-3 shadow-sm group-hover:scale-105 transition-transform">
+                        </div>
+                        <p class="font-mono text-xs font-bold">Surface</p>
+                        <p class="font-mono text-xs text-neutral-400">#FFFFFF</p>
+                    </div>
+                    <!-- Neutral 100 -->
+                    <div class="group cursor-pointer">
+                        <div
+                            class="aspect-[3/4] bg-zinc-100 rounded-xl mb-3 group-hover:scale-105 transition-transform">
+                        </div>
+                        <p class="font-mono text-xs font-bold">Zinc 100</p>
+                        <p class="font-mono text-xs text-neutral-400">#F4F4F5</p>
+                    </div>
+                    <!-- Neutral 400 -->
+                    <div class="group cursor-pointer">
+                        <div
+                            class="aspect-[3/4] bg-zinc-400 rounded-xl mb-3 group-hover:scale-105 transition-transform">
+                        </div>
+                        <p class="font-mono text-xs font-bold">Zinc 400</p>
+                        <p class="font-mono text-xs text-neutral-400">#A1A1AA</p>
+                    </div>
+                    <!-- Accent A -->
+                    <div class="group cursor-pointer">
+                        <div
+                            class="aspect-[3/4] bg-indigo-500 rounded-xl mb-3 group-hover:scale-105 transition-transform shadow-lg shadow-indigo-200">
+                        </div>
+                        <p class="font-mono text-xs font-bold">Accent A</p>
+                        <p class="font-mono text-xs text-neutral-400">#6366F1</p>
+                    </div>
+                    <!-- Feedback -->
+                    <div class="group cursor-pointer">
+                        <div
+                            class="aspect-[3/4] bg-emerald-500 rounded-xl mb-3 group-hover:scale-105 transition-transform shadow-lg shadow-emerald-200">
+                        </div>
+                        <p class="font-mono text-xs font-bold">Success</p>
+                        <p class="font-mono text-xs text-neutral-400">#10B981</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================
+             4. COMPONENTS & INTERACTION
+             ========================================= -->
+        <section id="components" class="section-padding bg-white">
+            <div class="container-xl">
+                <div class="mb-16">
+                    <span class="font-mono text-xs uppercase tracking-widest text-neutral-400">04 // Interface</span>
+                    <h2 class="text-4xl font-bold mt-2">Component Library</h2>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-16">
+
+                    <!-- Column 1: Inputs & Elements -->
+                    <div class="space-y-12">
+
+                        <!-- Input Field -->
+                        <div>
+                            <h4 class="text-sm font-bold mb-4">Interactive Inputs</h4>
+                            <div class="input-group">
+                                <input type="text" placeholder="Enter your email address..." class="input-animated">
+                                <div class="input-border-bottom"></div>
+                            </div>
+                            <div class="input-group mt-4">
+                                <input type="password" placeholder="Password" class="input-animated">
+                                <div class="input-border-bottom"></div>
+                            </div>
+                        </div>
+
+                        <!-- Buttons Row -->
+                        <div>
+                            <h4 class="text-sm font-bold mb-4">Button Variants</h4>
+                            <div class="flex flex-wrap gap-4 items-center">
+                                <button class="btn-primary btn-base rounded-full">Primary Action</button>
+                                <button class="btn-outline btn-base rounded-full">Secondary</button>
+                                <button class="btn-base text-neutral-500 hover:text-black">Text Link</button>
+                            </div>
+                            <div class="mt-4">
+                                <div class="btn-beam-wrapper">
+                                    <span class="btn-beam-border"></span>
+                                    <span class="btn-beam-inner">
+                                        Generative Button
+                                        <iconify-icon icon="solar:stars-minimalistic-bold"
+                                            class="text-amber-400"></iconify-icon>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Badges -->
+                        <div>
+                            <h4 class="text-sm font-bold mb-4">Status & Bags</h4>
+                            <div class="flex gap-2">
+                                <span
+                                    class="px-2 py-1 rounded border border-gray-200 bg-gray-50 text-[10px] uppercase font-mono tracking-wider">Default</span>
+                                <span
+                                    class="px-2 py-1 rounded border border-black bg-black text-white text-[10px] uppercase font-mono tracking-wider">Solid</span>
+                                <span
+                                    class="px-2 py-1 rounded border border-green-200 bg-green-50 text-green-700 text-[10px] uppercase font-mono tracking-wider">Active</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Column 2: Cards & Complex UI -->
+                    <div class="space-y-8">
+                        <h4 class="text-sm font-bold">Complex Cards</h4>
+
+                        <!-- Profile Card -->
+                        <div class="flashlight-card p-0 flex flex-col md:flex-row">
+                            <div class="w-full md:w-1/3 bg-gray-100 min-h-[160px] relative overflow-hidden group">
+                                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=500&q=80"
+                                    class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                                    alt="Profile">
+                            </div>
+                            <div class="p-6 md:w-2/3 flex flex-col justify-center">
+                                <div class="flex justify-between items-start mb-2">
+                                    <div>
+                                        <h3 class="font-bold text-lg">Sarah Connor</h3>
+                                        <p class="text-xs font-mono text-neutral-400">Lead Design Architect</p>
+                                    </div>
+                                    <iconify-icon icon="logos:figma" class="text-xl opacity-50"></iconify-icon>
+                                </div>
+                                <p class="text-sm text-neutral-500 mt-2">"Design is the intermediary between information
+                                    and understanding."</p>
+                                <div class="mt-4 flex gap-2">
+                                    <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                                    <span class="text-xs text-neutral-400">Available for hire</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Statistic Card -->
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="flashlight-card p-6">
+                                <div class="flex justify-between mb-4">
+                                    <iconify-icon icon="solar:chart-2-bold-duotone"
+                                        class="text-2xl text-blue-500"></iconify-icon>
+                                    <span class="text-xs font-mono text-green-600">+12%</span>
+                                </div>
+                                <h3 class="text-3xl font-bold tracking-tight">8,234</h3>
+                                <p class="text-xs text-neutral-400 mt-1">Active Users</p>
+                            </div>
+                            <div class="flashlight-card p-6">
+                                <div class="flex justify-between mb-4">
+                                    <iconify-icon icon="solar:stopwatch-play-bold-duotone"
+                                        class="text-2xl text-purple-500"></iconify-icon>
+                                    <span class="text-xs font-mono text-neutral-400">AVG</span>
+                                </div>
+                                <h3 class="text-3xl font-bold tracking-tight">1.2s</h3>
+                                <p class="text-xs text-neutral-400 mt-1">Load Time</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- =========================================
+             5. ICONS
+             ========================================= -->
+        <section class="py-20 bg-neutral-900 text-white">
+            <div class="container-xl text-center">
+                <h2 class="text-3xl font-bold mb-12">Iconography System</h2>
+                <div class="flex flex-wrap justify-center gap-8 md:gap-16 opacity-70">
+                    <iconify-icon icon="solar:home-smile-linear" class="text-5xl"></iconify-icon>
+                    <iconify-icon icon="solar:settings-minimalistic-linear" class="text-5xl"></iconify-icon>
+                    <iconify-icon icon="solar:shield-check-linear" class="text-5xl"></iconify-icon>
+                    <iconify-icon icon="solar:users-group-rounded-linear" class="text-5xl"></iconify-icon>
+                    <iconify-icon icon="solar:bell-bing-linear" class="text-5xl"></iconify-icon>
+                    <iconify-icon icon="solar:folder-with-files-linear" class="text-5xl"></iconify-icon>
+                </div>
+                <div class="mt-12">
+                    <button class="btn-beam-wrapper">
+                        <span class="btn-beam-border"></span>
+                        <span class="btn-beam-inner bg-black text-white">
+                            View Solar Icons
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-gray-200 py-12 bg-white">
+        <div class="container-xl flex flex-col md:flex-row justify-between items-center">
+            <div class="flex items-center gap-2 mb-4 md:mb-0">
+                <div class="w-6 h-6 bg-black rounded-sm"></div>
+                <span class="font-bold text-sm">AURA SYSTEM</span>
+            </div>
+            <div class="text-xs text-neutral-400 font-mono">
+                © 2026 DESIGN INC. ALL RIGHTS RESERVED.
+            </div>
+        </div>
+    </footer>
+
+    <!-- INTERACTION SCRIPTS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+
+            // 1. Flashlight Effect
+            const cards = document.querySelectorAll('.flashlight-card');
+            cards.forEach(card => {
+                card.addEventListener('mousemove', (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    card.style.setProperty('--mouse-x', `${x}px`);
+                    card.style.setProperty('--mouse-y', `${y}px`);
+                });
+            });
+
+            // 2. Observer for Animations
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            document.querySelectorAll('.animate-in').forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+
+</html>

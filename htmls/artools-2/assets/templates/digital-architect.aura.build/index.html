@@ -1,0 +1,505 @@
+<html class="scroll-smooth" lang="en"><head><meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Portfolio - Product Designer</title>
+<script src="assets/resource_3fa48481346f.js"></script>
+<script src="assets/iconify-icon_d39ffc6e4c56.js"></script>
+<link href="assets/css2_19fd9cc6b396.css" rel="stylesheet"/>
+<style>
+body { font-family: 'Inter', sans-serif; background-color: #EAEAE5; color: #1C1C1C; overflow-x: hidden; }
+/* Base Reveal Animation (Scroll triggered) */
+.reveal { opacity: 0; transform: translateY(2rem); transition: all 1s cubic-bezier(0.16, 1, 0.3, 1); }
+.reveal.active { opacity: 1; transform: translateY(0); }
+/* Masked Text Reveal (For Hero Title) */
+.text-reveal-wrapper { overflow: hidden; display: inline-block; vertical-align: bottom; }
+.text-reveal-content {
+transform: translateY(110%);
+opacity: 0;
+transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1), opacity 1.2s ease;
+display: block;
+}
+.reveal-active .text-reveal-content { transform: translateY(0); opacity: 1; }
+/* Stagger Delays */
+.delay-100 { transition-delay: 0.1s; }
+.delay-200 { transition-delay: 0.2s; }
+.delay-300 { transition-delay: 0.3s; }
+.delay-500 { transition-delay: 0.5s; }
+.delay-700 { transition-delay: 0.7s; }
+/* Carousel Fade & Ken Burns */
+.carousel-slide { position: absolute; inset: 0; transition: opacity 1.5s ease-in-out; opacity: 0; overflow: hidden; }
+.carousel-slide.active { opacity: 1; }
+.carousel-slide img { transform: scale(1); transition: transform 10s ease-out; }
+.carousel-slide.active img { transform: scale(1.1); }
+/* Marquee Animation */
+@keyframes marquee {
+0% { transform: translateX(0); }
+100% { transform: translateX(-50%); }
+}
+.animate-marquee { display: inline-block; padding-left: 100%; animation: marquee 30s linear infinite; }
+/* Add a clone to the HTML for seamless loop or use padding method */
+.marquee-container { display: flex; overflow: hidden; user-select: none; }
+.marquee-content { flex-shrink: 0; display: flex; justify-content: space-around; min-width: 100%; animation: scroll 40s linear infinite; }
+@keyframes scroll {
+from { transform: translateX(0); }
+to { transform: translateX(-100%); }
+}
+/* Nav Load Animation */
+.nav-load { opacity: 0; transform: translateY(-10px); transition: all 0.8s ease-out; }
+.nav-load.loaded { opacity: 1; transform: translateY(0); }
+/* Icon Alignment Fix */
+iconify-icon { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle; }
+/* Utilities */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.parallax-element { will-change: transform; }
+</style></head>
+<body class="antialiased min-h-screen selection:bg-stone-800 selection:text-white pb-10">
+<!-- Main Container -->
+<div class="max-w-[1400px] mx-auto border-x border-stone-300 relative bg-[#EAEAE5]">
+<!-- Vertical Grid Guide Lines -->
+<div class="absolute inset-0 pointer-events-none grid grid-cols-1 md:grid-cols-12 gap-0 z-0 h-full w-full">
+<div class="hidden md:block md:col-span-3 border-r border-stone-300/40 h-full"></div>
+<div class="hidden md:block md:col-span-6 border-r border-stone-300/40 h-full"></div>
+<div class="hidden md:block md:col-span-3 h-full"></div>
+</div>
+<!-- Navigation -->
+<header class="relative z-50 border-b border-stone-300 sticky top-0 bg-[#EAEAE5] nav-load">
+<div class="flex justify-between items-center px-4 md:px-6 py-5">
+<div class="flex items-center gap-12">
+<a class="text-xs font-medium tracking-widest uppercase hover:text-stone-500 transition-colors" href="#">Work</a>
+<a class="text-xs font-medium tracking-widest uppercase hidden md:block hover:text-stone-500 transition-colors" href="#">Writing</a>
+</div>
+<div class="absolute left-1/2 -translate-x-1/2 flex items-center gap-2 group cursor-pointer">
+<iconify-icon class="text-xl group-hover:rotate-180 transition-transform duration-700" icon="solar:atom-linear"></iconify-icon>
+<span class="font-bold tracking-tighter text-lg">ALEX.DESIGN</span>
+</div>
+<div class="flex items-center gap-12">
+<a class="text-xs font-medium tracking-widest uppercase hidden md:block hover:text-stone-500 transition-colors" href="#">About</a>
+<a class="text-xs font-medium tracking-widest uppercase hover:text-stone-500 transition-colors" href="#">Contact</a>
+</div>
+</div>
+</header>
+<!-- Hero Section -->
+<section class="relative z-10 grid grid-cols-1 md:grid-cols-12 border-b border-stone-300 min-h-[900px]">
+<!-- Hero Carousel -->
+<div class="col-span-1 md:col-span-9 border-b md:border-b-0 md:border-r border-stone-300 relative group overflow-hidden bg-stone-200">
+<div class="w-full h-full relative" id="hero-carousel">
+<!-- Slide 1 -->
+<div class="carousel-slide active">
+<img class="w-full h-full object-cover grayscale contrast-125 parallax-img" data-speed="0.05" src="assets/c7fa69dd-d7fb-48f2-a866-ef3663_f6b789593f38.webp"/>
+</div>
+<!-- Slide 2 -->
+<div class="carousel-slide">
+<img class="w-full h-full object-cover grayscale contrast-125 parallax-img" data-speed="0.05" src="assets/6c710de5-9712-4c8e-a7db-59ac54_b647957b5aa5.webp"/>
+</div>
+<!-- Slide 3 -->
+<div class="carousel-slide">
+<img class="w-full h-full object-cover grayscale contrast-125 parallax-img" data-speed="0.05" src="assets/62cc53b7-3355-4618-b7fa-3283f6_a6d3415bc434.webp"/>
+</div>
+</div>
+<div class="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-transparent to-stone-900/40 pointer-events-none"></div>
+<!-- Hero Text -->
+<div class="absolute bottom-6 left-6 md:bottom-10 md:left-10 text-white mix-blend-difference z-20">
+<h1 class="text-6xl md:text-8xl font-semibold tracking-tighter leading-none mb-2" id="hero-title">
+<span class="text-reveal-wrapper"><span class="text-reveal-content delay-200">Digital</span></span>
+<span class="text-reveal-wrapper"><span class="text-reveal-content delay-300">Architect</span></span>
+</h1>
+<div class="mt-6 flex items-center gap-4 reveal delay-500 hero-badge">
+<span class="px-3 py-1 border border-white/40 rounded-full text-xs font-mono uppercase backdrop-blur-md">UI/UX</span>
+<span class="px-3 py-1 border border-white/40 rounded-full text-xs font-mono uppercase backdrop-blur-md">Interaction</span>
+</div>
+</div>
+</div>
+<!-- Stats Column (Staggered Load) -->
+<div class="col-span-1 md:col-span-3 grid grid-rows-3 h-full min-h-[400px]">
+<!-- Stat 1 -->
+<div class="row-span-1 border-b border-stone-300 p-8 flex flex-col justify-between reveal delay-500 hero-stat group hover:bg-white transition-colors">
+<iconify-icon class="text-3xl text-stone-400 group-hover:text-stone-800 transition-colors" icon="solar:layers-minimalistic-linear"></iconify-icon>
+<div>
+<h2 class="text-5xl font-medium tracking-tighter">42</h2>
+<span class="text-xs font-mono text-stone-500 mt-1 block">PROJECTS SHIPPED</span>
+</div>
+</div>
+<!-- Stat 2 -->
+<div class="row-span-1 border-b border-stone-300 p-8 flex flex-col justify-between reveal delay-700 hero-stat group hover:bg-white transition-colors">
+<iconify-icon class="text-3xl text-stone-400 group-hover:text-stone-800 transition-colors" icon="solar:clock-circle-linear"></iconify-icon>
+<div>
+<h2 class="text-5xl font-medium tracking-tighter">6+</h2>
+<span class="text-xs font-mono text-stone-500 mt-1 block">YEARS EXPERIENCE</span>
+</div>
+</div>
+<!-- Stat 3 -->
+<div class="row-span-1 p-8 flex flex-col justify-between reveal delay-700 hero-stat group hover:bg-white transition-colors relative overflow-hidden">
+<iconify-icon class="text-3xl text-stone-400 group-hover:text-stone-800 transition-colors" icon="solar:cup-star-linear"></iconify-icon>
+<div>
+<h2 class="text-5xl font-medium tracking-tighter">12</h2>
+<span class="text-xs font-mono text-stone-500 mt-1 block">INDUSTRY AWARDS</span>
+</div>
+<div class="absolute top-4 right-4 animate-spin-slow">
+<iconify-icon class="text-stone-200 text-6xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" icon="solar:star-fall-linear"></iconify-icon>
+</div>
+</div>
+</div>
+</section>
+<!-- Marquee / Divider -->
+<div class="border-b border-stone-300 overflow-hidden py-6 bg-stone-100/50">
+<div class="marquee-container">
+<div class="marquee-content">
+<span class="text-sm font-mono uppercase tracking-widest text-stone-500 mx-8">Currently available for Q4 2024</span>
+<span class="text-sm font-mono uppercase tracking-widest text-stone-500 mx-8">•</span>
+<span class="text-sm font-mono uppercase tracking-widest text-stone-500 mx-8">Based in San Francisco</span>
+<span class="text-sm font-mono uppercase tracking-widest text-stone-500 mx-8">•</span>
+<span class="text-sm font-mono uppercase tracking-widest text-stone-500 mx-8">Specialized in Design Systems</span>
+<span class="text-sm font-mono uppercase tracking-widest text-stone-500 mx-8">•</span>
+</div>
+<!-- Duplicate for seamless loop -->
+<div class="marquee-content">
+<span class="text-sm font-mono uppercase tracking-widest text-stone-500 mx-8">Currently available for Q4 2024</span>
+<span class="text-sm font-mono uppercase tracking-widest text-stone-500 mx-8">•</span>
+<span class="text-sm font-mono uppercase tracking-widest text-stone-500 mx-8">Based in San Francisco</span>
+<span class="text-sm font-mono uppercase tracking-widest text-stone-500 mx-8">•</span>
+<span class="text-sm font-mono uppercase tracking-widest text-stone-500 mx-8">Specialized in Design Systems</span>
+<span class="text-sm font-mono uppercase tracking-widest text-stone-500 mx-8">•</span>
+</div>
+</div>
+</div>
+<!-- Typography Banner -->
+<section class="relative z-10 py-32 border-b border-stone-300 overflow-hidden">
+<div class="flex flex-col items-center gap-2 reveal">
+<div class="flex items-center gap-4 md:gap-8">
+<h1 class="text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tighter text-stone-900">
+<span class="text-reveal-wrapper"><span class="text-reveal-content text-stone-900">User</span></span>
+</h1>
+<div class="w-12 h-12 md:w-20 md:h-20 border border-stone-800 rounded-full flex items-center justify-center mt-2 md:mt-4 bg-transparent hover:bg-stone-900 hover:text-white transition-all duration-500">
+<iconify-icon class="text-2xl md:text-4xl" icon="solar:arrow-down-linear"></iconify-icon>
+</div>
+<h1 class="text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tighter text-stone-900">
+<span class="text-reveal-wrapper"><span class="text-reveal-content delay-100 text-stone-900">Centric</span></span>
+</h1>
+</div>
+<h1 class="text-6xl md:text-8xl lg:text-9xl font-semibold tracking-tighter text-stone-400">
+<span class="text-reveal-wrapper"><span class="text-reveal-content delay-200">Design</span></span>
+</h1>
+</div>
+<div class="absolute top-1/2 left-0 w-full h-px bg-stone-300 -z-10"></div>
+<!-- Parallax Decoration -->
+<div class="absolute top-10 right-[10%] opacity-20 parallax-element" data-speed="-0.02">
+<iconify-icon class="text-9xl" icon="solar:record-circle-linear"></iconify-icon>
+</div>
+</section>
+<!-- Intro / Bio Section -->
+<section class="relative z-10 grid grid-cols-1 md:grid-cols-12 border-b border-stone-300">
+<!-- Left Meta -->
+<div class="col-span-1 md:col-span-4 p-8 md:p-12 flex flex-col justify-between min-h-[400px] border-b md:border-b-0 md:border-r border-stone-300 reveal">
+<div class="flex flex-col gap-8">
+<iconify-icon class="text-5xl text-stone-800" icon="solar:scanner-linear"></iconify-icon>
+<div>
+<h3 class="text-sm font-bold uppercase tracking-widest text-stone-900 mb-6">Core Competencies</h3>
+<div class="space-y-4">
+<div class="flex items-center justify-between border-b border-stone-300 pb-2">
+<span class="text-sm text-stone-600">Product Strategy</span>
+<iconify-icon class="text-stone-400 text-lg" icon="solar:check-circle-linear"></iconify-icon>
+</div>
+<div class="flex items-center justify-between border-b border-stone-300 pb-2">
+<span class="text-sm text-stone-600">Design Systems</span>
+<iconify-icon class="text-stone-400 text-lg" icon="solar:check-circle-linear"></iconify-icon>
+</div>
+<div class="flex items-center justify-between border-b border-stone-300 pb-2">
+<span class="text-sm text-stone-600">Prototyping</span>
+<iconify-icon class="text-stone-400 text-lg" icon="solar:check-circle-linear"></iconify-icon>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Content -->
+<div class="col-span-1 md:col-span-8 p-8 md:p-12 md:pr-24 flex flex-col justify-center reveal delay-100">
+<h2 class="text-3xl md:text-5xl font-medium tracking-tight leading-tight text-stone-900 mb-8">
+                    I craft digital experiences that balance aesthetic sensibility with functional clarity. 
+                    <span class="text-stone-400">My work is rooted in user research, driven by data, and polished with pixel-perfect precision.</span>
+</h2>
+<div class="flex gap-6 items-center">
+<button class="px-6 py-3 bg-stone-900 text-white rounded-md text-sm font-medium hover:bg-stone-700 transition-all flex items-center gap-2 group">
+                        Download CV
+                        <iconify-icon class="text-lg group-hover:translate-y-1 transition-transform" icon="solar:file-download-linear"></iconify-icon>
+</button>
+<a class="text-sm font-medium text-stone-600 hover:text-stone-900 border-b border-stone-400 hover:border-stone-900 pb-0.5 transition-colors" href="#work">View Portfolio</a>
+</div>
+</div>
+</section>
+<!-- Selected Projects (List View) -->
+<section class="relative z-10 py-12" id="work">
+<div class="px-4 md:px-6 mb-12 flex justify-between items-end reveal">
+<div>
+<span class="text-xs font-mono uppercase text-stone-500 mb-2 block">01 / Selected Work</span>
+<h3 class="text-4xl font-medium tracking-tight">Case Studies</h3>
+</div>
+<iconify-icon class="text-3xl text-stone-400" icon="solar:arrow-right-down-linear"></iconify-icon>
+</div>
+<!-- Project 1 -->
+<div class="group border-y border-stone-300 bg-[#EAEAE5] hover:bg-white transition-colors duration-500 cursor-pointer overflow-hidden">
+<div class="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 min-h-[250px]">
+<div class="col-span-1 md:col-span-5 p-8 md:p-12 border-r border-stone-300/0 md:border-stone-300 reveal flex flex-col justify-center">
+<div class="flex items-center gap-3 mb-4">
+<span class="text-xs font-mono text-stone-500">01</span>
+<div class="h-px w-8 bg-stone-300"></div>
+<span class="text-xs font-bold uppercase tracking-wider text-stone-900">Fintech</span>
+</div>
+<h4 class="text-4xl md:text-5xl font-medium tracking-tight mb-4 group-hover:translate-x-2 transition-transform duration-500">Nova Finance</h4>
+<p class="text-stone-500 text-sm leading-relaxed max-w-sm">Redesigning the investment flow for Gen Z users, resulting in a 40% conversion uplift through gamification.</p>
+</div>
+<div class="col-span-7 hidden md:block relative overflow-hidden">
+<div class="absolute inset-0 bg-stone-100 flex items-center justify-center p-8">
+<img class="w-full h-full object-cover grayscale opacity-80 group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700" src="assets/4b7d31e6-5b45-47eb-9853-96bbb9_bf1aa5f9d2cf.webp"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Project 2 -->
+<div class="group border-b border-stone-300 bg-[#EAEAE5] hover:bg-white transition-colors duration-500 cursor-pointer overflow-hidden">
+<div class="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 min-h-[250px]">
+<div class="col-span-1 md:col-span-5 p-8 md:p-12 border-r border-stone-300/0 md:border-stone-300 reveal flex flex-col justify-center">
+<div class="flex items-center gap-3 mb-4">
+<span class="text-xs font-mono text-stone-500">02</span>
+<div class="h-px w-8 bg-stone-300"></div>
+<span class="text-xs font-bold uppercase tracking-wider text-stone-900">SaaS Platform</span>
+</div>
+<h4 class="text-4xl md:text-5xl font-medium tracking-tight mb-4 group-hover:translate-x-2 transition-transform duration-500">Orbit Systems</h4>
+<p class="text-stone-500 text-sm leading-relaxed max-w-sm">Creating a unified component library and design system for a multi-tenant analytics dashboard.</p>
+</div>
+<div class="col-span-7 hidden md:block relative overflow-hidden">
+<div class="absolute inset-0 bg-stone-100 flex items-center justify-center p-8">
+<img class="w-full h-full object-cover grayscale opacity-80 group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700" src="assets/5ea5c0e9-3047-467a-9eaf-e49f65_6a6f021d85c6.webp"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Project 3 -->
+<div class="group border-b border-stone-300 bg-[#EAEAE5] hover:bg-white transition-colors duration-500 cursor-pointer overflow-hidden">
+<div class="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-12 min-h-[250px]">
+<div class="col-span-1 md:col-span-5 p-8 md:p-12 border-r border-stone-300/0 md:border-stone-300 reveal flex flex-col justify-center">
+<div class="flex items-center gap-3 mb-4">
+<span class="text-xs font-mono text-stone-500">03</span>
+<div class="h-px w-8 bg-stone-300"></div>
+<span class="text-xs font-bold uppercase tracking-wider text-stone-900">E-Commerce</span>
+</div>
+<h4 class="text-4xl md:text-5xl font-medium tracking-tight mb-4 group-hover:translate-x-2 transition-transform duration-500">Canvas Supply</h4>
+<p class="text-stone-500 text-sm leading-relaxed max-w-sm">Minimalist storefront design focusing on brand storytelling and immersive product photography.</p>
+</div>
+<div class="col-span-7 hidden md:block relative overflow-hidden">
+<div class="absolute inset-0 bg-stone-100 flex items-center justify-center p-8">
+<img class="w-full h-full object-cover grayscale opacity-80 group-hover:scale-105 group-hover:grayscale-0 transition-all duration-700" src="assets/ddab06d9-9060-42a5-9052-32121a_7062a2506669.webp"/>
+</div>
+</div>
+</div>
+</div>
+<div class="flex justify-center mt-12 reveal">
+<a class="inline-flex items-center gap-2 text-sm font-medium uppercase tracking-widest border border-stone-900 rounded-full px-8 py-3 hover:bg-stone-900 hover:text-white transition-all" href="#">
+                    View All Projects
+                    <iconify-icon class="text-lg" icon="solar:arrow-right-linear"></iconify-icon>
+</a>
+</div>
+</section>
+<!-- Blog / Writing Section Header -->
+<section class="relative z-10 grid grid-cols-1 md:grid-cols-12 border-t border-stone-300 mt-24">
+<!-- Title -->
+<div class="col-span-1 md:col-span-4 p-8 md:p-12 border-b md:border-b-0 md:border-r border-stone-300 flex flex-col justify-between min-h-[300px] reveal bg-stone-200">
+<div>
+<span class="text-xs font-mono uppercase text-stone-500 mb-2 block">02 / Journal</span>
+<h2 class="text-5xl font-medium tracking-tight">Writing</h2>
+</div>
+<div class="flex items-end justify-between">
+<iconify-icon class="text-5xl text-stone-800" icon="solar:pen-new-square-linear"></iconify-icon>
+<span class="text-xs font-mono text-stone-500">[ARCHIVE]</span>
+</div>
+</div>
+<!-- Description -->
+<div class="col-span-1 md:col-span-8 grid grid-cols-1 md:grid-cols-2">
+<div class="p-8 md:p-12 border-b md:border-b-0 md:border-r border-stone-300 flex items-center reveal delay-100">
+<p class="text-lg leading-relaxed text-stone-800">
+                        Thoughts on the intersection of design, technology, and human psychology. Exploring how we can build better tools for thought.
+                    </p>
+</div>
+<div class="p-8 md:p-12 flex flex-col justify-center gap-6 reveal delay-200 bg-white">
+<a class="group flex items-start justify-between border-b border-stone-200 pb-4" href="#">
+<div>
+<span class="text-xs text-stone-400 mb-1 block">Oct 12, 2024</span>
+<h4 class="text-lg font-medium group-hover:text-stone-600 transition-colors">The Death of the Hamburger Menu</h4>
+</div>
+<iconify-icon class="text-stone-300 text-xl group-hover:text-stone-900 transition-all" icon="solar:arrow-right-up-linear"></iconify-icon>
+</a>
+<a class="group flex items-start justify-between border-b border-stone-200 pb-4" href="#">
+<div>
+<span class="text-xs text-stone-400 mb-1 block">Sep 28, 2024</span>
+<h4 class="text-lg font-medium group-hover:text-stone-600 transition-colors">Micro-interactions in 2024</h4>
+</div>
+<iconify-icon class="text-stone-300 text-xl group-hover:text-stone-900 transition-all" icon="solar:arrow-right-up-linear"></iconify-icon>
+</a>
+</div>
+</div>
+</section>
+<!-- Image Grid Parallax -->
+<section class="relative z-10 grid grid-cols-2 md:grid-cols-4 border-b border-stone-300 h-[300px] overflow-hidden">
+<img class="w-full h-[120%] object-cover grayscale opacity-80 border-r border-stone-300 parallax-img" data-speed="0.05" src="assets/ede50f82-0ad0-4579-a4ae-3a9428_fd09ad4bf2a1.jpg"/>
+<img class="w-full h-[120%] object-cover grayscale opacity-80 border-r border-stone-300 parallax-img" data-speed="0.08" src="assets/e9d001f3-ebe3-45c2-b556-b53a55_6b8718ffa723.jpg"/>
+<img class="w-full h-[120%] object-cover grayscale opacity-80 border-r border-stone-300 parallax-img" data-speed="0.03" src="assets/87e5e02b-a5b6-43ff-b9a4-5e299f_665111a88a86.jpg"/>
+<img class="w-full h-[120%] object-cover grayscale opacity-80 parallax-img" data-speed="0.1" src="assets/2700a02e-2471-497e-8ca2-3196fc_50242a508302.webp"/>
+</section>
+<!-- Client List -->
+<section class="relative z-10 border-b border-stone-300 py-24 bg-stone-100">
+<div class="text-center mb-12">
+<span class="text-xs font-mono uppercase text-stone-400 tracking-widest">Trusted by teams at</span>
+</div>
+<!-- Simple Icons as Logos -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-12 md:gap-20 px-8 justify-items-center items-center opacity-50 grayscale hover:grayscale-0 transition-all duration-700">
+<div class="reveal">
+<iconify-icon class="text-stone-900" height="36" icon="simple-icons:airbnb"></iconify-icon>
+</div>
+<div class="reveal delay-100">
+<iconify-icon class="text-stone-900" height="36" icon="simple-icons:spotify"></iconify-icon>
+</div>
+<div class="reveal delay-200">
+<iconify-icon class="text-stone-900" height="36" icon="simple-icons:notion"></iconify-icon>
+</div>
+<div class="reveal delay-300">
+<iconify-icon class="text-stone-900" height="36" icon="simple-icons:linear"></iconify-icon>
+</div>
+</div>
+</section>
+<!-- Balanced Footer -->
+<footer class="relative z-10 bg-stone-900 text-stone-200 pt-24 pb-12">
+<!-- Top CTA Section -->
+<div class="px-6 md:px-12 mb-24 text-center">
+<div class="reveal">
+<h2 class="text-5xl md:text-7xl font-medium tracking-tighter mb-8 text-white">Let's create something<br/>extraordinary together.</h2>
+<a class="inline-block border border-stone-700 rounded-full px-8 py-4 text-lg hover:bg-white hover:text-stone-900 transition-all duration-300" href="mailto:hello@alex.design">
+                        Start a Project
+                    </a>
+</div>
+</div>
+<div class="border-t border-stone-800 w-full mb-12"></div>
+<!-- Balanced Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 px-6 md:px-12 gap-12 md:gap-0">
+<!-- Column 1: Brand -->
+<div class="col-span-1 md:col-span-3">
+<div class="flex items-center gap-2 mb-6">
+<iconify-icon class="text-xl" icon="solar:atom-linear"></iconify-icon>
+<span class="font-bold tracking-tight text-lg">ALEX.DESIGN</span>
+</div>
+<p class="text-stone-500 text-sm leading-relaxed max-w-[200px]">
+                        Product designer focusing on digital systems and micro-interactions. Based in SF.
+                    </p>
+</div>
+<!-- Column 2: Sitemap -->
+<div class="col-span-1 md:col-span-3">
+<h4 class="text-xs font-mono uppercase text-stone-500 mb-6">Sitemap</h4>
+<ul class="space-y-3 text-sm font-medium">
+<li><a class="hover:text-white transition-colors" href="#">Work</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Services</a></li>
+<li><a class="hover:text-white transition-colors" href="#">About</a></li>
+<li><a class="hover:text-white transition-colors" href="#">Writing</a></li>
+</ul>
+</div>
+<!-- Column 3: Socials -->
+<div class="col-span-1 md:col-span-3">
+<h4 class="text-xs font-mono uppercase text-stone-500 mb-6">Socials</h4>
+<ul class="space-y-3 text-sm font-medium">
+<li><a class="hover:text-white transition-colors flex items-center gap-2" href="#">Twitter <iconify-icon class="text-xs text-stone-600" icon="solar:arrow-right-up-linear"></iconify-icon></a></li>
+<li><a class="hover:text-white transition-colors flex items-center gap-2" href="#">LinkedIn <iconify-icon class="text-xs text-stone-600" icon="solar:arrow-right-up-linear"></iconify-icon></a></li>
+<li><a class="hover:text-white transition-colors flex items-center gap-2" href="#">Instagram <iconify-icon class="text-xs text-stone-600" icon="solar:arrow-right-up-linear"></iconify-icon></a></li>
+<li><a class="hover:text-white transition-colors flex items-center gap-2" href="#">Dribbble <iconify-icon class="text-xs text-stone-600" icon="solar:arrow-right-up-linear"></iconify-icon></a></li>
+</ul>
+</div>
+<!-- Column 4: Meta -->
+<div class="col-span-1 md:col-span-3 flex flex-col justify-between h-full">
+<div class="text-right hidden md:block">
+<iconify-icon class="text-4xl text-stone-800" icon="solar:globe-linear"></iconify-icon>
+</div>
+<div class="text-left md:text-right mt-4 md:mt-0">
+<span class="text-xs text-stone-600">© 2024 Alex Design Ltd.</span>
+<span class="text-xs text-stone-600">All Rights Reserved.</span>
+</div>
+</div>
+</div>
+<!-- Big Text Footer -->
+<div class="mt-24 text-center opacity-10 pointer-events-none select-none overflow-hidden">
+<span class="text-[12rem] md:text-[20rem] font-bold leading-none tracking-tighter whitespace-nowrap">ALEX.DESIGN</span>
+</div>
+</footer>
+</div>
+<script>
+        // Intersection Observer for Reveals
+        document.addEventListener('DOMContentLoaded', () => {
+            
+            // 1. Initial Hero Animations (Triggered on Load)
+            setTimeout(() => {
+                document.querySelector('header').classList.add('loaded');
+            }, 100);
+
+            // Trigger Hero Title Text Reveal
+            setTimeout(() => {
+                const heroTitle = document.getElementById('hero-title');
+                if(heroTitle) heroTitle.classList.add('reveal-active');
+            }, 500);
+
+            // Trigger Hero Badge & Stats manually so they don't wait for scroll
+            setTimeout(() => {
+                document.querySelectorAll('.hero-badge, .hero-stat').forEach(el => {
+                    el.classList.add('active');
+                });
+            }, 500);
+
+            // 2. Scroll Observer for the rest of the page
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.15
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        // Add reveal-active to children if they exist (for text reveals)
+                        const textWrappers = entry.target.querySelectorAll('.text-reveal-wrapper');
+                        if(textWrappers.length > 0 || entry.target.classList.contains('text-reveal-wrapper')) {
+                            entry.target.classList.add('reveal-active');
+                        }
+                        // Handle internal text reveal wrappers specifically
+                        if(entry.target.tagName === 'H1') { // Catch specific typography section headers
+                             entry.target.classList.add('reveal-active');
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+            // Observe custom text reveal sections
+            document.querySelectorAll('h1').forEach(el => {
+                if(el.querySelector('.text-reveal-content')) observer.observe(el);
+            });
+
+            // 3. Carousel Logic
+            const slides = document.querySelectorAll('.carousel-slide');
+            let currentSlide = 0;
+            
+            setInterval(() => {
+                slides[currentSlide].classList.remove('active');
+                currentSlide = (currentSlide + 1) % slides.length;
+                slides[currentSlide].classList.add('active');
+            }, 5000);
+
+            // 4. Parallax Logic
+            window.addEventListener('scroll', () => {
+                const scrolled = window.scrollY;
+                document.querySelectorAll('.parallax-img').forEach((el) => {
+                    const speed = el.dataset.speed || 0.1;
+                    el.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+                
+                document.querySelectorAll('.parallax-element').forEach((el) => {
+                    const speed = el.dataset.speed || 0.1;
+                    el.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+            });
+        });
+    </script>
+<script data-img-fallback-handler="">!function(){var f=["https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/917d6f93-fb36-439a-8c48-884b67b35381_1600w.jpg","https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/4734259a-bad7-422f-981e-ce01e79184f2_1600w.jpg","https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/c543a9e1-f226-4ced-80b0-feb8445a75b9_1600w.jpg","https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/5bab247f-35d9-400d-a82b-fd87cfe913d2_1600w.webp","https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/30104e3c-5eea-4b93-93e9-5313698a7156_1600w.webp"],h=new Set;function g(s){for(var x=0,i=0;i<s.length;i++)x=(x<<5)-x+s.charCodeAt(i)|0;return f[Math.abs(x)%f.length]}function r(t){var s=t.src;if(s&&!h.has(s)){h.add(s);t.src=g(s)}}window.addEventListener("error",function(e){var t=e.target;if(t&&t.tagName==="IMG")r(t)},!0);function c(){document.querySelectorAll("img").forEach(function(i){if(i.complete&&!i.naturalWidth&&i.src)r(i)})}if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",c);else c()}()</script></body></html>
