@@ -23,6 +23,11 @@ def update_index_file():
     # Encontra todos os arquivos HTML na pasta htmls
     for html_file in glob.glob('htmls/**/*.html', recursive=True):
         relative_path = html_file.replace('\\', '/')  # Para compatibilidade Windows
+        
+        # Ignora arquivos de assets, componentes internos ou templates
+        if '/assets/' in relative_path or '/templates/' in relative_path:
+            continue
+            
         title = get_html_title(html_file)
         html_files.append({
             'path': relative_path,
